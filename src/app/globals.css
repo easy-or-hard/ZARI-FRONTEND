@@ -25,3 +25,10 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+/* 커스텀 */
+.gradient-bg {
+  background: linear-gradient(180deg, #13101D, #3F2C53);
+  height: 100%;
+}
