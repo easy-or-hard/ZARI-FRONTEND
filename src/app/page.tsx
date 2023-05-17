@@ -27,7 +27,7 @@ export default function Splash() {
                 routePath = user.byeolId ? '/byeol/me' : '/byeol/create';
                 break;
             case 401:
-                routePath = '/sign-in';
+                routePath = '/auth/sign-in';
         }
 
         const timer = setTimeout(() => {
