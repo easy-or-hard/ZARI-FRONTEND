@@ -26,7 +26,7 @@ export default function Splash() {
                 const user: UserEntity = (response as OkResponseDto<UserEntity>).data;
                 routePath = user.byeolId ? '/byeol/me' : '/byeol/create';
                 break;
-            case 400:
+            case 401:
                 routePath = '/sign-in';
         }
 
