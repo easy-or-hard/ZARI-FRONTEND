@@ -32,7 +32,7 @@ export default function Splash() {
 
         const timer = setTimeout(() => {
             router.replace(routePath);
-        }, 5000);
+        }, 2000);
 
         return () => clearTimeout(timer);
     }, [isLoading, response, router]);
