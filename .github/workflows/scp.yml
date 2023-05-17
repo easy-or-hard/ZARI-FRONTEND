@@ -15,7 +15,7 @@ jobs:
 
       - name: Set target directory for main branch
         if: (github.ref == 'refs/heads/main') || (github.event.pull_request.base.ref == 'main')
-        run: echo "TARGET_DIR=./web/zari/zari-frontend.xiyo.dev" >> $GITHUB_ENV
+        run: echo "TARGET_DIR=./web/zari/zari.xiyo.dev" >> $GITHUB_ENV
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
