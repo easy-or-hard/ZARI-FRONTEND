@@ -1,21 +1,7 @@
 export const JWT = {
-    ACCESS_TOKEN: 'access_token',
+    ACCESS_TOKEN: process.env.JWT_ACCESS_TOKEN,
 }
 
 export class API {
-    static BASE_URL = 'http://localhost:3000';
-
-    static USER = {
-        ME: {
-            BASE_URL: '/user/me',
-            METHOD: 'GET',
-        },
-    }
-
-    static CONSTELLATION = {
-        GET: {
-            BASE_URL: `/constellation`,
-            METHOD: 'GET',
-        }
-    }
+    static BASE_URL = process.env.API_BASE_URL;
 }
