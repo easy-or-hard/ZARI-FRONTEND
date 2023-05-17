@@ -36,7 +36,7 @@ export default function SignInList() {
         const top = window.screenTop + (window.innerHeight / 2) - (height / 2);
 
         window.open(
-            `http://localhost:3000/auth/github/socket?state=${authState}`,
+            `${API.BASE_URL}/auth/github/socket?state=${authState}`,
             '_blank',
             `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
         );
