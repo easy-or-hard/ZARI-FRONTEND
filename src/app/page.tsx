@@ -30,9 +30,10 @@ export default function MainPage() {
         <div
             className="h-full flex flex-col justify-center items-center"
             style={{
-                backgroundImage: 'url(/cloud.svg)',
-                backgroundPosition: 'bottom',
-                backgroundRepeat: 'no-repeat',
+                backgroundImage: 'url(/left_cloud.png), url(/right_cloud.png)',
+                backgroundPosition: 'left bottom, right bottom',
+                backgroundRepeat: 'no-repeat, no-repeat',
+                mixBlendMode: 'normal',
             }}
         >
             <Splash/>
