@@ -1,5 +1,6 @@
 import './globals.css'
 import React from "react";
+import Header from "@/components/header";
 
 export const metadata = {
     title: 'ZARI',
@@ -12,12 +13,17 @@ children,
 }) {
     return (
         <html lang="kr">
-        <body>
-        <main className="h-screen max-w-xl mx-auto p-4 pt-8" style={{
-            backgroundImage: `url(/BG_Star.svg), linear-gradient(to bottom, #13101D, #3F2C53)`,
-            backgroundPosition: 'center, center', // 각각의 위치 설정
-            backgroundRepeat: 'repeat, repeat', // 각각의 반복 설정
-        }}>
+        <body
+            style={{backgroundColor: '#231b44'}}>
+        <Header/>
+        <main
+            className="min-h-[480px] max-h-[926px] w-full min-w-[270px] max-w-[428px] mx-auto"
+            style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(19, 16, 29, 0.7), rgba(63, 44, 83, 0.2)), url(/BG_Star.png)`,
+                backgroundPosition: 'center, top left', // 각각의 위치 설정
+                backgroundRepeat: 'no-repeat, no-repeat', // 각각의 반복 설정
+            }}
+        >
             {children}
         </main>
         </body>
