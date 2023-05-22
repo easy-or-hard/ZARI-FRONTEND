@@ -2,14 +2,12 @@
 
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
-import useSWR from "swr";
 import Image from "next/image";
 import {Identity} from "@/components/Identity";
 import UserService from "@/service/user/user.service";
-import {UserEntity} from "@/service/user/dto/entities/user.entity";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
+import Splash from "@/components/splash";
 
-export default function Splash() {
+export default function MainPage() {
     const router = useRouter();
 
     useEffect(() => {
@@ -37,14 +35,8 @@ export default function Splash() {
                 backgroundRepeat: 'no-repeat',
             }}
         >
-            <Image
-                src="/constellation.svg"
-                alt="스플래시 이미지"
-                width={256}
-                height={426}
-                className="mx-auto h-3/4"
-            />
-            <div className="mx-auto h-1/4">
+            <Splash/>
+            <div>
                 <Identity/>
             </div>
         </div>
