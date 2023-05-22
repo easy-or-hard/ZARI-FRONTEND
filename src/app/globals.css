@@ -31,8 +31,15 @@ main {
     height: 100svh;
 }
 
-/* 커스텀 */
-.gradient-bg {
-  background: linear-gradient(180deg, #13101D, #3F2C53);
-  height: 100%;
+/* 별자리 화면에서 반짝이 붙어있는 애니메이션 */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(179deg) scale(2);
+    }
+    100% {
+        transform: rotate(359deg) scale(1);
+    }
 }
