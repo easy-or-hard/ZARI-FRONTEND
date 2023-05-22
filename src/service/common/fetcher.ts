@@ -27,7 +27,7 @@ export default class Fetcher {
                 throw new CustomError(errorResponse);
             }
 
-            return responseJson as T;
+            return responseJson as OkResponseDto<T>;
         }
 
         return {key, fetcher};
