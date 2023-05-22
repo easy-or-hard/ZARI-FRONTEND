@@ -9,10 +9,10 @@ export function Button({activate}: Props) {
         <button
             className={`w-full p-4 rounded-xl 
                 ${activate
-                ? 'bg-buttonDisabled'
-                : 'bg-buttonActivated'}`}
+                ? 'bg-buttonActivated'
+                : 'bg-buttonDisabled'}`}
             type='submit'
-            disabled={activate}
+            disabled={!activate}
         >확인
         </button>
     )
