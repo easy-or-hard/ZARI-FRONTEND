@@ -21,7 +21,8 @@ export default function MePage() {
 
     return (
         <>
-            {zaris.map(zari => <Zari key={zari.id} zariId={zari.id}/>)}
+            {/* @ts-expect-error Async Server Component */}
+            {response?.data.zaris.map(zari => <ZariPreview key={zari.id} zariId={zari.id}/>)}
         </>
     )
 }
