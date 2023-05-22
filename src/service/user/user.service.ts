@@ -1,8 +1,7 @@
 import {API} from "@/lib/const";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
-import {NotOkResponseDto} from "@/service/common/dto/not-ok.response.dto";
-import {UserEntity} from "@/service/user/dto/entities/user.entity";
+import {UserEntity} from "@/service/user/entities/user.entity";
+import Fetcher from "@/service/common/fetcher";
 
 export default class UserService {
     // 서버 렌더링시와 SWR 에서 두 곳에서 사용하기 위해서 객체를 리턴합니다.
@@ -19,13 +18,6 @@ export default class UserService {
             },
         });
 
-        return this.getFetcher<OkResponseDto<UserEntity>>({key: `${API.BASE_URL}/user/me`, init});
-    }
-
-
-    private static getFetcher<T>({key, init}: { key: string, init: RequestInit }) {
-        const fetcher = (input: string): Promise<T | NotOkResponseDto> => fetch(input, init).then((res) => res.json());
-
-        return {key, fetcher};
+        return Fetcher.getFetcher<UserEntity>({key: `${API.BASE_URL}/user/me`, init});
     }
 }
