@@ -26,6 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* 테일 윈드에 없는 기능이라서 여기에서 적용합니다. */
+main {
+    height: 100svh;
+}
 
 /* 커스텀 */
 .gradient-bg {
