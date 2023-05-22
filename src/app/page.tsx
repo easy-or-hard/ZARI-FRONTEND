@@ -2,7 +2,6 @@
 
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
-import Image from "next/image";
 import {Identity} from "@/components/Identity";
 import UserService from "@/service/user/user.service";
 import Splash from "@/components/splash";
