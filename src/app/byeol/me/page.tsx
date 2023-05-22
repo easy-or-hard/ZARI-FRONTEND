@@ -1,31 +1,22 @@
-import {cookies} from 'next/headers';
-import {JWT} from "@/lib/const";
+'use client'
+
 import ByeolService from "@/service/byeol/byeol.service";
-import {redirect} from "next/navigation";
-import Zari from "@/components/zari/zari";
-import {IncludeZariByeolDto} from "@/service/byeol/dto/include-zari-byeol.dto";
-import {ZariEntity} from "@/service/zari/entities/zari.entity";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
+import {useRouter} from "next/navigation";
+import useSWR from "swr";
+import ZariPreview from "@/components/zari/zariPreview";
 
-export default async function Me() {
-    const jwt = cookies().get(JWT.ACCESS_TOKEN);
-    const {key, fetcher} = ByeolService.getMeFetcher(jwt);
-    const response = await fetcher(key);
+const {key, fetcher} = ByeolService.getMeFetcher();
 
-    let byeol: IncludeZariByeolDto;
-    let zaris: ZariEntity[] = [];
-    switch (response.statusCode) {
-        case 200: // 정상 응답
-            byeol = (response as OkResponseDto<IncludeZariByeolDto>).data;
-            zaris = byeol.zaris;
-            break;
-        case 401: // 비인증 사용자, 이 화면은 인증 사용자에게만 보여줌
-            redirect('/auth/sign-in');
-            break;
-        case 404: // 별을 생성하지 않은, 간편 Sign Up 만한 사용자
-            redirect('/byeol/create');
-            break;
-        // 그 외의 케이스가 있을까?
+export default function MePage() {
+    const router = useRouter();
+    const {data: response, isLoading, error} = useSWR(key, fetcher);
+
+    if (error) {
+        console.error('error', error);
+        router.replace('/auth/sign-in');
+    } else if (isLoading) {
+        console.info('isLoading', isLoading);
+        return (<>is Loading</>);
     }
 
     return (
