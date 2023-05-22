@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useState} from "react";
-import {BanzzackEntity} from "@/service/banzzack/entities/banzzack.entity";
+import {BanzzackEntity} from "@/services/banzzack/entities/banzzack.entity";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 

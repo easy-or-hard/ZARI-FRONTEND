@@ -1,7 +1,7 @@
 import {API} from "@/lib/const";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
-import {NotOkResponseDto} from "@/service/common/dto/not-ok.response.dto";
-import {ConstellationEntity} from "@/service/constellation/entities/constellation.entity";
+import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
+import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
+import {ConstellationEntity} from "@/services/constellation/entities/constellation.entity";
 
 export default class ConstellationService {
     static async findByAUI(IAU: string) {

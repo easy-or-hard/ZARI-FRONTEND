@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useCallback, useEffect, useState} from "react";
-import ByeolService from "@/service/byeol/byeol.service";
+import ByeolService from "@/services/byeol/byeol.service";
 
 type ByeolNameInputProps = {
     setIsNameAvailable: (isAvailable: boolean) => void;

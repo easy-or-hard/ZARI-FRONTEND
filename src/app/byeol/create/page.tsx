@@ -1,6 +1,6 @@
 'use client'
 
-import ByeolService from "@/service/byeol/byeol.service";
+import ByeolService from "@/services/byeol/byeol.service";
 import {useRouter} from "next/navigation";
 import ByeolNameInput from "@/components/byeol/byeolNameInput";
 import BirthdaySelect from "@/components/byeol/birthday.select";

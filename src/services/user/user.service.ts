@@ -1,7 +1,7 @@
 import {API} from "@/lib/const";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
-import {UserEntity} from "@/service/user/entities/user.entity";
-import Fetcher from "@/service/common/fetcher";
+import {UserEntity} from "@/services/user/entities/user.entity";
+import Fetcher from "@/services/common/fetcher";
 
 export default class UserService {
     // 서버 렌더링시와 SWR 에서 두 곳에서 사용하기 위해서 객체를 리턴합니다.

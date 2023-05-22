@@ -1,7 +1,7 @@
 'use client'
 
 import React, {MutableRefObject, useEffect, useRef, useState} from "react";
-import {BanzzackEntity} from "@/service/banzzack/entities/banzzack.entity";
+import {BanzzackEntity} from "@/services/banzzack/entities/banzzack.entity";
 import Banzzack from "@/components/banzzack/banzzack";
 import EffectBanzzack from "@/components/banzzack/effect-banzzack";
 

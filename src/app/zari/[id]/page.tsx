@@ -1,12 +1,12 @@
-import ZariService from "@/service/zari/zari.service";
+import ZariService from "@/services/zari/zari.service";
 import {notFound} from "next/navigation";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
-import {IncludeBanzzackZariDto} from "@/service/zari/dto/include-banzzack-zari.dto";
+import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
+import {IncludeBanzzackZariDto} from "@/services/zari/dto/include-banzzack-zari.dto";
 import {constellations} from "@/components/contellation/constellation";
-import ByeolService from "@/service/byeol/byeol.service";
-import {IncludeZariByeolDto} from "@/service/byeol/dto/include-zari-byeol.dto";
-import ConstellationService from "@/service/constellation/constellation.service";
-import {ConstellationEntity} from "@/service/constellation/entities/constellation.entity";
+import ByeolService from "@/services/byeol/byeol.service";
+import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
+import ConstellationService from "@/services/constellation/constellation.service";
+import {ConstellationEntity} from "@/services/constellation/entities/constellation.entity";
 
 type Props = {
     params: {

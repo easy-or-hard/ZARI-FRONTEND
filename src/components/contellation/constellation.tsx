@@ -1,7 +1,7 @@
-import ConstellationService from "@/service/constellation/constellation.service";
+import ConstellationService from "@/services/constellation/constellation.service";
 import {notFound} from "next/navigation";
-import {ConstellationEntity} from "@/service/constellation/entities/constellation.entity";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
+import {ConstellationEntity} from "@/services/constellation/entities/constellation.entity";
+import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 import React from "react";
 import Tau from "@/components/contellation/Tau";
 

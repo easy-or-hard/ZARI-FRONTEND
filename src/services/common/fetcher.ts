@@ -1,5 +1,5 @@
-import {NotOkResponseDto} from "@/service/common/dto/not-ok.response.dto";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
+import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
+import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 
 class CustomError extends Error {
     public statusCode: number;

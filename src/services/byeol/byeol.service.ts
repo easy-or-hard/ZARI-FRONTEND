@@ -1,10 +1,10 @@
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {API} from "@/lib/const";
-import {ByeolCreateDto} from "@/service/byeol/dto/reuqest/create-byeol.dto";
-import {IncludeZariByeolDto} from "@/service/byeol/dto/include-zari-byeol.dto";
-import Fetcher from "@/service/common/fetcher";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
-import {NotOkResponseDto} from "@/service/common/dto/not-ok.response.dto";
+import {ByeolCreateDto} from "@/services/byeol/dto/reuqest/create-byeol.dto";
+import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
+import Fetcher from "@/services/common/fetcher";
+import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
+import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
 
 export default class ByeolService {
     static async createFetcher(byeolCreateDto: ByeolCreateDto | FormData, accessToken?: RequestCookie | undefined) {

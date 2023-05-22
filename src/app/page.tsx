@@ -3,7 +3,7 @@
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {Identity} from "@/components/Identity";
-import UserService from "@/service/user/user.service";
+import UserService from "@/services/user/user.service";
 import Splash from "@/components/splash";
 
 export default function MainPage() {

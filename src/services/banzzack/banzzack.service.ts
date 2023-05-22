@@ -1,6 +1,6 @@
 import {API} from "@/lib/const";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
-import {ResponseGetBanzzackDto} from "@/service/banzzack/dto/response/response-get-banzzack.dto";
+import {ResponseGetBanzzackDto} from "@/services/banzzack/dto/response/response-get-banzzack.dto";
 
 export default class BanzzackService {
     static findById(id: number, accessToken?: RequestCookie | undefined) {
