@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         darkPurple: '#3A2B4D',
+        themeText: '#A356FB',
         buttonActivated: '#8F39D6',
         buttonDisabled: '#464646',
         buttonDisabledTextColor: '#BDBDBD',
