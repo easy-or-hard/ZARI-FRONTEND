@@ -15,7 +15,7 @@ export default function MainPage() {
         const routeChange = async () => {
             try {
                 const user = await fetcher(key);
-                const route = user.byeolId ? '/byeol/me' : '/byeol/create';
+                const route = user.data.byeolId ? '/byeol/me' : '/byeol/create';
                 setTimeout(() => router.push(route), 2000);
             } catch (error) {
                 setTimeout(() => router.push('/auth/sign-in'), 2000);
