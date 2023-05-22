@@ -36,12 +36,12 @@ export default function Splash() {
                 <line x1="175.99" y1="411.52" x2="162.83" y2="468.57" fill="none" stroke="#fff"/>
             </g>
             <g id="text">
-                <text transform="translate(125.96 98.77)" fill="#fff" font-family="SUIT-Regular-KSCpc-EUC-H, SUIT" font-size="11.2"><tspan x="0" y="0">하나씩 이어진</tspan></text>
-                <text transform="translate(251.32 144.5)" fill="#fff" font-family="SUIT-Regular-KSCpc-EUC-H, SUIT" font-size="11.2"><tspan x="0" y="0">별자리 처럼</tspan></text>
-                <text transform="translate(172.42 205.39)" fill="#fff" font-family="SUIT-Regular-KSCpc-EUC-H, SUIT" font-size="11.2"><tspan x="0" y="0">나와</tspan></text>
-                <text transform="translate(20.22 215.81)" fill="#fff" font-family="SUIT-Regular-KSCpc-EUC-H, SUIT" font-size="11.2"><tspan x="0" y="0">수많은</tspan></text>
-                <text transform="translate(107.75 306.99)" fill="#fff" font-family="SUIT-Regular-KSCpc-EUC-H, SUIT" font-size="11.2"><tspan x="0" y="0">네가</tspan></text>
-                <text transform="translate(253.29 354.3)" fill="#fff" font-family="SUIT-Regular-KSCpc-EUC-H, SUIT" font-size="11.2"><tspan x="0" y="0">이어가는</tspan></text>
+                <text transform="translate(125.96 98.77)" fill="#fff" fontFamily="SUIT-Regular-KSCpc-EUC-H, SUIT" fontSize="11.2"><tspan x="0" y="0">하나씩 이어진</tspan></text>
+                <text transform="translate(251.32 144.5)" fill="#fff" fontFamily="SUIT-Regular-KSCpc-EUC-H, SUIT" fontSize="11.2"><tspan x="0" y="0">별자리 처럼</tspan></text>
+                <text transform="translate(172.42 205.39)" fill="#fff" fontFamily="SUIT-Regular-KSCpc-EUC-H, SUIT" fontSize="11.2"><tspan x="0" y="0">나와</tspan></text>
+                <text transform="translate(20.22 215.81)" fill="#fff" fontFamily="SUIT-Regular-KSCpc-EUC-H, SUIT" fontSize="11.2"><tspan x="0" y="0">수많은</tspan></text>
+                <text transform="translate(107.75 306.99)" fill="#fff" fontFamily="SUIT-Regular-KSCpc-EUC-H, SUIT" fontSize="11.2"><tspan x="0" y="0">네가</tspan></text>
+                <text transform="translate(253.29 354.3)" fill="#fff" fontFamily="SUIT-Regular-KSCpc-EUC-H, SUIT" fontSize="11.2"><tspan x="0" y="0">이어가는</tspan></text>
             </g>
         </svg>
     )

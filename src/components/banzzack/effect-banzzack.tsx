@@ -3,8 +3,8 @@ export default function EffectBanzzack({positionX, positionY, r}: { positionX: n
         <>
             <defs>
                 <radialGradient id="radial-gradient" gradientUnits="objectBoundingBox">
-                    <stop offset="0" stop-color="#fff"/> {/* 중앙 색상을 밝게 지정 */}
-                    <stop offset="1" stop-color="rgba(255, 255, 255, 0)"/> {/* 테두리 색상을 투명으로 지정 */}
+                    <stop offset="0" stopColor="#fff"/> {/* 중앙 색상을 밝게 지정 */}
+                    <stop offset="1" stopColor="rgba(255, 255, 255, 0)"/> {/* 테두리 색상을 투명으로 지정 */}
                 </radialGradient>
             </defs>
             <g>
