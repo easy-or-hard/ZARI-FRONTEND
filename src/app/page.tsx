@@ -11,31 +11,22 @@ import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
 
 export default function Splash() {
     const router = useRouter();
-    const {key, fetcher} = UserService.findMe();
-    const {data: response, isLoading} = useSWR(key, fetcher);
 
     useEffect(() => {
-        // TODO, isLoading 타임에 스피너 추가??
-        if (isLoading)
-            return;
+        const {key, fetcher} = UserService.findMe();
 
-        let routePath: string;
+        const routeChange = async () => {
+            try {
+                const user = await fetcher(key);
+                const route = user.byeolId ? '/byeol/me' : '/byeol/create';
+                setTimeout(() => router.push(route), 2000);
+            } catch (error) {
+                setTimeout(() => router.push('/auth/sign-in'), 2000);
+            }
+        };
 
-        switch (response?.statusCode) {
-            case 200:
-                const user: UserEntity = (response as OkResponseDto<UserEntity>).data;
-                routePath = user.byeolId ? '/byeol/me' : '/byeol/create';
-                break;
-            case 401:
-                routePath = '/auth/sign-in';
-        }
-
-        const timer = setTimeout(() => {
-            router.replace(routePath);
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, [isLoading, response, router]);
+        routeChange();
+    }, []);
 
     return (
         <div
