@@ -1,32 +1,41 @@
-import React from "react";
-import {cookies} from "next/headers";
-import {JWT} from "@/lib/const";
-import {redirect} from "next/navigation";
-import Form from "@/app/byeol/create/form";
-import UserService from "@/service/user/user.service";
-import {OkResponseDto} from "@/service/common/dto/ok.response.dto";
-import {UserEntity} from "@/service/user/dto/entities/user.entity";
+'use client'
 
-export default async function Create() {
-    const jwt = cookies().get(JWT.ACCESS_TOKEN);
-    const {key, fetcher} = UserService.findMe(jwt);
-    const response = await fetcher(key);
+import ByeolService from "@/service/byeol/byeol.service";
+import {useRouter} from "next/navigation";
+import ByeolNameInput from "@/components/byeol/byeolNameInput";
+import BirthdaySelect from "@/components/byeol/birthday.select";
+import {Button} from "@/components/confirm/button";
+import React, {useCallback, useState} from "react";
 
-    switch (response.statusCode) {
-        case 200: // 정상 응답
-            if ((response as OkResponseDto<UserEntity>).data.byeolId) {
-                redirect('/byeol/me');
-            }
-            break;
-        case 401: // 비인증 사용자, 이 화면은 인증 사용자에게만 보여줌
-            redirect('/auth/sign-in');
-            break;
-        // 그 외의 케이스가 있을까?
-    }
+export default function CreatePage() {
+    const router = useRouter();
+    const [isNameAvailable, setIsNameAvailable] = useState(false);
+    const [isSelectedBirthday, setIsSelectedBirthday] = useState(false);
+
+    const join = useCallback(async (form: FormData) => {
+        const {response, responseJson} = await ByeolService.createFetcher(form);
+
+        if (!response.ok) {
+            console.info('statusCode: ', responseJson.statusCode)
+            console.info('message: ', responseJson.message)
+
+            router.replace('/byeol/me');
+            return;
+        }
+
+        router.replace('/byeol/me');
+    }, []);
 
     return (
-        <>
-            <Form/>
-        </>
-    )
+        <form
+            className="h-full p-4 flex flex-col justify-between"
+            action={join}
+        >
+            <div>
+                <ByeolNameInput setIsNameAvailable={setIsNameAvailable}/>
+                <BirthdaySelect setIsSelectedBirthday={setIsSelectedBirthday}/>
+            </div>
+            <Button activate={isNameAvailable && isSelectedBirthday}/>
+        </form>
+    );
 }
