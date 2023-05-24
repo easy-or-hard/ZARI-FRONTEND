@@ -1,8 +1,8 @@
 export default function WriteSignedInIcon() {
     return (
         <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-            <g clip-path="url(#clip0_571_3000)">
-                <circle cx="22" cy="22" r="21.5" stroke="white" stroke-opacity="0.3"/>
+            <g clipPath="url(#clip0_571_3000)">
+                <circle cx="22" cy="22" r="21.5" stroke="white" strokeOpacity="0.3"/>
                 <rect x="1" y="1" width="42" height="42" fill="url(#pattern0)"/>
             </g>
             <defs>
