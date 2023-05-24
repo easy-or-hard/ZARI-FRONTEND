@@ -14,7 +14,6 @@ children,
     return (
         <html lang="kr">
         <body className={'bg-gray-950'}>
-        <Header/>
         <main
             className="min-h-[480px] max-h-[926px] w-full min-w-[270px] max-w-[428px] mx-auto"
             style={{
