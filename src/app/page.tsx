@@ -23,7 +23,7 @@ export default function MainPage() {
         };
 
         routeChange();
-    }, []);
+    }, [router]);
 
     return (
         <div
