@@ -18,7 +18,7 @@ export default function ToastProvider({children}: { children: React.ReactNode })
     return (
         <ToastContext.Provider value={showToast}>
             {children}
-            {isVisible && <ToastMessage message={message}/>}
+            {isVisible && <ToastMessage>{message}</ToastMessage>}
         </ToastContext.Provider>
     )
 }
