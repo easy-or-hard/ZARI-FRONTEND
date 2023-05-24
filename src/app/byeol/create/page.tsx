@@ -4,8 +4,8 @@ import ByeolService from "@/services/byeol/byeol.service";
 import {useRouter} from "next/navigation";
 import ByeolNameInput from "@/components/byeol/byeolNameInput";
 import BirthdaySelect from "@/components/byeol/birthday.select";
-import {Button} from "@/components/confirm/button";
 import React, {useCallback, useState} from "react";
+import {EnableButton} from "@/components/button/enableButton";
 
 export default function CreatePage() {
     const router = useRouter();
@@ -35,7 +35,7 @@ export default function CreatePage() {
                 <ByeolNameInput setIsNameAvailable={setIsNameAvailable}/>
                 <BirthdaySelect setIsSelectedBirthday={setIsSelectedBirthday}/>
             </div>
-            <Button activate={isNameAvailable && isSelectedBirthday}/>
+            <EnableButton enabled={isNameAvailable && isSelectedBirthday} type='submit'>자리 만들기!</EnableButton>
         </form>
     );
 }
