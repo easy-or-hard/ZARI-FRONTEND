@@ -12,7 +12,7 @@ export default function ToastProvider({children}: { children: React.ReactNode })
     const showToast = (message: string) => {
         setMessage(message);
         setIsVisible(true);
-        setTimeout(() => setIsVisible(false), 2000);  // 여기서 페이드아웃이 시작됩니다.
+        setTimeout(() => setIsVisible(false), 2000);
     };
 
     return (
