@@ -109,7 +109,7 @@ export default function Components() {
             <h3>모달 팝업</h3>
             <EnableButton type='button' onClick={() => setToggleModalPopup(!toggleModalPopup)}>
                 모달 팝업 열기</EnableButton>
-            {toggleModalPopup && <ModalPopup/>}
+            {toggleModalPopup && <ModalPopup title={'타이틀'}>다람쥐 헌 쳇바퀴</ModalPopup>}
         </div>
     )
 }
