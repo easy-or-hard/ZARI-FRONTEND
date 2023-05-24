@@ -37,6 +37,7 @@ export default function Components() {
 
     return (
         <div className='p-4 w-full'>
+            <Menu/>
             <h1>Components</h1>
             <h2>Icons</h2>
             <hr/>
