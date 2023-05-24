@@ -102,6 +102,9 @@ export default function Components() {
                 <DangerButton>위험한 버튼(삭제 기능)</DangerButton>
                 <CancelButton onClick={() => setIsNameAvailable(false)}>취소(폼 내용 삭제)</CancelButton>
             </form>
+            <hr/>
+            <h3>메뉴</h3>
+            <Menu/>
         </div>
     )
 }
