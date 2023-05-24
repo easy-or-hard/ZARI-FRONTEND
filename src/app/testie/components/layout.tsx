@@ -1,7 +1,7 @@
 import React from "react";
 import ToastProvider from "@/components/ui/toast-message/toast-provider";
 
-export default function RootLayout({
+export default function ComponentLayout({
                                        children,
                                    }: {
     children: React.ReactNode
