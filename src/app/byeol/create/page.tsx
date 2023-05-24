@@ -24,7 +24,7 @@ export default function CreatePage() {
         }
 
         router.replace('/byeol/me');
-    }, []);
+    }, [router]);
 
     return (
         <form

@@ -46,7 +46,7 @@ export default function Tau({banzzacks}: props) {
                 }
             });
         }
-    }, []);
+    }, [banzzacks]);
 
     return (
         <>

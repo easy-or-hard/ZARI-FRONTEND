@@ -38,11 +38,11 @@ export default function ByeolNameInput({setIsNameAvailable}: ByeolNameInputProps
             });
             setIsNameAvailable(true);
         }
-    }, []);
+    }, [setIsNameAvailable]);
 
     useEffect(() => {
         isNameAvailable(name);
-    }, [name])
+    }, [isNameAvailable, name])
 
     return (
         <div className={'flex flex-col mb-8'}>
