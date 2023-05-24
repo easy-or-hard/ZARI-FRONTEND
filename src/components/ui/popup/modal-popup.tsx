@@ -1,29 +1,27 @@
-export default function ModalPopup() {
+import CloseIcon from "@/components/ui/icon/size24/close";
+import {ReactNode} from "react";
+
+type Props = {
+    children: ReactNode;
+    title: string;
+}
+export default function ModalPopup({children, title}: Props) {
     return (
-        <div className={'absolute top-0 w-full h-full z-20'}>
-            <div className={'absolute top-0 w-full h-full bg-zari_default_black opacity-80'}></div>
-            <div>
-                타이틀
+        <div
+            className={'p-4 gap-2 rounded-2xl w-full bg-zari_default_black opacity-80 flex flex-col justify-center items-center'}>
+            <div className={'w-full flex justify-between'}>
+                {title}
+                <button>
+                    <CloseIcon/>
+                </button>
             </div>
-            <div>엑스버튼</div>
-            <div>
-                컨텐츠
+            <div className={'p-4 rounded-2xl w-full bg-zari_btn_disabled'}>
+                {children}
             </div>
-            <button className="
-    flex
-    items-center
-    justify-center
-    px-10 py-2
-    absolute
-    w-70
-    h-12
-    left-5
-    top-104
-    bg-zari_primary
-    rounded-md
-">버튼
+            <button
+                className="py-3 w-full bg-zari_primary rounded-2xl">
+                버튼
             </button>
-            )
         </div>
     )
 }
