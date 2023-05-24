@@ -36,7 +36,7 @@ export default function Components() {
     const [isNameAvailable, setIsNameAvailable] = useState(false);
 
     return (
-        <div className='p-4 w-full'>
+        <div className='relative w-full'>
             <Menu/>
             <h1>Components</h1>
             <h2>Icons</h2>
