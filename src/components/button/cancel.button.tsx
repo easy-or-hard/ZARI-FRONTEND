@@ -7,7 +7,7 @@ type Props = {
 
 export function CancelButton({children, onClick}: Props) {
     return (
-        <button className="px-10 py-3 rounded-2xl border border-white"
+        <button className="px-10 py-3 rounded-lg border border-white"
                 type='reset'
                 onClick={onClick}
         >

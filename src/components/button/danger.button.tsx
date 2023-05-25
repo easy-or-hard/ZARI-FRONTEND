@@ -7,7 +7,7 @@ type Props = {
 
 export function DangerButton({children, onClick}: Props) {
     return (
-        <button className="px-10 py-3 rounded-2xl bg-zari_danger"
+        <button className="px-10 py-3 rounded-lg bg-zari_danger"
         onClick={onClick}>
             {children}
         </button>

@@ -10,7 +10,7 @@ type Props = {
 export function EnableButton({children, onClick, type= 'button', enabled = true}: Props) {
     return (
         <button className={
-            `px-10 py-3 rounded-2xl 
+            `px-10 py-3 rounded-lg w-full
         ${enabled ? 'bg-zari_primary' : 'bg-zari_btn_disabled'}`
         }
                 type={type}
