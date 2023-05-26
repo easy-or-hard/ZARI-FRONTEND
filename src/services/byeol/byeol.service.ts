@@ -49,22 +49,6 @@ export default class ByeolService {
         return {response, responseJson}
     }
 
-    static getMeFetcher(accessToken?: RequestCookie | undefined) {
-        let init: RequestInit = {
-            method: 'GET',
-            credentials: 'include',
-        }
-
-        accessToken?.value &&
-        Object.assign(init, {
-            headers: {
-                Cookie: `access_token=${accessToken.value};`,
-            },
-        });
-
-        return Fetcher.getFetcher<IncludeZariByeolDto>({key: `${API.BASE_URL}/byeol/me`, init});
-    }
-
     static async findById(id: number) {
         let init: RequestInit = {
             method: 'GET',
