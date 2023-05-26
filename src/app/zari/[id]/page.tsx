@@ -2,7 +2,6 @@ import ZariService from "@/services/zari/zari.service";
 import {notFound} from "next/navigation";
 import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 import {IncludeBanzzackZariDto} from "@/services/zari/dto/include-banzzack-zari.dto";
-import {constellations} from "@/components/contellation/constellation";
 import ByeolService from "@/services/byeol/byeol.service";
 import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
 import ConstellationService from "@/services/constellation/constellation.service";
@@ -57,12 +56,10 @@ export default async function Zari({params: {id}}: Props) {
     return (
         <div className="h-full p-4 flex flex-col items-center">
             <div className={'p-4 flex flex-col justify-around items-center'}>
-                <div className="font-serif font-normal font-bold text-center text-white text-5xl">
+                <div className="font-bold text-center text-5xl">
                     {includeZariByeol.name}
                 </div>
-                {/* 스타일 속성에 적용한건 테일윈드 미지원이라 따로 적용 */}
-                <div className="font-serif font-normal font-medium text-center text-white text-base"
-                     style={{color: 'rgba(255, 255, 255, 0.7)', mixBlendMode: 'lighten'}}>
+                <div className="font-medium text-center">
                     {constellation.name} 자리
                 </div>
             </div>
