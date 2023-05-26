@@ -27,7 +27,7 @@ export default function Menu() {
         <span className={'inline-grid'}>
             <button
                 onClick={() => setMenuButtonRotate(!menuButtonRotate)}
-                className={`${menuAnimation} z-10 bg-zari_primary w-11 h-11 rounded-full inline-grid place-items-center`}
+                className={`${menuAnimation} z-10 bg-zari_primary p-3 rounded-full inline-grid place-items-center`}
             >
                 <PlusIcon/>
             </button>
