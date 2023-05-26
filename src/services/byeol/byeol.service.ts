@@ -80,6 +80,6 @@ export default class ByeolService {
             },
         });
 
-        return Fetcher.FetcherFactory<IncludeZariByeolDto>({key: `${API.BASE_URL}/byeol/me`, init});
+        return Fetcher.FetcherFactory<OkResponseDto<IncludeZariByeolDto>>({key: `${API.BASE_URL}/byeol/me`, init});
     }
 }

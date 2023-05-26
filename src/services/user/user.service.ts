@@ -2,6 +2,7 @@ import {API} from "@/lib/const";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import {UserEntity} from "@/services/user/entities/user.entity";
 import Fetcher from "@/services/common/fetcher";
+import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 
 export default class UserService {
     /**
@@ -23,6 +24,6 @@ export default class UserService {
             },
         });
 
-        return Fetcher.FetcherFactory<UserEntity>({key: `${API.BASE_URL}/user/me`, init});
+        return Fetcher.FetcherFactory<OkResponseDto<UserEntity>>({key: `${API.BASE_URL}/user/me`, init});
     }
 }
