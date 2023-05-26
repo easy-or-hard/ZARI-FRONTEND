@@ -6,7 +6,7 @@ import CloseIcon from "@/components/ui/icon/size24/close";
 
 type Props = {
     children: ReactNode;
-    setVisible: (toggle: boolean) => void;
+    setVisible: (isVisible: boolean) => void;
 }
 
 export default function ModalPopup({children, setVisible} : Props) {
@@ -30,7 +30,7 @@ export default function ModalPopup({children, setVisible} : Props) {
         if (!visibleAnimation) {
             setVisible(false);
         }
-        // setVisibleToggle 은 의존성에 주입할 필요가 없습니다.
+        // setVisible 은 의존성에 주입할 필요가 없습니다.
     }, [visibleAnimation]);
 
     return (
