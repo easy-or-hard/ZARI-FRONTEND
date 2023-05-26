@@ -5,8 +5,8 @@ export default function Splash() {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 640">
             <g id="star">
                 <g id="g5">
+                    <EffectBanzzack cx={160} cy={480.7}/>
                     <circle id="_5" cx="160" cy="480.7" r="2.83" fill="#fff"/>
-                    <EffectBanzzack positionX={160} positionY={480.7} r={2.83}/>
                 </g>
                 <g id="g4">
                     <circle id="_4" data-name="4" cx="181.47" cy="402" r="2" fill="#fff"/>
@@ -18,8 +18,8 @@ export default function Splash() {
                     <circle id="_2" data-name="2" cx="122.08" cy="169.37" r="3" fill="#fff"/>
                 </g>
                 <g id="g1">
+                    <EffectBanzzack cx={49.09} cy={79.42}/>
                     <circle id="_1" data-name="1" cx="49.09" cy="79.42" r="2.83" fill="#fff"/>
-                    <EffectBanzzack positionX={49.09} positionY={79.42} r={2.83}/>
                 </g>
             </g>
             <g id="line">
