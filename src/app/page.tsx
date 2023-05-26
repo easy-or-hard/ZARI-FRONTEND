@@ -5,9 +5,14 @@ import {useRouter} from "next/navigation";
 import {Identity} from "@/components/Identity";
 import UserService from "@/services/user/user.service";
 import Splash from "@/components/splash";
+import useSWR from "swr";
+import {ZariError} from "@/services/common/fetcher";
+
+const {key, fetcher} = UserService.findMeFetcher();
 
 export default function MainPage() {
     const router = useRouter();
+    const {data, error} = useSWR(key, fetcher);
 
     useEffect(() => {
         const {key, fetcher} = UserService.findMe();
@@ -25,6 +30,7 @@ export default function MainPage() {
         routeChange();
     }, [router]);
 
+    // isLoading===true 일때는 스플래시 화면을 렌더링한다.
     return (
         <div
             className="h-full flex flex-col justify-center items-center"
