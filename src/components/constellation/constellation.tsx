@@ -14,6 +14,7 @@ type Props = {
 export type ConstellationComponentProps = {
     setClickedStarNumber: (starNumber: number) => void;
     setBanzzackVisible: (visible: boolean) => void;
+    banzzacks: BanzzackEntity[];
 }
 
 export default function Constellation({includeBanzzackZariDto}: Props) {
@@ -65,7 +66,11 @@ export default function Constellation({includeBanzzackZariDto}: Props) {
             }
             {
                 SpecificConstellation
-                    ? <SpecificConstellation setBanzzackVisible={setBanzzackVisible} setClickedStarNumber={setClickedStarNumber}/>
+                    ? <SpecificConstellation
+                        setBanzzackVisible={setBanzzackVisible}
+                        setClickedStarNumber={setClickedStarNumber}
+                        banzzacks={includeBanzzackZariDto.banzzacks}
+                    />
                     : <div className={'h-full grid items-center'}>
                         <span className={'animate-wiggle-more animate-infinite text-2xl'}>
                             별자리 로딩중...
