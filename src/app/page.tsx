@@ -15,20 +15,23 @@ export default function MainPage() {
     const {data, error} = useSWR(key, fetcher);
 
     useEffect(() => {
-        const {key, fetcher} = UserService.findMe();
-
-        const routeChange = async () => {
-            try {
-                const user = await fetcher(key);
-                const route = user.data.byeolId ? '/byeol/me' : '/byeol/create';
-                setTimeout(() => router.push(route), 2000);
-            } catch (error) {
-                setTimeout(() => router.push('/auth/sign-in'), 2000);
+        if (data) {
+            const responseData = data.data
+            if (responseData.byeolId) {
+                router.replace('/byeol/me');
+            } else {
+                router.replace('/byeol/create');
             }
-        };
-
-        routeChange();
-    }, [router]);
+        } else if (error) {
+            if (error instanceof ZariError) {
+                error.statusCode === 401 && router.replace('/auth/sign-in');
+            } else {
+                // TODO, 예외 에러에 대해서 어떻게 처리할까?
+                console.error(error);
+                throw error;
+            }
+        }
+    }, [data, error])
 
     // isLoading===true 일때는 스플래시 화면을 렌더링한다.
     return (
