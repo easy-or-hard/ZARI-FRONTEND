@@ -12,7 +12,7 @@ const {key, fetcher} = UserService.findMeFetcher();
 
 export default function MainPage() {
     const router = useRouter();
-    const {data, error} = useSWR(key, fetcher);
+    const {error, data} = useSWR(key, fetcher);
 
     useEffect(() => {
         if (error) {
@@ -31,7 +31,7 @@ export default function MainPage() {
                 router.replace('/byeol/create');
             }
         }
-    }, [data, error])
+    }, [error, data])
 
     // isLoading===true 일때는 스플래시 화면을 렌더링한다.
     return (
