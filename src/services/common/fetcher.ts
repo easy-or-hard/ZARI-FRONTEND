@@ -31,7 +31,7 @@ export default class Fetcher {
                 this.makeErrorAndThrow(responseJson);
             }
 
-            return await responseJson as OkResponseDto<T>;
+            return await responseJson as T;
         }
 
         return {key, fetcher};
