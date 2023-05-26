@@ -40,4 +40,19 @@ export default class Fetcher {
 
         return {key, fetcher};
     }
+
+    /**
+     * 에러를 스로우 합니다!!!
+     * @throws {ZariError } ZariError
+     * @param response
+     * @private
+     */
+    private static makeErrorAndThrow(NotOkResponseJson: NotOkResponseDto) {
+        const errorResponse: NotOkResponseDto = {
+            statusCode: NotOkResponseJson.statusCode,
+            message: NotOkResponseJson.message,
+            error: NotOkResponseJson.error,
+        };
+        throw new ZariError(errorResponse);
+    }
 }
