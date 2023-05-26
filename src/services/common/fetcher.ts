@@ -1,9 +1,13 @@
 import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
 import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 
-class CustomError extends Error {
+/**
+ * ZARI API 호출시 나오는 200, 201 이외의 에러를 처리하는 에러 클래스 입니다.
+ */
+export class ZariError extends Error {
     public statusCode: number;
     public error: string;
+
     constructor({statusCode, message, error}: NotOkResponseDto) {
         super(message);
         this.statusCode = statusCode;
