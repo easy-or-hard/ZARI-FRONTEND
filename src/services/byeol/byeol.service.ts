@@ -5,23 +5,13 @@ import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
 import Fetcher from "@/services/common/fetcher";
 import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
+import {BaseResponseDto} from "@/services/common/dto/base.response.dto";
 
 export default class ByeolService {
-    static async createFetcher(byeolCreateDto: ByeolCreateDto | FormData, accessToken?: RequestCookie | undefined) {
+    static createFetcher(createData: ByeolCreateDto | FormData, accessToken?: RequestCookie) {
         let init: RequestInit = {
             method: 'POST',
             credentials: 'include',
-        }
-
-        if (byeolCreateDto instanceof FormData) {
-            init.body = byeolCreateDto;
-        } else {
-            init.body = JSON.stringify(byeolCreateDto);
-            Object.assign(init, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
         }
 
         accessToken?.value &&
@@ -31,10 +21,18 @@ export default class ByeolService {
             },
         });
 
-        const response = await fetch(`${API.BASE_URL}/byeol`, init);
-        const responseJson: OkResponseDto<boolean> | NotOkResponseDto = await response.json();
+        if (createData instanceof FormData) {
+            init.body = createData;
+        } else {
+            init.body = JSON.stringify(createData);
+            Object.assign(init, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        }
 
-        return {response, responseJson}
+        return Fetcher.FetcherFactory<BaseResponseDto>({key: `${API.BASE_URL}/byeol`, init});
     }
 
     static async isNameAvailableFetcher(name: string) {
