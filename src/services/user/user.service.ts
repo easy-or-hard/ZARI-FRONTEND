@@ -4,8 +4,13 @@ import {UserEntity} from "@/services/user/entities/user.entity";
 import Fetcher from "@/services/common/fetcher";
 
 export default class UserService {
-    // 서버 렌더링시와 SWR 에서 두 곳에서 사용하기 위해서 객체를 리턴합니다.
-    static findMe(accessToken?: RequestCookie | undefined) {
+    /**
+     * 나의 유저 정보를 호출 합니다.
+     * @param accessToken
+     * @throws {ZariError} response.ok 가 false 일 경우 에러를 던집니다.
+     * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
+     */
+    static findMeFetcher(accessToken?: RequestCookie | undefined) {
         let init: RequestInit = {
             method: 'GET',
             credentials: 'include', // 이 옵션이 크로스 브라우징에도 쿠키를 전송.
