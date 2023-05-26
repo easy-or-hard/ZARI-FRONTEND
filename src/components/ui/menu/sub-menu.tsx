@@ -6,14 +6,10 @@ export default function SubMenu() {
         <span
             className={`px-3 py-4 bg-zari_default_white rounded-full inline-grid gap-4`}
         >
-            <button
-                className={'bg-zari_default_white w-11 h-11 rounded-full flex items-center justify-center'}
-            >
+            <button>
                 <HomeIcon color={'#161616'}/>
             </button>
-            <button
-                className={'bg-zari_default_white w-11 h-11 rounded-full flex items-center justify-center'}
-            >
+            <button>
                 <SignOutIcon color={'#161616'}/>
             </button>
         </span>
