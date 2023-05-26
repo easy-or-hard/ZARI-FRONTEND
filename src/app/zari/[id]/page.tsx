@@ -14,41 +14,45 @@ type Props = {
     }
 }
 
-export default async function Zari({params: {id}}: Props) {
-    // 자리 찾기
-    const {response: zariResponse, responseJson: zariResponseJson} = await ZariService.findById(id);
+async function zariFindById(zariId: number) {
+    const {response: zariResponse, responseJson: zariResponseJson} = await ZariService.findById(zariId);
     if (!zariResponse.ok) {
-        notFound();
-        return; // 이 함수에서 더 이상 진행하지 않음
+        notFound(); // 함수 종료
     }
     // 단언을 사용하여 data 가 undefined 가 아님을 명확히 함
-    const includeBanzzackZari = (zariResponseJson as OkResponseDto<IncludeBanzzackZariDto>).data
+    return (zariResponseJson as OkResponseDto<IncludeBanzzackZariDto>).data
+}
 
-    // 별 찾기
-    const {
-        response: byeolResponse,
-        responseJson: byeolResponseJson
-    } = await ByeolService.findById(includeBanzzackZari.byeolId);
+async function byeolFindById(byeolId: number) {
+    const {response: byeolResponse, responseJson: byeolResponseJson} = await ByeolService.findById(byeolId);
     if (!byeolResponse.ok) {
-        notFound();
-        return;
+        notFound(); // 함수 종료
     }
     // 단언 사용
-    const includeZariByeol = (byeolResponseJson as OkResponseDto<IncludeZariByeolDto>).data;
+    return (byeolResponseJson as OkResponseDto<IncludeZariByeolDto>).data;
+}
 
-    // 별자리 찾기
+async function constellationFindByIAU(IAU: string) {
     const {
         response: constellationResponse,
         responseJson: constellationResponseJson
-    } = await ConstellationService.findByAUI(includeBanzzackZari.constellationIAU);
+    } = await ConstellationService.findByAUI(IAU);
     if (!constellationResponse.ok) {
-        notFound();
+        notFound(); // 함수 종료
     }
-    const constellation = (constellationResponseJson as OkResponseDto<ConstellationEntity>).data;
-    const ConstellationComponent = constellations.get(constellation.IAU);
-    if (!ConstellationComponent) {
-        notFound();
-    }
+    // 단언 사용
+    return (constellationResponseJson as OkResponseDto<ConstellationEntity>).data;
+}
+
+export default async function Zari({params: {id}}: Props) {
+    // 자리 찾기
+    const includeBanzzackZari = await zariFindById(id);
+
+    // 별 찾기, 별자리 찾기
+    const [includeZariByeol, constellation] = await Promise.all([
+        byeolFindById(includeBanzzackZari.byeolId),
+        constellationFindByIAU(includeBanzzackZari.constellationIAU)
+    ]);
 
     return (
         <div className="h-full p-4 flex flex-col items-center">
