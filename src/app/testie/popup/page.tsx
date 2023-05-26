@@ -18,7 +18,7 @@ export default function PopUpPage() {
                             <span className={'text-zari_txt_primary'}>엽기토끼이요</span> 의 반짝이
                         </div>
                         <div
-                            className={'bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4'}
+                            className={'bg-zari_default_white bg-opacity-20 rounded-lg px-3 py-4'}
                         >
                             <div className={' max-h-60 overflow-y-auto'}>
                                 다람쥐 헌 쳇바귀 돌고파. 다람쥐 헌 쳇바귀 돌고파. 다람쥐 헌 쳇바귀 돌고파. 다람쥐 헌 쳇바귀 돌고파. 다람쥐 헌 쳇바귀 돌고파. 다람쥐 헌 쳇바귀
