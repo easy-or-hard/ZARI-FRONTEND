@@ -15,20 +15,20 @@ export default function MainPage() {
     const {data, error} = useSWR(key, fetcher);
 
     useEffect(() => {
-        if (data) {
-            const responseData = data.data
-            if (responseData.byeolId) {
-                router.replace('/byeol/me');
-            } else {
-                router.replace('/byeol/create');
-            }
-        } else if (error) {
+        if (error) {
             if (error instanceof ZariError) {
                 error.statusCode === 401 && router.replace('/auth/sign-in');
             } else {
                 // TODO, 예외 에러에 대해서 어떻게 처리할까?
                 console.error(error);
                 throw error;
+            }
+        } else if (data) {
+            const responseData = data.data
+            if (responseData.byeolId) {
+                router.replace('/byeol/me');
+            } else {
+                router.replace('/byeol/create');
             }
         }
     }, [data, error])
