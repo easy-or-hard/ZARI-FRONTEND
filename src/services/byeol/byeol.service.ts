@@ -8,6 +8,11 @@ import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
 import {BaseResponseDto} from "@/services/common/dto/base.response.dto";
 
 export default class ByeolService {
+    /**
+     * 유저의 별을 생성합니다.
+     * @param {ByeolCreateDto | FormData} createData 타입은 다르지만 내부의 구조는 같아야합니다.
+     * @param {RequestCookie} accessToken 서버에서 호출할 경우에는 쿠키가 필요합니다.
+     */
     static createFetcher(createData: ByeolCreateDto | FormData, accessToken?: RequestCookie) {
         let init: RequestInit = {
             method: 'POST',
