@@ -1,8 +1,11 @@
+import WriteIcon from "@/components/ui/icon/size24/write";
+import Menu from "@/components/ui/menu/menu";
+
 export default function Header() {
     return (
-        <header className='absolute top-0 w-full h-16'>
-            <div>내비게이터</div>
-            <div>글쓰기 버튼</div>
+        <header className='absolute top-400 w-full h-16 p-4 flex justify-between'>
+            <Menu/>
+            <WriteIcon/>
         </header>
     )
 }
