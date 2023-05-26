@@ -6,6 +6,7 @@ import ByeolService from "@/services/byeol/byeol.service";
 import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
 import ConstellationService from "@/services/constellation/constellation.service";
 import {ConstellationEntity} from "@/services/constellation/entities/constellation.entity";
+import Constellation from "@/components/constellation/constellation";
 
 type Props = {
     params: {
@@ -63,7 +64,8 @@ export default async function Zari({params: {id}}: Props) {
                     {constellation.name} 자리
                 </div>
             </div>
-            <ConstellationComponent banzzacks={includeBanzzackZari.banzzacks}/>
+
+            <Constellation includeBanzzackZariDto={includeBanzzackZari}/>
         </div>
     )
 }
