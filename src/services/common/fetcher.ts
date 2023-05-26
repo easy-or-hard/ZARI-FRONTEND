@@ -17,7 +17,7 @@ export class ZariError extends Error {
 
 export default class Fetcher {
     /**
-     * 패쳐를 만드는 팩토리 메소드 입니다.
+     * 페처를 만드는 팩토리 메소드 입니다.
      * @param key http url 을 입력하세요.
      * @param init http method, credentials 등을 입력하세요.
      * @throws ZariError
