@@ -27,9 +27,9 @@ export default function MePage() {
                 throw error;
             }
         } else if (data) {
-            console.log(data.data.zaris)
-            if (data.data.zaris.length === 1) {
-                const responseData = data.data.zaris[0];
+            const IncludeZariByeolDto = data.data
+            if (IncludeZariByeolDto.zaris.length === 1) {
+                const responseData = IncludeZariByeolDto.zaris[0];
                 router.replace(`/byeol/${responseData.byeolId}`);
             }
         }
