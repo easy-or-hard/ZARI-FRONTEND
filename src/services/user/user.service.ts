@@ -23,6 +23,6 @@ export default class UserService {
             },
         });
 
-        return Fetcher.getFetcher<UserEntity>({key: `${API.BASE_URL}/user/me`, init});
+        return Fetcher.FetcherFactory<UserEntity>({key: `${API.BASE_URL}/user/me`, init});
     }
 }
