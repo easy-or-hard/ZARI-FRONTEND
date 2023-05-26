@@ -19,6 +19,16 @@ export default function MePage() {
         return (<>is Loading</>);
     }
 
+    if (isLoading) {
+        return (
+            <div className={'h-full grid place-items-center'}>
+            <span className={'animate-pulse'}>
+                아직 디자인 되지 않음.
+            </span>
+            </div>
+        )
+    }
+
     return (
         <>별에 자리가 여러개라면 여러 자리를 표현하고 싶습니다...</>
     )
