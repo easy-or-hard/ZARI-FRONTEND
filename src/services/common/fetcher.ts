@@ -22,30 +22,16 @@ export default class Fetcher {
      * @param init http method, credentials 등을 입력하세요.
      * @throws ZariError
      */
-    static getFetcher<T>({key, init}: { key: string, init: RequestInit }) {
+    static FetcherFactory<T>({key, init}: { key: string, init: RequestInit }) {
         const fetcher = async (input: string) => {
             const response = await fetch(input, init);
-            const responseJson: OkResponseDto<T> | NotOkResponseDto = await response.json();
+            const responseJson = await response.json();
 
             if (!response.ok) {
-                const NotOkResponseJson = responseJson as NotOkResponseDto;
-                const errorResponse: NotOkResponseDto = {
-                    statusCode: NotOkResponseJson.statusCode,
-                    message: NotOkResponseJson.message,
-                    error: NotOkResponseJson.error,
-                };
-                throw new CustomError(errorResponse);
+                this.makeErrorAndThrow(responseJson);
             }
 
-            return responseJson as OkResponseDto<T>;
-        }
-
-        return {key, fetcher};
-    }
-
-    static getResponseFetcher<T>({key, init}: { key: string, init: RequestInit }) {
-        const fetcher = async (input: string) => {
-            return fetch(input, init);
+            return await responseJson as OkResponseDto<T>;
         }
 
         return {key, fetcher};
