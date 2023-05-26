@@ -1,10 +1,10 @@
-import Menu from "@/components/ui/menu/menu";
+import SpeedDial from "@/components/ui/menu/speed-dial";
 import React from "react";
 
 export default function MenuPage() {
     return (
         <>
-            <Menu/>
+            <SpeedDial/>
         </>
     )
 }

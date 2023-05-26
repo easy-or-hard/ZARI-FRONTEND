@@ -29,7 +29,7 @@ import {ToastContext} from "@/components/ui/toast-message/toast-provider";
 import {CancelButton} from "@/components/button/cancel.button";
 import {DangerButton} from "@/components/button/danger.button";
 import {EnableButton} from "@/components/button/enableButton";
-import Menu from "@/components/ui/menu/menu";
+import SpeedDial from "@/components/ui/menu/speed-dial";
 import ModalPopup from "@/components/ui/popup/modal-popup";
 
 export default function Components() {
@@ -39,7 +39,9 @@ export default function Components() {
 
     return (
         <div className='relative w-full'>
-            <Menu/>
+            <div className={'absolute top-0 right-0'}>
+            <SpeedDial/>
+            </div>
             <h1>Components</h1>
             <h2>Icons</h2>
             <hr/>
