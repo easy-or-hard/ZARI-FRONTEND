@@ -24,8 +24,8 @@ export default function MainPage() {
                 throw error;
             }
         } else if (data) {
-            const responseData = data.data
-            if (responseData.byeolId) {
+            const userEntity = data.data
+            if (userEntity.byeolId) {
                 router.replace('/byeol/me');
             } else {
                 router.replace('/byeol/create');
