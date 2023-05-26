@@ -24,7 +24,7 @@ export default function Menu() {
     }, [menuButtonRotate]);
 
     return (
-        <span>
+        <span className={'inline-grid'}>
             <button
                 onClick={() => setMenuButtonRotate(!menuButtonRotate)}
                 className={`${menuAnimation} z-10 bg-zari_primary w-11 h-11 rounded-full flex items-center justify-center`}
