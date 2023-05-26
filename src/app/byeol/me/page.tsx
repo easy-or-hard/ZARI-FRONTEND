@@ -28,6 +28,7 @@ export default function MePage() {
             }
         } else if (data) {
             const IncludeZariByeolDto = data.data
+            // 소유한 자리가 1개 일경우 바로 자리로 리디렉트
             if (IncludeZariByeolDto.zaris.length === 1) {
                 const responseData = IncludeZariByeolDto.zaris[0];
                 router.replace(`/byeol/${responseData.byeolId}`);
