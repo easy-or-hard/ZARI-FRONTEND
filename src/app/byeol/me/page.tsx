@@ -20,8 +20,6 @@ export default function MePage() {
     }
 
     return (
-        <>
-            {response?.data.zaris.map(zari => <ZariPreview key={zari.id} zariId={zari.id}/>)}
-        </>
+        <>별에 자리가 여러개라면 여러 자리를 표현하고 싶습니다...</>
     )
 }
