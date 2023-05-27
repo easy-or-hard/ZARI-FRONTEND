@@ -65,7 +65,7 @@ export default async function Zari({params: {id}}: Props) {
                 </div>
             </div>
 
-            <Constellation includeBanzzackZariDto={includeBanzzackZari}/>
+            <Constellation includeBanzzackZariDto={includeBanzzackZari} byeolName={includeZariByeol.name}/>
         </div>
     )
 }

@@ -4,8 +4,10 @@ import {IncludeBanzzackZariDto} from "@/services/zari/dto/include-banzzack-zari.
 import {FC, useEffect, useState} from 'react';
 import ReadBanzzack from "@/components/banzzack/read-banzzack";
 import {BanzzackEntity} from "@/services/banzzack/entities/banzzack.entity";
+import WriteBanzzack from "@/components/banzzack/write-banzzack";
 
 type Props = {
+    byeolName: string;
     includeBanzzackZariDto: IncludeBanzzackZariDto;
 }
 
@@ -17,10 +19,11 @@ export type ConstellationComponentProps = {
     banzzacks: BanzzackEntity[];
 }
 
-export default function Constellation({includeBanzzackZariDto}: Props) {
+export default function Constellation({byeolName, includeBanzzackZariDto}: Props) {
     const [clickedStarNumber, setClickedStarNumber] = useState<number>(0);
     const [banzzack, setBanzzack] = useState<BanzzackEntity | null>(null);
     const [readBanzzackVisible, setReadBanzzackVisible] = useState<boolean>(false);
+    const [writeBanzzackVisible, setWriteBanzzackVisible] = useState<boolean>(false);
     const [SpecificConstellation, setSpecificConstellation] = useState<FC<ConstellationComponentProps> | null>(null);
 
     // 동적으로 별자리 컴포넌트를 import
@@ -45,7 +48,7 @@ export default function Constellation({includeBanzzackZariDto}: Props) {
             .find(banzzack => banzzack.starNumber === clickedStarNumber)
 
         if (!foundBanzzack) {
-            console.log('반짝이 없는 경우는 반짝이 붙이기');
+            setWriteBanzzackVisible(true);
         } else {
             setReadBanzzackVisible(true);
             setBanzzack(foundBanzzack);
@@ -54,6 +57,16 @@ export default function Constellation({includeBanzzackZariDto}: Props) {
 
     return (
         <>
+            {
+                writeBanzzackVisible &&
+                <WriteBanzzack
+                    byeolName={byeolName}
+                    setVisible={setWriteBanzzackVisible}
+                    onClick={() => {
+                        alert('글쓰기 버튼 클릭! 반짝이 붙이')
+                    }}
+                />
+            }
             {
                 readBanzzackVisible && banzzack &&
                 <ReadBanzzack
