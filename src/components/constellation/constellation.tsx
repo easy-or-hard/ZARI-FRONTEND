@@ -2,7 +2,7 @@
 
 import {IncludeBanzzackZariDto} from "@/services/zari/dto/include-banzzack-zari.dto";
 import {FC, useEffect, useState} from 'react';
-import Banzzack2 from "@/components/banzzack/banzzack2";
+import ReadBanzzack from "@/components/banzzack/read-banzzack";
 import {BanzzackEntity} from "@/services/banzzack/entities/banzzack.entity";
 
 type Props = {
@@ -13,14 +13,14 @@ type Props = {
 // 다른 prop 를 따로 정의해서 써서는 안 됩니다.
 export type ConstellationComponentProps = {
     setClickedStarNumber: (starNumber: number) => void;
-    setBanzzackVisible: (visible: boolean) => void;
+    setReadBanzzackVisible: (visible: boolean) => void;
     banzzacks: BanzzackEntity[];
 }
 
 export default function Constellation({includeBanzzackZariDto}: Props) {
     const [clickedStarNumber, setClickedStarNumber] = useState<number>(0);
     const [banzzack, setBanzzack] = useState<BanzzackEntity | null>(null);
-    const [banzzackVisible, setBanzzackVisible] = useState<boolean>(false);
+    const [readBanzzackVisible, setReadBanzzackVisible] = useState<boolean>(false);
     const [SpecificConstellation, setSpecificConstellation] = useState<FC<ConstellationComponentProps> | null>(null);
 
     // 동적으로 별자리 컴포넌트를 import
@@ -35,8 +35,8 @@ export default function Constellation({includeBanzzackZariDto}: Props) {
     }, [includeBanzzackZariDto.constellationIAU]);
 
     useEffect(() => {
-        if (!clickedStarNumber || !banzzackVisible) {
-            setBanzzackVisible(false);
+        if (!clickedStarNumber || !readBanzzackVisible) {
+            setReadBanzzackVisible(false);
             setBanzzack(null);
             return;
         }
@@ -47,18 +47,18 @@ export default function Constellation({includeBanzzackZariDto}: Props) {
         if (!foundBanzzack) {
             console.log('반짝이 없는 경우는 반짝이 붙이기');
         } else {
-            setBanzzackVisible(true);
+            setReadBanzzackVisible(true);
             setBanzzack(foundBanzzack);
         }
-    }, [clickedStarNumber, banzzackVisible])
+    }, [clickedStarNumber, readBanzzackVisible])
 
     return (
         <>
             {
-                banzzackVisible && banzzack &&
-                <Banzzack2
+                readBanzzackVisible && banzzack &&
+                <ReadBanzzack
                     banzzack={banzzack}
-                    setVisible={setBanzzackVisible}
+                    setVisible={setReadBanzzackVisible}
                     onClick={() => {
                         alert('클릭!')
                     }}
@@ -67,7 +67,7 @@ export default function Constellation({includeBanzzackZariDto}: Props) {
             {
                 SpecificConstellation
                     ? <SpecificConstellation
-                        setBanzzackVisible={setBanzzackVisible}
+                        setReadBanzzackVisible={setReadBanzzackVisible}
                         setClickedStarNumber={setClickedStarNumber}
                         banzzacks={includeBanzzackZariDto.banzzacks}
                     />
