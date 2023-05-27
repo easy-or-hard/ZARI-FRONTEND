@@ -111,8 +111,8 @@ export default function Tau({setClickedStarNumber, setBanzzackVisible, banzzacks
                       stroke-miterlimit="10"/>
                 <line x1="333.3" y1="329.35" x2="290.43" y2="305.15" fill="none" opacity=".6" stroke="#fff"
                       stroke-miterlimit="10"/>
-                <polyline points="295.55 239.5 289.96 278.35 286.63 298.11" fill="none" opacity=".6" stroke="#fff"
-                          stroke-miterlimit="10"/>
+                <line x1="295.55" y1="239.5" x2="286.63" y2="298.11" fill="none" opacity=".6" stroke="#fff"
+                      stroke-miterlimit="10"/>
                 <line x1="285.16" y1="307.66" x2="274.02" y2="389.13" fill="none" opacity=".6" stroke="#fff"
                       stroke-miterlimit="10"/>
                 <line x1="159.39" y1="180.04" x2="113.57" y2="111.81" fill="none" opacity=".6" stroke="#fff"
