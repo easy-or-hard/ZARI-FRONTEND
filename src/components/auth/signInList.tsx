@@ -19,14 +19,18 @@ export default function SignInList() {
             '_blank',
             `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
         );
-    }, []);
+    }, [authState]);
 
     useEffect(() => {
         const socket = io(API.BASE_URL);
 
-        socket.on('authSuccess', (data) => {
+        socket.on('alreadyHaveAccount', () => {
+            router.replace('/byeol/me');
+        })
+
+        socket.on('newAccount', () => {
             router.replace('/byeol/create');
-        });
+        })
 
         socket.on('state', (data: string) => {
             authState.current = data;
@@ -38,9 +42,9 @@ export default function SignInList() {
     }, [router])
 
     return (
-        <ul className='mx-4 h-full flex flex-col justify-around'>
+        <ul className='grid gap-4'>
             <li onClick={() => openWindow('github')} className="border border-solid rounded-full p-4 text-center">
-                <a>github</a>
+                github
             </li>
             <li className="border border-solid rounded-full p-4 text-center">google(준비중)</li>
             <li className="border border-solid rounded-full p-4 text-center">naver(준비중)</li>
