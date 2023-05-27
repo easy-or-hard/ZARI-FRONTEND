@@ -1,12 +1,12 @@
 import {ConstellationComponentProps} from "@/components/constellation/constellation";
 import EffectBanzzack from "@/components/banzzack/effect-banzzack";
 
-export default function Aqr({setClickedStarNumber, setBanzzackVisible, banzzacks}: ConstellationComponentProps) {
+export default function Aqr({setClickedStarNumber, setReadBanzzackVisible, banzzacks}: ConstellationComponentProps) {
     const handleClick = (event: any) => {
         if (event.target.tagName === "circle") {
             const key = event.target.parentNode.getAttribute('data-name')
             setClickedStarNumber(+key);
-            setBanzzackVisible(true);
+            setReadBanzzackVisible(true);
         }
     };
 
