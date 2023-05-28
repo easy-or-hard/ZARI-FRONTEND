@@ -41,8 +41,8 @@ export default class Fetcher {
      * @param init http method, credentials 등을 입력하세요.
      * @throws ZariError
      */
-    static FetcherFactory<T>({key, init}: { key: string, init: RequestInit }) {
-        const fetcher = async (input: string) => {
+    static FetcherFactory<T>({key, init}: { key: string | URL, init: RequestInit }) {
+        const fetcher = async (input: string | URL) => {
             const response = await fetch(input, init);
             const responseJson = await response.json();
 
