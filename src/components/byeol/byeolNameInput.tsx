@@ -2,6 +2,7 @@
 
 import React, {useCallback, useEffect, useState} from "react";
 import ByeolService from "@/services/byeol/byeol.service";
+import {ZariError} from "@/services/common/fetcher";
 
 type ByeolNameInputProps = {
     setIsNameAvailable: (isAvailable: boolean) => void;
@@ -23,20 +24,25 @@ export default function ByeolNameInput({setIsNameAvailable}: ByeolNameInputProps
             return
         }
 
-        const {response, responseJson} = await ByeolService.isNameAvailableFetcher(_name);
-
-        if (!response.ok) {
-            setNamingGuide({
-                message: responseJson.message,
-                color: '#FF416E'
-            });
-            setIsNameAvailable(false);
-        } else {
+        const {key, fetcher} = ByeolService.isNameAvailableFetcher(_name);
+        try {
+            const responseJson = await fetcher(key);
             setNamingGuide({
                 message: responseJson.message,
                 color: '#00E577'
             });
             setIsNameAvailable(true);
+        } catch (error) {
+            if (error instanceof ZariError) {
+                setNamingGuide({
+                    message: error.message,
+                    color: '#FF416E'
+                });
+                setIsNameAvailable(false);
+            } else {
+                console.error('예상하지 못한 에러 입니다');
+                throw error;
+            }
         }
     }, [setIsNameAvailable]);
 

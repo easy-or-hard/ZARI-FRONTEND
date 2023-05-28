@@ -24,12 +24,19 @@ async function zariFindById(zariId: number) {
 }
 
 async function byeolFindById(byeolId: number) {
-    const {response: byeolResponse, responseJson: byeolResponseJson} = await ByeolService.findById(byeolId);
-    if (!byeolResponse.ok) {
-        notFound(); // 함수 종료
+    const {key, fetcher} = ByeolService.findByIdFetcher(byeolId);
+
+    try {
+        const responseJson = await fetcher(key);
+        return responseJson.data;
+    } catch (error) {
+        if (error instanceof Error) {
+            notFound(); // 현재 컴포넌트 렌더링 종료
+        } else {
+            console.error('예상하지 못한 에러');
+            throw error;
+        }
     }
-    // 단언 사용
-    return (byeolResponseJson as OkResponseDto<IncludeZariByeolDto>).data;
 }
 
 async function constellationFindByIAU(IAU: string) {

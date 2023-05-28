@@ -4,7 +4,6 @@ import {ByeolCreateDto} from "@/services/byeol/dto/reuqest/create-byeol.dto";
 import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
 import Fetcher from "@/services/common/fetcher";
 import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
-import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
 import {BaseResponseDto} from "@/services/common/dto/base.response.dto";
 
 export default class ByeolService {
@@ -31,28 +30,22 @@ export default class ByeolService {
         return Fetcher.FetcherFactory<BaseResponseDto>({key: url, init});
     }
 
-    static async isNameAvailableFetcher(name: string) {
-        let init: RequestInit = {
-            method: 'GET',
-            credentials: 'include',
-        }
+    /**
+     * 별 이름을 검증합니다.
+     * @param name
+     */
+    static isNameAvailableFetcher(name: string) {
+        const url = new URL(`${API.BASE_URL}/byeol/is-name-available/${name}`);
+        let init = Fetcher.makeInit('GET');
 
-        const response = await fetch(`${API.BASE_URL}/byeol/is-name-available/${name}`, init);
-        const responseJson: OkResponseDto<boolean> | NotOkResponseDto = await response.json();
-
-        return {response, responseJson}
+        return Fetcher.FetcherFactory<BaseResponseDto>({key: url, init});
     }
 
-    static async findById(id: number) {
-        let init: RequestInit = {
-            method: 'GET',
-            credentials: 'include', // 이 옵션이 크로스 브라우징에도 쿠키를 전송.
-        }
+    static findByIdFetcher(id: number) {
+        const url = new URL(`${API.BASE_URL}/byeol/${id}`);
+        let init = Fetcher.makeInit('GET');
 
-        const response = await fetch(`${API.BASE_URL}/byeol/${id}`, init);
-        const responseJson: OkResponseDto<IncludeZariByeolDto> | NotOkResponseDto = await response.json();
-
-        return {response, responseJson}
+        return Fetcher.FetcherFactory<OkResponseDto<IncludeZariByeolDto>>({key: url, init});
     }
 
     /**
