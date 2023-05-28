@@ -12,18 +12,9 @@ export default class UserService {
      * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
      */
     static findMeFetcher(accessToken?: RequestCookie | undefined) {
-        let init: RequestInit = {
-            method: 'GET',
-            credentials: 'include', // 이 옵션이 크로스 브라우징에도 쿠키를 전송.
-        }
+        const url = new URL(`${API.BASE_URL}/user/me`);
+        const init = Fetcher.makeInit('GET', accessToken);
 
-        accessToken?.value &&
-        Object.assign(init, {
-            headers: {
-                Cookie: `access_token=${accessToken.value};`, // front 에서 bff 를 호출할 경우 브라우저가 준 쿠키 설정
-            },
-        });
-
-        return Fetcher.FetcherFactory<OkResponseDto<UserEntity>>({key: `${API.BASE_URL}/user/me`, init});
+        return Fetcher.FetcherFactory<OkResponseDto<UserEntity>>({key: url, init});
     }
 }
