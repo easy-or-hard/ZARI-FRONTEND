@@ -14,17 +14,8 @@ export default class ByeolService {
      * @param {RequestCookie} accessToken 서버에서 호출할 경우에는 쿠키가 필요합니다.
      */
     static createFetcher(createData: ByeolCreateDto | FormData, accessToken?: RequestCookie) {
-        let init: RequestInit = {
-            method: 'POST',
-            credentials: 'include',
-        }
-
-        accessToken?.value &&
-        Object.assign(init, {
-            headers: {
-                Cookie: `access_token=${accessToken.value};`,
-            },
-        });
+        const url = new URL(`${API.BASE_URL}/byeol`);
+        let init = Fetcher.makeInit('POST', accessToken)
 
         if (createData instanceof FormData) {
             init.body = createData;
@@ -37,7 +28,7 @@ export default class ByeolService {
             });
         }
 
-        return Fetcher.FetcherFactory<BaseResponseDto>({key: `${API.BASE_URL}/byeol`, init});
+        return Fetcher.FetcherFactory<BaseResponseDto>({key: url, init});
     }
 
     static async isNameAvailableFetcher(name: string) {
@@ -71,18 +62,9 @@ export default class ByeolService {
      * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
      */
     static findMeFetcher(accessToken?: RequestCookie | undefined) {
-        let init: RequestInit = {
-            method: 'GET',
-            credentials: 'include', // 이 옵션이 크로스 브라우징에도 쿠키를 전송.
-        }
+        const url = new URL(`${API.BASE_URL}/byeol/me`);
+        let init = Fetcher.makeInit('GET', accessToken);
 
-        accessToken?.value &&
-        Object.assign(init, {
-            headers: {
-                Cookie: `access_token=${accessToken.value};`, // front 에서 bff 를 호출할 경우 브라우저가 준 쿠키 설정
-            },
-        });
-
-        return Fetcher.FetcherFactory<OkResponseDto<IncludeZariByeolDto>>({key: `${API.BASE_URL}/byeol/me`, init});
+        return Fetcher.FetcherFactory<OkResponseDto<IncludeZariByeolDto>>({key: url, init});
     }
 }
