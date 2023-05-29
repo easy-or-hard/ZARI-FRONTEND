@@ -8,7 +8,7 @@ import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
  * @throws {ZariError} response.ok 가 false 일 경우 에러를 던집니다.
  * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
-const createIsUserKeyAndFetcher = () => {
+const isUser = () => {
     const url = `${API.BASE_URL}/auth/is-user`;
     const init = fetcher.createRequestOptions('GET')
 
@@ -19,7 +19,7 @@ const createIsUserKeyAndFetcher = () => {
  * ZARI 서비스를 사용할 수 있는 상태(별) 인지 확인합니다
  * @param accessToken
  */
-const createIsByeolKeyAndFetcher = (accessToken?: RequestCookie | undefined) => {
+const isByeol = (accessToken?: RequestCookie | undefined) => {
     const url = `${API.BASE_URL}/auth/is-byeol`;
     const init = fetcher.createRequestOptions('GET', accessToken)
 
@@ -27,7 +27,7 @@ const createIsByeolKeyAndFetcher = (accessToken?: RequestCookie | undefined) => 
 };
 
 const authFetcher = {
-    createIsUserKeyAndFetcher,
-    createIsByeolKeyAndFetcher,
+    isUser,
+    isByeol,
 }
 export default authFetcher;
