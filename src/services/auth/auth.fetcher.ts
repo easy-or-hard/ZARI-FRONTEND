@@ -19,7 +19,7 @@ const isUser = () => {
  * ZARI 서비스를 사용할 수 있는 상태(별) 인지 확인합니다
  * @param accessToken
  */
-const isByeol = (accessToken?: RequestCookie | undefined) => {
+const isByeol = (accessToken?: RequestCookie) => {
     const url = `${API.BASE_URL}/auth/is-byeol`;
     const init = fetcher.createRequestOptions('GET', accessToken)
 
