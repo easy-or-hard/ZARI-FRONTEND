@@ -1,36 +1,29 @@
 'use client'
 
-import {useCallback, useEffect} from "react";
+import {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {Identity} from "@/components/Identity";
 import Splash from "@/components/splash";
-import AuthService from "@/services/auth/auth.service";
 
-const {key: isUserKey, fetcher: isUserFetcher} = AuthService.isUser();
-const {key: isByeolKey, fetcher: isByeolFetcher} = AuthService.isByeol();
+import {useIsByeol, useIsUser} from "@/services/auth/auth.use";
 
 export default function MainPage() {
     const router = useRouter();
+    const {data: user, isLoading: isLoadingUser} = useIsUser();
+    const {data: byeol, isLoading: isLoadingByeol} = useIsByeol(user ? user.data : false);
 
-    const isUserOrByeol = useCallback(async () => {
-        const {data: isUser} = await isUserFetcher(isUserKey);
-        if (isUser) {
-            const {data: isByeol} = await isByeolFetcher(isByeolKey);
-            if (isByeol) {
+    useEffect(() => {
+        if (user?.data) {
+            if (byeol?.data) {
                 router.replace('/byeol/me');
-            } else {
+            } else if (!byeol?.data) {
                 router.replace('/byeol/create');
             }
         } else {
             router.replace('/auth/sign-in');
         }
-    }, []);
+    }, [user, byeol]);
 
-    useEffect(() => {
-        isUserOrByeol();
-    }, [])
-
-    // isLoading===true 일때는 스플래시 화면을 렌더링한다.
     return (
         <div
             className="h-full flex flex-col justify-center items-center"

@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useCallback, useEffect, useState} from "react";
-import ByeolService from "@/services/byeol/byeol.service";
+import byeolFetcher from "@/services/byeol/byeol.fetcher";
 import {ZariError} from "@/services/common/fetcher";
 
 type ByeolNameInputProps = {
@@ -24,7 +24,7 @@ export default function ByeolNameInput({setIsNameAvailable}: ByeolNameInputProps
             return
         }
 
-        const {key, fetcher} = ByeolService.isNameAvailableFetcher(_name);
+        const {key, fetcher} = byeolFetcher.isNameAvailableFetcher(_name);
         try {
             const responseJson = await fetcher(key);
             setNamingGuide({

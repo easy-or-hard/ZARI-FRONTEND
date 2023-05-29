@@ -1,6 +1,6 @@
 'use client'
 
-import ByeolService from "@/services/byeol/byeol.service";
+import byeolFetcher from "@/services/byeol/byeol.fetcher";
 import {useRouter} from "next/navigation";
 import ByeolNameInput from "@/components/byeol/byeolNameInput";
 import BirthdaySelect from "@/components/byeol/birthday.select";
@@ -14,7 +14,7 @@ export default function CreatePage() {
     const [isSelectedBirthday, setIsSelectedBirthday] = useState(false);
 
     const join = useCallback(async (form: FormData) => {
-        const {key, fetcher} = ByeolService.createFetcher(form);
+        const {key, fetcher} = byeolFetcher.createFetcher(form);
         try {
             // 가입 성공시에는 반환 데이터가 없기 때문에 메소드 실행만 합니다.
             await fetcher(key);

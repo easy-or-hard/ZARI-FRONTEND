@@ -1,52 +1,41 @@
 'use client'
 
-import ByeolService from "@/services/byeol/byeol.service";
 import {useRouter} from "next/navigation";
-import useSWR from "swr";
 import {useEffect} from "react";
 import {ZariError} from "@/services/common/fetcher";
+import {useByeolFindMe} from "@/services/byeol/byeol.use";
+import {useIsByeol} from "@/services/auth/auth.use";
 
-const {key, fetcher} = ByeolService.findMeFetcher();
 export default function MePage() {
     const router = useRouter();
-    const {error, data, isLoading} = useSWR(key, fetcher);
+    const {data: okResponseIsByeol, isLoading: isLoadingIsByeol, error: errorIsByeol} = useIsByeol();
+    const {
+        data: okResponseIncludeZariByeolDto,
+        isLoading: isLoadingIncludeZariByeol,
+        error: errorIncludeZariByeol
+    } = useByeolFindMe();
 
     useEffect(() => {
-        if (error) {
-            if (error instanceof ZariError) {
-                switch (error.statusCode) {
-                    case 401:
-                        router.replace('/auth/sign-in');
-                        break;
-                    case 404:
-                        router.replace('/byeol/create');
+        if (errorIsByeol) {
+            if (errorIsByeol instanceof ZariError) {
+                if (errorIsByeol.statusCode === 401) {
+                    router.push('/auth/sign-in');
                 }
             } else {
                 // TODO, 예외 에러에 대해서 어떻게 처리할까?
-                console.error(error);
-                throw error;
-            }
-        } else if (data) {
-            const IncludeZariByeolDto = data.data
-            // 소유한 자리가 1개 일경우 바로 자리로 리디렉트
-            if (IncludeZariByeolDto.zaris.length === 1) {
-                const ZariEntity = IncludeZariByeolDto.zaris[0];
-                router.replace(`/zari/${ZariEntity.id}`);
+                console.error(errorIsByeol);
+                throw errorIsByeol;
             }
         }
-    }, [data, error])
-
-    if (isLoading) {
-        return (
-            <div className={'h-full grid place-items-center'}>
-            <span className={'animate-pulse'}>
-                아직 디자인 되지 않음.
-            </span>
-            </div>
-        )
-    }
+    }, [errorIsByeol]);
 
     return (
-        <>별에 자리가 여러개라면 여러 자리를 표현하고 싶습니다...</>
+        <>
+            {/* TODO, 테스트 코드 */}
+            {okResponseIncludeZariByeolDto?.data.zaris.map(zari => (
+                <div key={zari.id}>{zari.id}</div>))
+                // <Zari key={zari.id} params={zari.id}/>))
+            }
+        </>
     )
 }
