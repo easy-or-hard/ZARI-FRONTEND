@@ -1,10 +1,10 @@
-import Header from "@/components/header";
+import ZariHeader from "@/components/zari/zari-header";
 import React from "react";
 
-export default function ByeolLayout({children}: { children: React.ReactNode }) {
+export default function ZariLayout({children}: { children: React.ReactNode }) {
     return (
         <>
-            <Header/>
+            <ZariHeader/>
             {children}
         </>
     )
