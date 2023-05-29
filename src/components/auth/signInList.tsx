@@ -5,9 +5,13 @@ import {useRouter} from 'next/navigation';
 import io from 'socket.io-client';
 import {API} from "@/lib/const";
 
+import {useIsByeol, useIsUser} from "@/services/auth/auth.use";
+
 export default function SignInList() {
     const router = useRouter();
     const authState = useRef('');
+    const {data: user, isLoading: isLoadingUser} = useIsUser();
+    const {data: byeol, isLoading: isLoadingByeol} = useIsByeol(user ? user.data : false);
     const openWindow = useCallback(async (provider: string) => {
         const width = 500;
         const height = 600;
@@ -15,31 +19,22 @@ export default function SignInList() {
         const top = window.screenTop + (window.innerHeight / 2) - (height / 2);
 
         window.open(
-            `${API.BASE_URL}/auth/${provider}/socket?state=${authState.current}`,
+            `${API.BASE_URL}/auth/${provider}`,
             '_blank',
             `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
         );
     }, [authState]);
 
     useEffect(() => {
-        const socket = io(API.BASE_URL);
-
-        socket.on('alreadyHaveAccount', () => {
-            router.replace('/byeol/me');
-        })
-
-        socket.on('newAccount', () => {
-            router.replace('/byeol/create');
-        })
-
-        socket.on('state', (data: string) => {
-            authState.current = data;
-        })
-
-        return () => {
-            socket.disconnect();
+        if (user?.data) {
+            if (byeol?.data) {
+                console.log('byeol', byeol.data);
+                router.replace('/byeol/me');
+            } else if (byeol?.data) {
+                router.replace('/byeol/create');
+            }
         }
-    }, [router])
+    }, [byeol, router, user])
 
     return (
         <ul className='grid gap-4'>
