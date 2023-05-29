@@ -3,7 +3,7 @@ import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 
 /**
- * ZARI API 호출시 나오는 200, 201 이외의 에러를 처리하는 에러 클래스 입니다.
+ * ZARI API 호출시 나오는 response.ok 이외의 에러를 처리하는 에러 클래스 입니다.
  */
 export class ZariError extends Error {
     public statusCode: number;
