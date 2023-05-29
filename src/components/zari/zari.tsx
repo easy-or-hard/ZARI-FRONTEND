@@ -27,7 +27,7 @@ async function zariFindById(zariId: number) {
 }
 
 async function byeolFindById(byeolId: number) {
-    const {key, fetcher} = byeolFetcher.findByIdFetcher(byeolId);
+    const {key, fetcher} = byeolFetcher.findById(byeolId);
 
     try {
         const responseJson = await fetcher(key);

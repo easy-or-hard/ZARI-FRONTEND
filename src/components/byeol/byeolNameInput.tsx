@@ -24,7 +24,7 @@ export default function ByeolNameInput({setIsNameAvailable}: ByeolNameInputProps
             return
         }
 
-        const {key, fetcher} = byeolFetcher.isNameAvailableFetcher(_name);
+        const {key, fetcher} = byeolFetcher.isNameAvailable(_name);
         try {
             const responseJson = await fetcher(key);
             setNamingGuide({

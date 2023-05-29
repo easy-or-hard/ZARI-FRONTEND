@@ -12,7 +12,7 @@ import {BaseResponseDto} from "@/services/common/dto/base.response.dto";
  * @param {ByeolCreateDto | FormData} createData 타입은 다르지만 내부의 구조는 같아야합니다.
  * @param {RequestCookie} accessToken 서버에서 호출할 경우에는 쿠키가 필요합니다.
  */
-const createFetcher = (createData: ByeolCreateDto | FormData, accessToken?: RequestCookie) => {
+const createByeol = (createData: ByeolCreateDto | FormData, accessToken?: RequestCookie) => {
     const url = `${API.BASE_URL}/byeol`;
     const init = fetcher.createRequestOptions('POST', accessToken)
 
@@ -34,14 +34,14 @@ const createFetcher = (createData: ByeolCreateDto | FormData, accessToken?: Requ
  * 별 이름을 검증합니다.
  * @param name
  */
-const isNameAvailableFetcher = (name: string) => {
+const isNameAvailable = (name: string) => {
     const url = `${API.BASE_URL}/byeol/is-name-available/${name}`;
     let init = fetcher.createRequestOptions('GET');
 
     return fetcher.create<BaseResponseDto>({key: url, init});
 }
 
-const findByIdFetcher = (id: number) => {
+const findById = (id: number) => {
     const url = `${API.BASE_URL}/byeol/${id}`;
     let init = fetcher.createRequestOptions('GET');
 
@@ -54,7 +54,7 @@ const findByIdFetcher = (id: number) => {
  * @throws {ZariError} response.ok 가 false 일 경우 에러를 던집니다.
  * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
-const findMeFetcher = (accessToken?: RequestCookie | undefined) => {
+const findMe = (accessToken?: RequestCookie | undefined) => {
     const url = `${API.BASE_URL}/byeol/me`;
     let init = fetcher.createRequestOptions('GET', accessToken);
 
@@ -62,10 +62,10 @@ const findMeFetcher = (accessToken?: RequestCookie | undefined) => {
 }
 
 const byeolFetcher = {
-    createFetcher,
-    isNameAvailableFetcher,
-    findByIdFetcher,
-    findMeFetcher,
+    createByeol,
+    isNameAvailable: isNameAvailable,
+    findById,
+    findMe: findMe,
 }
 
 export default byeolFetcher;
