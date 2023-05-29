@@ -44,7 +44,9 @@ const createRequestOptions = (method: 'GET' | 'POST' | 'PUT' | 'DELETE', accessT
  * @throws ZariError
  */
 const create = <T>({key, init}: { key: string, init: RequestInit }) => {
-    const fetcher = async (input: string | URL) => {
+    // input 타입을 의도적으로 string 타입만 썻습니다.
+    // URL 로 쓰면 SWR 에서 작동하지 않습니다.
+    const fetcher = async (input: string) => {
         const response = await fetch(input, init);
         const responseJson = await response.json();
 
