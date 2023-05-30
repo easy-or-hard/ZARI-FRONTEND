@@ -8,6 +8,7 @@ import CreateBanzzackModal from "@/app/component/ui/popup/modal/create-banzzack.
 import {
     IncludeConstellationByeolBanzzackZariDto
 } from "@/services/zari/dto/include-constellation-byeol-banzzack-zari.dto";
+import ConfirmModal from "@/app/component/ui/popup/modal/confirm.modal";
 
 type BaseModalContextType = {
     modalContent: ReactNode | null;

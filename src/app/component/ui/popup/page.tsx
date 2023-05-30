@@ -15,7 +15,7 @@ export default function PopupPage() {
     if (!modalContext) {
         throw new Error('ModalContext is null');
     }
-    const {showReadBanzzackModal, showCreateBanzzackModal} = modalContext;
+    const {showReadBanzzackModal, showCreateBanzzackModal, showConfirmModal} = modalContext;
 
     const [state, dispatch] = useReducer((state) => {
         const nextIndex = (state.index + 1) % words.length;
@@ -39,6 +39,11 @@ export default function PopupPage() {
         } as ByeolEntity,
     }
 
+    const confirmContent = <div>
+        <div className={'mb-3 font-bold'}>반짝이를 붙일까요?</div>
+        한번 붙은 반짝이는 수정을 할 수 없어요<br/>그리고 나의 이야기는 모두가 볼 수 있어요
+    </div>
+
     return (
         <>
             <button onClick={() => {
@@ -52,6 +57,12 @@ export default function PopupPage() {
             <button
                 onClick={() => showCreateBanzzackModal(sampleByeol as IncludeConstellationByeolBanzzackZariDto)}>
                 writeBanzzackModal
+            </button>
+
+            <hr/>
+            <button
+                onClick={() => showConfirmModal(confirmContent, () => alert('test'))}>
+                confirmModal
             </button>
         </>
     );
