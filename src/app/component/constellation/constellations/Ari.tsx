@@ -1,5 +1,5 @@
-import {ConstellationComponentProps} from "@/components/constellation/constellation";
-import EffectBanzzack from "@/components/banzzack/effect-banzzack";
+import {ConstellationComponentProps} from "@/app/component/constellation/constellation";
+import EffectBanzzack from "@/app/component/banzzack/effect-banzzack";
 
 export default function Ari({setClickedStarNumber, setReadBanzzackVisible, banzzacks}: ConstellationComponentProps) {
     const handleClick = (event: any) => {
