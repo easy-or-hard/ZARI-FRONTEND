@@ -1,7 +1,7 @@
 'use client'
 
 import {ReactNode, useCallback, useEffect, useMemo, useState} from "react";
-import Dim from "@/app/component/ui/popup/dim";
+import Dim from "@/app/component/ui/popup/modal/dim";
 import CloseIcon from "@/app/component/ui/icon/size24/close";
 
 type Props = {
