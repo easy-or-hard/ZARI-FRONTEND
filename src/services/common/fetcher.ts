@@ -1,6 +1,6 @@
 import {NotOkResponseDto} from "@/services/common/dto/not-ok.response.dto";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
-import {JWT} from "@/lib/const";
+import {JWT} from "@/const";
 
 /**
  * ZARI API 호출시 나오는 response.ok 이외의 에러를 처리하는 에러 클래스 입니다.

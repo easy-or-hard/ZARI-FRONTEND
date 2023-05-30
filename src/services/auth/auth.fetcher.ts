@@ -1,4 +1,4 @@
-import {API} from "@/lib/const";
+import {API} from "@/const";
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 import fetcher from "@/services/common/fetcher";
 import {OkResponseDto} from "@/services/common/dto/ok.response.dto";

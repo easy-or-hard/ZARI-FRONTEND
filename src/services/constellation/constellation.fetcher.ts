@@ -1,4 +1,4 @@
-import {API} from "@/lib/const";
+import {API} from "@/const";
 import {OkResponseDto} from "@/services/common/dto/ok.response.dto";
 import {ConstellationEntity} from "@/services/constellation/entities/constellation.entity";
 import fetcher from "@/services/common/fetcher";

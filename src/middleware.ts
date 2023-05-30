@@ -1,7 +1,7 @@
 import type {NextRequest} from 'next/server';
 import {NextResponse} from 'next/server';
 import authFetcher from "@/services/auth/auth.fetcher";
-import {JWT} from "@/lib/const";
+import {JWT} from "@/const";
 
 export async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname.startsWith('/byeol/create')) {

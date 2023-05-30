@@ -1,5 +1,5 @@
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
-import {API} from "@/lib/const";
+import {API} from "@/const";
 import {ByeolCreateDto} from "@/services/byeol/dto/reuqest/create-byeol.dto";
 import {IncludeZariByeolDto} from "@/services/byeol/dto/include-zari-byeol.dto";
 import fetcher from "@/services/common/fetcher";
@@ -54,7 +54,7 @@ const findById = (id: number) => {
  * @throws {ZariError} response.ok 가 false 일 경우 에러를 던집니다.
  * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
-const findMe = (accessToken?: RequestCookie | undefined) => {
+const findMe = (accessToken?: RequestCookie) => {
     const url = `${API.BASE_URL}/byeol/me`;
     let init = fetcher.createRequestOptions('GET', accessToken);
 

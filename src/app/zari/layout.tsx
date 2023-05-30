@@ -1,4 +1,4 @@
-import ZariHeader from "@/components/zari/zari-header";
+import ZariHeader from "@/app/component/zari/zari-header";
 import React from "react";
 
 export default function ZariLayout({children}: { children: React.ReactNode }) {
