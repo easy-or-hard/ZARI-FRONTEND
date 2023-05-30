@@ -12,6 +12,16 @@ import PscOriginPath from "@/app/component/constellation/constellations/psc-orig
 import ScoOriginPath from "@/app/component/constellation/constellations/sco-origin-path";
 import SgrOriginPath from "@/app/component/constellation/constellations/sgr-origin-path";
 import TauOriginPath from "@/app/component/constellation/constellations/tau-origin.path";
+import CapEffectPath from "@/app/component/constellation/effects/cap-effect.path";
+import VirEffectPath from "@/app/component/constellation/effects/vir-effect.path";
+import CncEffectPath from "@/app/component/constellation/effects/cnc-effect.path";
+import GemEffectPath from "@/app/component/constellation/effects/gem-effect.path";
+import LeoEffectPath from "@/app/component/constellation/effects/leo-effect.path";
+import LibEffectPath from "@/app/component/constellation/effects/lib-effect.path";
+import PscEffectPath from "@/app/component/constellation/effects/psc-effect.path";
+import ScoEffectPath from "@/app/component/constellation/effects/sco-effect.path";
+import SgrEffectPath from "@/app/component/constellation/effects/sgr-effect.path";
+import TauEffectPath from "@/app/component/constellation/effects/tau-effect.path";
 
 export type ConstellationComponentProps = {
     banzzacks: BanzzackEntity[];
@@ -24,16 +34,16 @@ type ConstellationComponents = {
 
 const constellationMap: Record<string, ConstellationComponents> = {
     Agr: {origin: AgrOriginPath, effect: AqrEffectPath},
-    Cap: {origin: CapOriginPath, effect: AqrEffectPath},
-    Cnc: {origin: CncOriginPath, effect: AqrEffectPath},
-    Gem: {origin: GemOriginPath, effect: AqrEffectPath},
-    Leo: {origin: LeoOriginPath, effect: AqrEffectPath},
-    Lib: {origin: LibOriginPath, effect: AqrEffectPath},
-    Psc: {origin: PscOriginPath, effect: AqrEffectPath},
-    Sco: {origin: ScoOriginPath, effect: AqrEffectPath},
-    Sgr: {origin: SgrOriginPath, effect: AqrEffectPath},
-    Tau: {origin: TauOriginPath, effect: AqrEffectPath},
-    Vir: {origin: VirOriginPath, effect: AqrEffectPath},
+    Cap: {origin: CapOriginPath, effect: CapEffectPath},
+    Cnc: {origin: CncOriginPath, effect: CncEffectPath},
+    Gem: {origin: GemOriginPath, effect: GemEffectPath},
+    Leo: {origin: LeoOriginPath, effect: LeoEffectPath},
+    Lib: {origin: LibOriginPath, effect: LibEffectPath},
+    Psc: {origin: PscOriginPath, effect: PscEffectPath},
+    Sco: {origin: ScoOriginPath, effect: ScoEffectPath},
+    Sgr: {origin: SgrOriginPath, effect: SgrEffectPath},
+    Tau: {origin: TauOriginPath, effect: TauEffectPath},
+    Vir: {origin: VirOriginPath, effect: VirEffectPath},
 }
 
 export default constellationMap;
