@@ -16,11 +16,11 @@ export default function ConfirmModal({ children, onConfirm, cancel = '취소', c
     if (!baseModalContext) {
         throw new Error('BaseModalContext is null');
     }
-    const {closeModal} = useMemo(() => baseModalContext, [baseModalContext]);
+    const {closeModal, allCloseModal} = useMemo(() => baseModalContext, [baseModalContext]);
 
     const handleConfirm = useCallback(() => {
         onConfirm();
-        closeModal();
+        allCloseModal();
     }, [closeModal, onConfirm]);
 
     return (
