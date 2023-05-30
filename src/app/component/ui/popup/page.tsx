@@ -15,7 +15,7 @@ export default function PopupPage() {
     if (!modalContext) {
         throw new Error('ModalContext is null');
     }
-    const {setReadBanzzackModalContent, setCreateBanzzackModalContent} = modalContext;
+    const {showReadBanzzackModal, showCreateBanzzackModal} = modalContext;
 
     const [state, dispatch] = useReducer((state) => {
         const nextIndex = (state.index + 1) % words.length;
@@ -43,14 +43,14 @@ export default function PopupPage() {
         <>
             <button onClick={() => {
                 dispatch();
-                setReadBanzzackModalContent(sampleBanzzack as BanzzackEntity)
+                showReadBanzzackModal(sampleBanzzack as BanzzackEntity)
             }}>
                 readBanzzackModal
             </button>
 
             <hr/>
             <button
-                onClick={() => setCreateBanzzackModalContent(sampleByeol as IncludeConstellationByeolBanzzackZariDto)}>
+                onClick={() => showCreateBanzzackModal(sampleByeol as IncludeConstellationByeolBanzzackZariDto)}>
                 writeBanzzackModal
             </button>
         </>

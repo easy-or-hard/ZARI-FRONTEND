@@ -15,9 +15,9 @@ type BaseModalContextType = {
 }
 
 type ModalContextType = {
-    setConfirmModalContent: (content: ReactNode) => void;
-    setReadBanzzackModalContent: (banzzack: BanzzackEntity) => void;
-    setCreateBanzzackModalContent: (includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto) => void;
+    showConfirmModal: (children: ReactNode, onConfirm: () => void) => void;
+    showReadBanzzackModal: (banzzack: BanzzackEntity) => void;
+    showCreateBanzzackModal: (includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto) => void;
 }
 
 export const BaseModalContext = createContext<BaseModalContextType | null>(null);
@@ -28,15 +28,15 @@ type Props = {
 }
 export default function ModalProvider({children}: Props) {
     const [modalContent, setModalContent] = useState<ReactNode | null>(null);
-    const setReadBanzzackModalContent = useCallback((banzzack: BanzzackEntity) => {
+    const showReadBanzzackModal = useCallback((banzzack: BanzzackEntity) => {
         setModalContent(<ReadBanzzackModal banzzack={banzzack}/>);
     }, []);
-    const setCreateBanzzackModalContent = useCallback((includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto) => {
+    const showCreateBanzzackModal = useCallback((includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto) => {
         setModalContent(<CreateBanzzackModal
             includeConstellationByeolBanzzackZariDto={includeConstellationByeolBanzzackZariDto}/>);
     }, []);
-    const setConfirmModalContent = useCallback((content: ReactNode) => {
-        setModalContent(content);
+    const showConfirmModal = useCallback((children: ReactNode, onConfirm: () => void) => {
+        setModalContent(<ConfirmModal onConfirm={onConfirm}>{children}</ConfirmModal>);
     }, []);
     const closeModal = useCallback(() => {
         setModalContent(null);
@@ -44,9 +44,9 @@ export default function ModalProvider({children}: Props) {
 
     return (
         <ModalContext.Provider value={{
-            setConfirmModalContent,
-            setReadBanzzackModalContent,
-            setCreateBanzzackModalContent,
+            showReadBanzzackModal,
+            showCreateBanzzackModal,
+            showConfirmModal,
         }}>
             {children}
 
