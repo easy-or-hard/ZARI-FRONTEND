@@ -46,7 +46,9 @@ export default function PopupPage() {
 
     return (
         <>
-            <button onClick={() => {
+            <button
+                type={'button'}
+                onClick={() => {
                 dispatch();
                 showReadBanzzackModal(sampleBanzzack as BanzzackEntity)
             }}>
@@ -55,12 +57,14 @@ export default function PopupPage() {
 
             <hr/>
             <button
+                type={'button'}
                 onClick={() => showCreateBanzzackModal(sampleByeol as IncludeConstellationByeolBanzzackZariDto)}>
                 writeBanzzackModal
             </button>
 
             <hr/>
             <button
+                type={'button'}
                 onClick={() => showConfirmModal(confirmContent, () => alert('test'))}>
                 confirmModal
             </button>
