@@ -1,9 +1,8 @@
 'use client'
 
-import {ReactNode, useContext, useEffect, useState} from "react";
+import {ReactNode, useContext, useEffect, useMemo, useState} from "react";
 import {BaseModalContext} from "@/app/component/ui/popup/modal.provider";
 import {CSSTransition} from 'react-transition-group';
-import CloseIcon from "@/app/component/ui/icon/size24/close";
 import Dim from "@/app/component/ui/popup/modal/dim";
 
 /**
@@ -13,11 +12,13 @@ import Dim from "@/app/component/ui/popup/modal/dim";
  * @constructor
  */
 export default function BaseModal() {
+    // BaseModalContext 임포트
     const modalContext = useContext(BaseModalContext);
     if (!modalContext) {
         throw new Error('ModalContext is null');
     }
-    const {modalContent} = modalContext;
+    const {modalContent} = useMemo(() => modalContext, [modalContext]);
+
     const [prevModalContent, setPrevModalContent] = useState<ReactNode | null>(null);
 
     useEffect(() => {
