@@ -13,6 +13,9 @@ import ConfirmModal from "@/app/component/ui/popup/modal/confirm.modal";
 type BaseModalContextType = {
     modalContent: ReactNode | null;
     closeModal: () => void;
+    allCloseModal: () => void;
+    modalStack: ReactNode[];
+    popModal: () => void;
 }
 
 type ModalContextType = {
@@ -28,19 +31,39 @@ type Props = {
     children: ReactNode;
 }
 export default function ModalProvider({children}: Props) {
+    // 여러 팝업이 나올 수 있게, 배열 관리
+    const [modalStack, setModalStack] = useState<ReactNode[]>([]);
+
+    const pushModal = useCallback((modal: ReactNode) => {
+        setModalStack(modals => [...modals, modal]);
+    }, []);
+
+    const popModal = useCallback(() => {
+        setModalStack(modals => modals.slice(0, -1));
+    }, []);
+
+    // 팝업 호출 메소드 초기화
     const [modalContent, setModalContent] = useState<ReactNode | null>(null);
     const showReadBanzzackModal = useCallback((banzzack: BanzzackEntity) => {
-        setModalContent(<ReadBanzzackModal banzzack={banzzack}/>);
-    }, []);
+        pushModal(<ReadBanzzackModal banzzack={banzzack}/>);
+    }, [pushModal]);
+
     const showCreateBanzzackModal = useCallback((includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto) => {
-        setModalContent(<CreateBanzzackModal
+        pushModal(<CreateBanzzackModal
             includeConstellationByeolBanzzackZariDto={includeConstellationByeolBanzzackZariDto}/>);
-    }, []);
+    }, [pushModal]);
+
     const showConfirmModal = useCallback((children: ReactNode, onConfirm: () => void) => {
-        setModalContent(<ConfirmModal onConfirm={onConfirm}>{children}</ConfirmModal>);
+        pushModal(<ConfirmModal onConfirm={onConfirm}>{children}</ConfirmModal>);
+    }, [pushModal]);
+
+
+    const closeModal = useCallback((depth = 1) => {
+        popModal();
     }, []);
-    const closeModal = useCallback(() => {
-        setModalContent(null);
+
+    const allCloseModal = useCallback((depth = 1) => {
+        setModalStack([]);
     }, []);
 
     return (
@@ -55,6 +78,9 @@ export default function ModalProvider({children}: Props) {
             <BaseModalContext.Provider value={{
                 modalContent,
                 closeModal,
+                allCloseModal,
+                modalStack,
+                popModal,
             }}>
                 <BaseModal/>
             </BaseModalContext.Provider>
