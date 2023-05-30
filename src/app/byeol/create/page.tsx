@@ -2,10 +2,10 @@
 
 import byeolFetcher from "@/services/byeol/byeol.fetcher";
 import {useRouter} from "next/navigation";
-import ByeolNameInput from "@/components/byeol/byeolNameInput";
-import BirthdaySelect from "@/components/byeol/birthday.select";
+import ByeolNameInput from "@/app/component/byeol/byeol-name.input";
+import BirthdaySelect from "@/app/component/byeol/birthday.select";
 import React, {useCallback, useState} from "react";
-import {EnableButton} from "@/components/button/enableButton";
+import {EnableButton} from "@/app/component/button/enableButton";
 import {ZariError} from "@/services/common/fetcher";
 
 export default function CreatePage() {
