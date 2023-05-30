@@ -30,12 +30,10 @@ import {CancelButton} from "@/app/component/button/cancel.button";
 import {DangerButton} from "@/app/component/button/danger.button";
 import {EnableButton} from "@/app/component/button/enableButton";
 import SpeedDial from "@/app/component/ui/menu/speed-dial";
-import ModalPopup from "@/app/component/ui/popup/modal-popup";
 
 export default function Components() {
     const showToast = useContext(ToastContext);
     const [isNameAvailable, setIsNameAvailable] = useState(false);
-    const [toggleModalPopup, setToggleModalPopup] = useState(false);
 
     return (
         <div className='relative w-full'>
@@ -108,10 +106,6 @@ export default function Components() {
                 <CancelButton onClick={() => setIsNameAvailable(false)}>취소(폼 내용 삭제)</CancelButton>
             </form>
             <hr/>
-            <h3>모달 팝업</h3>
-            <EnableButton type='button' onClick={() => setToggleModalPopup(!toggleModalPopup)}>
-                모달 팝업 열기</EnableButton>
-            {toggleModalPopup && <ModalPopup setVisible={setToggleModalPopup}>다람쥐 헌 쳇바퀴</ModalPopup>}
         </div>
     )
 }
