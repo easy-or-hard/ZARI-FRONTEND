@@ -21,7 +21,7 @@ export default function MainPage() {
         } else {
             router.replace('/auth/sign-in');
         }
-    }, [user, byeol]);
+    }, [user, byeol, router]);
 
     return (
         <div

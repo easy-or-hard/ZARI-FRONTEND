@@ -2,14 +2,12 @@
 
 import {useCallback, useEffect, useRef} from "react";
 import {useRouter} from 'next/navigation';
-import io from 'socket.io-client';
 import {API} from "@/const";
 
 import {useIsByeol, useIsUser} from "@/services/auth/auth.use";
 
 export default function SignInList() {
     const router = useRouter();
-    const authState = useRef('');
     const {data: user, isLoading: isLoadingUser} = useIsUser();
     const {data: byeol, isLoading: isLoadingByeol} = useIsByeol(user ? user.data : false);
     const openWindow = useCallback(async (provider: string) => {
@@ -23,7 +21,7 @@ export default function SignInList() {
             '_blank',
             `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
         );
-    }, [authState]);
+    }, []);
 
     useEffect(() => {
         if (user?.data) {
