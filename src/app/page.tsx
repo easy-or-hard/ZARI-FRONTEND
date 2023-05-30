@@ -2,8 +2,7 @@
 
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
-import {Identity} from "@/components/Identity";
-import Splash from "@/components/splash";
+import Splash from "@/app/component/constellation/splash";
 
 import {useIsByeol, useIsUser} from "@/services/auth/auth.use";
 
