@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import {useContext, useEffect, useMemo} from "react";
-import {BaseModalContext} from "@/app/component/ui/popup/modal.provider";
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import { useContext, useEffect, useMemo } from "react";
+import { BaseModalContext } from "@/app/component/ui/popup/modal.provider";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Dim from "@/app/component/ui/popup/modal/dim";
 
 /**
@@ -13,44 +13,40 @@ import Dim from "@/app/component/ui/popup/modal/dim";
  * @constructor
  */
 export default function BaseModal() {
-    const modalContext = useContext(BaseModalContext);
-    if (!modalContext) {
-        throw new Error('ModalContext is null');
+  const modalContext = useContext(BaseModalContext);
+  if (!modalContext) {
+    throw new Error("ModalContext is null");
+  }
+  const { modalStack } = useMemo(() => modalContext, [modalContext]);
+
+  useEffect(() => {
+    if (modalStack.length > 0) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
     }
-    const {modalStack} = useMemo(() => modalContext, [modalContext]);
+  }, [modalStack]);
 
-    useEffect(() => {
-        if (modalStack.length > 0) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-    }, [modalStack]);
-
-    return (
-        <TransitionGroup>
-            {modalStack.length > 0 && (
-                <CSSTransition
-                    timeout={300}
-                    classNames="dim"
-                >
-                    <Dim/>
-                </CSSTransition>
-            )}
-            {modalStack.map((modalContent, index) => (
-                <CSSTransition
-                    key={index}
-                    timeout={300}
-                    classNames="modal"
-                >
-                    <div className={`absolute top-0 px-10 w-full h-full grid place-items-center`}>
-                        <div
-                            className={`relative modal border-[1px] border-white border-opacity-20 w-full bg-zari_default_black backdrop-blur-lg rounded-2xl p-3`}>
-                            {modalContent}
-                        </div>
-                    </div>
-                </CSSTransition>
-            ))}
-        </TransitionGroup>
-    )
+  return (
+    <TransitionGroup>
+      {modalStack.length > 0 && (
+        <CSSTransition timeout={300} classNames="dim">
+          <Dim />
+        </CSSTransition>
+      )}
+      {modalStack.map((modalContent, index) => (
+        <CSSTransition key={index} timeout={300} classNames="modal">
+          <div
+            className={`absolute top-0 px-10 w-full h-full grid place-items-center`}
+          >
+            <div
+              className={`relative modal border-[1px] border-white border-opacity-20 w-full bg-zari_default_black backdrop-blur-lg rounded-2xl p-3`}
+            >
+              {modalContent}
+            </div>
+          </div>
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  );
 }

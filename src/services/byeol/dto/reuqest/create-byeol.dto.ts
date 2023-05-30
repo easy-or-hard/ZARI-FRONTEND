@@ -1,4 +1,4 @@
 export type ByeolCreateDto = {
-    birthMonth: number
-    birthDay: number
-}
+  birthMonth: number;
+  birthDay: number;
+};

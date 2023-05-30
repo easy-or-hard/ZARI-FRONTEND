@@ -1,13 +1,11 @@
-import React from 'react';
+import React from "react";
 
 type Props = {
-    params: {
-        name: string;
-    }
-}
+  params: {
+    name: string;
+  };
+};
 
-export default function ConstellationPage({ params: { name }} : Props ) {
-    return (<div>
-        별 이름: {name}
-    </div>)
+export default function ConstellationPage({ params: { name } }: Props) {
+  return <div>별 이름: {name}</div>;
 }
