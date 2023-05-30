@@ -9,7 +9,7 @@ export default function ReadBanzzackModal({banzzack}: {banzzack: BanzzackEntity}
                     <span className={'text-zari_txt_primary'}>{banzzack.byeolName}</span> 의 반짝이
                 </div>
                 <div className={'bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4'}>
-                    <div className={' max-h-60 overflow-y-auto'}>
+                    <div className={'h-32 max-h-60'}>
                         {banzzack.content}
                     </div>
                 </div>
