@@ -11,10 +11,11 @@ import {
 
 type BaseModalContextType = {
     modalContent: ReactNode | null;
-    setModalContent: (content: ReactNode | null) => void;
+    closeModal: () => void;
 }
 
 type ModalContextType = {
+    setConfirmModalContent: (content: ReactNode) => void;
     setReadBanzzackModalContent: (banzzack: BanzzackEntity) => void;
     setCreateBanzzackModalContent: (includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto) => void;
 }
@@ -34,18 +35,27 @@ export default function ModalProvider({children}: Props) {
         setModalContent(<CreateBanzzackModal
             includeConstellationByeolBanzzackZariDto={includeConstellationByeolBanzzackZariDto}/>);
     }, []);
+    const setConfirmModalContent = useCallback((content: ReactNode) => {
+        setModalContent(content);
+    }, []);
+    const closeModal = useCallback(() => {
+        setModalContent(null);
+    }, []);
 
     return (
         <ModalContext.Provider value={{
+            setConfirmModalContent,
             setReadBanzzackModalContent,
             setCreateBanzzackModalContent,
         }}>
             {children}
+
+            {/* 코어 개발자용, 모달팝업의 베이스 돔 */}
             <BaseModalContext.Provider value={{
                 modalContent,
-                setModalContent,
+                closeModal,
             }}>
-            <BaseModal/>
+                <BaseModal/>
             </BaseModalContext.Provider>
         </ModalContext.Provider>
     )

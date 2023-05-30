@@ -17,7 +17,7 @@ export default function BaseModal() {
     if (!modalContext) {
         throw new Error('ModalContext is null');
     }
-    const {modalContent, setModalContent} = modalContext;
+    const {modalContent} = modalContext;
     const [prevModalContent, setPrevModalContent] = useState<ReactNode | null>(null);
 
     useEffect(() => {
@@ -32,10 +32,6 @@ export default function BaseModal() {
         }
     }, [modalContent]);
 
-    const close = () => {
-        setModalContent(null);
-    }
-
     return (
         <>
             <CSSTransition
@@ -48,7 +44,6 @@ export default function BaseModal() {
                     <div
                         className={`relative modal border-[1px] border-white border-opacity-20 w-full bg-zari_default_black bg-opacity-60 backdrop-blur-lg rounded-2xl p-3`}
                     >
-                        <button onClick={close} className={'absolute top-3 right-3'}><CloseIcon/></button>
                         {prevModalContent}
                     </div>
                 </div>
