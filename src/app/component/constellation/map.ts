@@ -1,7 +1,6 @@
-import AgrOriginPath from "@/app/component/constellation/constellations/agr-origin.path";
 import {FunctionComponent} from "react";
-import AqrEffectPath from "@/app/component/constellation/effects/agr-effect.path";
 import {BanzzackEntity} from "@/services/banzzack/entities/banzzack.entity";
+import AgrOriginPath from "@/app/component/constellation/constellations/agr-origin.path";
 import CapOriginPath from "@/app/component/constellation/constellations/cap-origin.path";
 import CncOriginPath from "@/app/component/constellation/constellations/cnc-origin.path";
 import GemOriginPath from "@/app/component/constellation/constellations/gem-ogirin.path";
@@ -12,6 +11,7 @@ import PscOriginPath from "@/app/component/constellation/constellations/psc-orig
 import ScoOriginPath from "@/app/component/constellation/constellations/sco-origin-path";
 import SgrOriginPath from "@/app/component/constellation/constellations/sgr-origin-path";
 import TauOriginPath from "@/app/component/constellation/constellations/tau-origin.path";
+import AqrEffectPath from "@/app/component/constellation/effects/agr-effect.path";
 import CapEffectPath from "@/app/component/constellation/effects/cap-effect.path";
 import VirEffectPath from "@/app/component/constellation/effects/vir-effect.path";
 import CncEffectPath from "@/app/component/constellation/effects/cnc-effect.path";
