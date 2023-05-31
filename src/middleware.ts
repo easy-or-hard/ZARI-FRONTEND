@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
     try {
       const { data: isByeol } = await fetcher(key);
       if (!isByeol) {
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/", request.nextUrl.origin));
       }
     } catch (e) {
       return NextResponse.redirect(new URL("/", request.nextUrl.origin));
