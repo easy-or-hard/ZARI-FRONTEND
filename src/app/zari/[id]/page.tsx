@@ -11,6 +11,11 @@ type Props = {
   };
 };
 
+/**
+ * @description 반짝이를 볼 수 있는 페이지
+ * @param {number} id
+ * @constructor
+ */
 export default function ZariPage({ params: { id } }: Props) {
   const {
     data: OkResponseIncludeConstellationByeolBanzzackZari,
@@ -21,15 +26,16 @@ export default function ZariPage({ params: { id } }: Props) {
   if (isLoading) return null;
   else if (error) {
     notFound();
+  } else if (!OkResponseIncludeConstellationByeolBanzzackZari) {
+    notFound();
   }
 
-  // @ts-ignore
   const {
     origin: ConstellationOriginComponent,
     effect: ConstellationEffectComponent,
   } =
     constellationMap[
-      OkResponseIncludeConstellationByeolBanzzackZari?.data.constellationIAU
+      OkResponseIncludeConstellationByeolBanzzackZari.data.constellationIAU
     ];
 
   const banzzackHandler: MouseEventHandler<SVGSVGElement> = (event) => {
@@ -56,7 +62,7 @@ export default function ZariPage({ params: { id } }: Props) {
             자리
           </div>
         </div>
-        {/*{OkResponseIncludeConstellationByeolBanzzackZari?.data.banzzacks.map(banzzack => <pre*/}
+        {/* {OkResponseIncludeConstellationByeolBanzzackZari?.data.banzzacks.map(banzzack => <pre*/}
         {/*    key={banzzack.id}>{banzzack.content}</pre>)}*/}
         <svg
           onClick={banzzackHandler}
