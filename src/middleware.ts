@@ -17,7 +17,12 @@ export const config = {
  */
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/auth/sign-in")) {
-    const { key, fetcher } = authFetcher.isUser();
+    const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
+    if (!jwt) {
+      return NextResponse.next();
+    }
+
+    const { key, fetcher } = authFetcher.isUser(jwt);
     const { data: isUser } = await fetcher(key);
     if (isUser) {
       return NextResponse.redirect(new URL("/", request.nextUrl.origin));
