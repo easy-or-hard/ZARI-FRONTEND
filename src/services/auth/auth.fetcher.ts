@@ -8,9 +8,9 @@ import { OkResponseDto } from "@/services/common/dto/ok.response.dto";
  * @throws {ZariError} response.ok 가 false 일 경우 에러를 던집니다.
  * @return {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
-const isUser = () => {
+const isUser = (accessToken?: RequestCookie) => {
   const url = `${API.BASE_URL}/auth/is-user`;
-  const init = fetcher.createRequestOptions("GET");
+  const init = fetcher.createRequestOptions("GET", accessToken);
 
   return fetcher.create<OkResponseDto<boolean>>({ key: url, init });
 };
