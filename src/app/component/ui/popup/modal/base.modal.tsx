@@ -7,12 +7,11 @@ import Dim from "@/app/component/ui/popup/modal/dim";
 
 /**
  * 모달의 기본 레이아웃
- * TODO, CSSTransition 이 findDOMNode 를 사용하고 있는데, 이는 deprecated 되었다. 추후에 수정 필요.
- * TODO, 매우긴 텍스트가 공백없이 들어가면 레이아웃이 길어지며 화면밖을 벗어남
- * TODO, 모달이 여러개 뜨면 뒤에 있는 모달을 연하게 바꿔야함
  * @constructor
  */
 export default function BaseModal() {
+  // TODO, 매우긴 텍스트가 공백없이 들어가면 레이아웃이 길어지며 화면밖을 벗어남
+  // TODO, 모달이 여러개 뜨면 뒤에 있는 모달을 연하게 바꿔야함
   const modalContext = useContext(BaseModalContext);
   if (!modalContext) {
     throw new Error("ModalContext is null");
