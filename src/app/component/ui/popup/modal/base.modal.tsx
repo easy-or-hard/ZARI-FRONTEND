@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useMemo } from "react";
-import { BaseModalContext } from "@/app/component/ui/popup/modal.provider";
+import { BaseModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Dim from "@/app/component/ui/popup/modal/dim";
 

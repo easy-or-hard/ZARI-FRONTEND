@@ -1,6 +1,5 @@
 "use client";
 
-import { EnableButton } from "@/app/component/button/enableButton";
 import {
   ChangeEvent,
   FormEvent,
@@ -13,16 +12,24 @@ import { IncludeConstellationByeolBanzzackZariDto } from "@/services/zari/dto/in
 import {
   BaseModalContext,
   ModalContext,
-} from "@/app/component/ui/popup/modal.provider";
-import CloseIcon from "@/app/component/ui/icon/size24/close";
+} from "@/app/component/ui/popup/modal/modal.provider";
+import CloseButton from "@/app/component/ui/button/icon/close.button";
+import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
 
 const MAX_LENGTH = 150;
 
+export type CreateBanzzackModalProps = {
+  includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto;
+};
+
+/**
+ * @description 반짝이 생성 모달
+ * @param { IncludeConstellationByeolBanzzackZariDto } includeConstellationByeolBanzzackZariDto
+ * @constructor
+ */
 export default function CreateBanzzackModal({
   includeConstellationByeolBanzzackZariDto,
-}: {
-  includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto;
-}) {
+}: CreateBanzzackModalProps) {
   // BaseModalContext 임포트
   const baseModalContext = useContext(BaseModalContext);
   if (!baseModalContext) {
@@ -40,6 +47,7 @@ export default function CreateBanzzackModal({
   // 로직 시작
   const [isCreated, setIsCreated] = useState(false); // 반짝이 생성 여부
   const [textLength, setTextLength] = useState(0); // 글자 수를 저장하는 상태
+  const [isClicked, setIsClicked] = useState(false); // 반짝이 생성 버튼 클릭 여부
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -64,29 +72,36 @@ export default function CreateBanzzackModal({
     (event: FormEvent<HTMLFormElement>) => {
       // TODO, nextjs13 의 실험적 기능 action 이 turbo 와 같이 사용할 수 있게 되면 action 으로 바꿔서 테스트하기
       event.preventDefault();
-      const handleConfirm = () => {
+
+      setIsClicked(true);
+
+      const handleAccept = () => {
         setIsCreated(true);
       };
-      console.log(11);
-      showConfirmModal(confirmContent, handleConfirm);
+
+      const handleCancel = () => {
+        setIsClicked(false);
+      };
+
+      showConfirmModal({
+        children: confirmContent,
+        onAccept: handleAccept,
+        onCancel: handleCancel,
+      });
     },
     [confirmContent, showConfirmModal]
   );
 
   return (
     <form onSubmit={handleSubmit} className={"flex flex-col gap-2"}>
-      <div className={"font-bold px-1"}>
-        <span className={"text-zari_txt_primary"}>
-          {includeConstellationByeolBanzzackZariDto.byeol.name}
-        </span>{" "}
-        에게 남기는 반짝이
-        <button
-          type={"button"}
-          onClick={closeModal}
-          className={"absolute top-3 right-3"}
-        >
-          <CloseIcon />
-        </button>
+      <div className="flex justify-between items-center">
+        <div className={"font-bold indent-1"}>
+          <span className={"text-zari_txt_primary"}>
+            {includeConstellationByeolBanzzackZariDto.byeol.name}
+          </span>{" "}
+          에게 남기는 반짝이
+        </div>
+        <CloseButton onClick={closeModal} />
       </div>
       <div
         className={"bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4"}
@@ -101,13 +116,14 @@ export default function CreateBanzzackModal({
       <div className={"text-right"}>
         {textLength} / {MAX_LENGTH}
       </div>
-      <EnableButton
-        className={"font-bold"}
+      <ConfirmButton
+        colorType={"accept"}
         type={"submit"}
-        enabled={textLength > 0 && !isCreated}
+        disabled={isClicked}
+        isToggle={true}
       >
-        반짝이 붙이기
-      </EnableButton>
+        <span className="font-bold">반짝이 붙이기</span>
+      </ConfirmButton>
     </form>
   );
 }

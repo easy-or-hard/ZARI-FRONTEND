@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import ByeolNameInput from "@/app/component/byeol/byeol-name.input";
 import BirthdaySelect from "@/app/component/byeol/birthday.select";
 import React, { useCallback, useState } from "react";
-import { EnableButton } from "@/app/component/button/enableButton";
+import { EnableButton } from "@/app/component/ui/button/enableButton";
 import { ZariError } from "@/services/common/fetcher";
 
 /**

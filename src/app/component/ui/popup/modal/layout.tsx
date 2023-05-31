@@ -1,5 +1,5 @@
 import React from "react";
-import ModalProvider from "@/app/component/ui/popup/modal.provider";
+import ModalProvider from "@/app/component/ui/popup/modal/modal.provider";
 
 export default function PopupLayout({
   children,

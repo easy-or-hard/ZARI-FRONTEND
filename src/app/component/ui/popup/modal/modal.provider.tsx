@@ -2,14 +2,17 @@
 
 import { createContext, ReactNode, useCallback, useState } from "react";
 import BaseModal from "@/app/component/ui/popup/modal/base.modal";
-import ReadBanzzackModal from "@/app/component/ui/popup/modal/read-banzzack.modal";
-import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
-import CreateBanzzackModal from "@/app/component/ui/popup/modal/create-banzzack.modal";
-import { IncludeConstellationByeolBanzzackZariDto } from "@/services/zari/dto/include-constellation-byeol-banzzack-zari.dto";
-import ConfirmModal from "@/app/component/ui/popup/modal/confirm.modal";
+import ReadBanzzackModal, {
+  ReadBanzzackModalProps,
+} from "@/app/component/ui/popup/modal/read-banzzack.modal";
+import CreateBanzzackModal, {
+  CreateBanzzackModalProps,
+} from "@/app/component/ui/popup/modal/create-banzzack.modal";
+import ConfirmModal, {
+  ConfirmModalProps,
+} from "@/app/component/ui/popup/modal/confirm.modal";
 
 type BaseModalContextType = {
-  modalContent: ReactNode | null;
   closeModal: () => void;
   allCloseModal: () => void;
   modalStack: ReactNode[];
@@ -17,11 +20,9 @@ type BaseModalContextType = {
 };
 
 type ModalContextType = {
-  showConfirmModal: (children: ReactNode, onConfirm: () => void) => void;
-  showReadBanzzackModal: (banzzack: BanzzackEntity) => void;
-  showCreateBanzzackModal: (
-    includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto
-  ) => void;
+  showConfirmModal: (props: ConfirmModalProps) => void;
+  showReadBanzzackModal: (props: ReadBanzzackModalProps) => void;
+  showCreateBanzzackModal: (props: CreateBanzzackModalProps) => void;
 };
 
 export const BaseModalContext = createContext<BaseModalContextType | null>(
@@ -32,6 +33,12 @@ export const ModalContext = createContext<ModalContextType | null>(null);
 type Props = {
   children: ReactNode;
 };
+
+/**
+ * @description 모달 프로바이더
+ * @param {ReactNode} children
+ * @constructor
+ */
 export default function ModalProvider({ children }: Props) {
   // 여러 팝업이 나올 수 있게, 배열 관리
   const [modalStack, setModalStack] = useState<ReactNode[]>([]);
@@ -45,32 +52,23 @@ export default function ModalProvider({ children }: Props) {
   }, []);
 
   // 팝업 호출 메소드 초기화
-  const [modalContent, setModalContent] = useState<ReactNode | null>(null);
   const showReadBanzzackModal = useCallback(
-    (banzzack: BanzzackEntity) => {
-      pushModal(<ReadBanzzackModal banzzack={banzzack} />);
+    (props: ReadBanzzackModalProps) => {
+      pushModal(<ReadBanzzackModal {...props} />);
     },
     [pushModal]
   );
 
   const showCreateBanzzackModal = useCallback(
-    (
-      includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto
-    ) => {
-      pushModal(
-        <CreateBanzzackModal
-          includeConstellationByeolBanzzackZariDto={
-            includeConstellationByeolBanzzackZariDto
-          }
-        />
-      );
+    (props: CreateBanzzackModalProps) => {
+      pushModal(<CreateBanzzackModal {...props} />);
     },
     [pushModal]
   );
 
   const showConfirmModal = useCallback(
-    (children: ReactNode, onConfirm: () => void) => {
-      pushModal(<ConfirmModal onConfirm={onConfirm}>{children}</ConfirmModal>);
+    (props: ConfirmModalProps) => {
+      pushModal(<ConfirmModal {...props} />);
     },
     [pushModal]
   );
@@ -96,7 +94,6 @@ export default function ModalProvider({ children }: Props) {
       {/* 코어 개발자용, 모달팝업의 베이스 돔 */}
       <BaseModalContext.Provider
         value={{
-          modalContent,
           closeModal,
           allCloseModal,
           modalStack,

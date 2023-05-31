@@ -1,14 +1,21 @@
-import { EnableButton } from "@/app/component/button/enableButton";
+import { EnableButton } from "@/app/component/ui/button/enableButton";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
 import { useContext, useMemo } from "react";
-import { BaseModalContext } from "@/app/component/ui/popup/modal.provider";
-import CloseIcon from "@/app/component/ui/icon/size24/close";
+import { BaseModalContext } from "@/app/component/ui/popup/modal/modal.provider";
+import CloseButton from "@/app/component/ui/button/icon/close.button";
 
+export type ReadBanzzackModalProps = {
+  banzzack: BanzzackEntity;
+};
+
+/**
+ * @description 반짝이 읽기 모달
+ * @param {BanzzackEntity} banzzack
+ * @constructor
+ */
 export default function ReadBanzzackModal({
   banzzack,
-}: {
-  banzzack: BanzzackEntity;
-}) {
+}: ReadBanzzackModalProps) {
   const baseModalContext = useContext(BaseModalContext);
   if (!baseModalContext) {
     throw new Error("BaseModalContext is null");
@@ -17,12 +24,16 @@ export default function ReadBanzzackModal({
 
   return (
     <div className={"flex flex-col gap-2"}>
-      <div className={"font-bold px-1"}>
-        <span className={"text-zari_txt_primary"}>{banzzack.byeolName}</span> 의
-        반짝이
-        <button onClick={closeModal} className={"absolute top-3 right-3"}>
-          <CloseIcon />
-        </button>
+      <div className="flex justify-between items-center">
+        <div
+          className={
+            "font-bold indent-1 overflow-hidden whitespace-nowrap overflow-ellipsis"
+          }
+        >
+          <span className={"text-zari_txt_primary"}>{banzzack.byeolName}</span>{" "}
+          의 반짝이
+        </div>
+        <CloseButton onClick={closeModal} />
       </div>
       <div
         className={"bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4"}

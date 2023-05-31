@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalContext } from "@/app/component/ui/popup/modal.provider";
+import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 import { useContext, useReducer } from "react";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
 import { ByeolEntity } from "@/services/byeol/entities/byeol.entity";
@@ -11,7 +11,11 @@ const words =
     " "
   );
 
-export default function PopupPage() {
+/**
+ * 모달 컴포넌트 확인 페이지
+ * @constructor
+ */
+export default function ModalTestPage() {
   const modalContext = useContext(ModalContext);
   if (!modalContext) {
     throw new Error("ModalContext is null");
@@ -59,7 +63,7 @@ export default function PopupPage() {
         type={"button"}
         onClick={() => {
           dispatch();
-          showReadBanzzackModal(sampleBanzzack as BanzzackEntity);
+          showReadBanzzackModal({ banzzack: sampleBanzzack as BanzzackEntity });
         }}
       >
         readBanzzackModal
@@ -69,9 +73,10 @@ export default function PopupPage() {
       <button
         type={"button"}
         onClick={() =>
-          showCreateBanzzackModal(
-            sampleByeol as IncludeConstellationByeolBanzzackZariDto
-          )
+          showCreateBanzzackModal({
+            includeConstellationByeolBanzzackZariDto:
+              sampleByeol as IncludeConstellationByeolBanzzackZariDto,
+          })
         }
       >
         writeBanzzackModal
@@ -80,7 +85,13 @@ export default function PopupPage() {
       <hr />
       <button
         type={"button"}
-        onClick={() => showConfirmModal(confirmContent, () => alert("test"))}
+        onClick={() =>
+          showConfirmModal({
+            children: confirmContent,
+            onAccept: () => alert("accept"),
+            onCancel: () => alert("cancel"),
+          })
+        }
       >
         confirmModal
       </button>
