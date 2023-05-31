@@ -42,13 +42,13 @@ export default function ConfirmModal({
     setIsClicked(true);
     onAccept();
     allCloseModal();
-  }, [closeModal, onAccept]);
+  }, [allCloseModal, onAccept]);
 
   const handleCancel = useCallback(() => {
     setIsClicked(true);
     onCancel && onCancel();
     closeModal();
-  }, [closeModal]);
+  }, [closeModal, onCancel]);
 
   return (
     <div>

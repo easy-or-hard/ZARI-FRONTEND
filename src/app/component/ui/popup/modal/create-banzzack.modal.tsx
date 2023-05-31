@@ -35,17 +35,16 @@ export default function CreateBanzzackModal({
   if (!baseModalContext) {
     throw new Error("BaseModalContext is null");
   }
-  const { closeModal } = useMemo(() => baseModalContext, []);
+  const { closeModal } = useMemo(() => baseModalContext, [baseModalContext]);
 
   // ModalContext 임포트
   const modalContext = useContext(ModalContext);
   if (!modalContext) {
     throw new Error("ModalContext is null");
   }
-  const { showConfirmModal } = useMemo(() => modalContext, []);
+  const { showConfirmModal } = useMemo(() => modalContext, [modalContext]);
 
   // 로직 시작
-  const [isCreated, setIsCreated] = useState(false); // 반짝이 생성 여부
   const [textLength, setTextLength] = useState(0); // 글자 수를 저장하는 상태
   const [isClicked, setIsClicked] = useState(false); // 반짝이 생성 버튼 클릭 여부
 
@@ -76,7 +75,7 @@ export default function CreateBanzzackModal({
       setIsClicked(true);
 
       const handleAccept = () => {
-        setIsCreated(true);
+        // TODO, /banzzack 에 post 요청으로 반짝이 생성
       };
 
       const handleCancel = () => {

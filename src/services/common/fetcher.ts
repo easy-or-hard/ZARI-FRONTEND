@@ -18,8 +18,9 @@ export class ZariError extends Error {
 
 /**
  *
- * @param method
- * @param accessToken
+ * @param {"GET" | "POST" | "PUT" | "DELETE" } method
+ * @param {RequestInit} accessToken
+ * @return {RequestInit} http method, credentials 등을 반환합니다.
  */
 const createRequestOptions = (
   method: "GET" | "POST" | "PUT" | "DELETE",
@@ -42,8 +43,9 @@ const createRequestOptions = (
 
 /**
  * 페처를 만드는 팩토리 메소드 입니다.
- * @param key http url 을 입력하세요.
- * @param init http method, credentials 등을 입력하세요.
+ * @param {string} key http url 을 입력하세요.
+ * @param {RequestInit} init http method, credentials 등을 입력하세요.
+ * @return {Object} key, fetcher 가 담긴 객체를 반환합니다.
  * @throws ZariError
  */
 const create = <T>({ key, init }: { key: string; init: RequestInit }) => {

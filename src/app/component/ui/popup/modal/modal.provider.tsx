@@ -73,9 +73,9 @@ export default function ModalProvider({ children }: Props) {
     [pushModal]
   );
 
-  const closeModal = useCallback((depth = 1) => {
+  const closeModal = useCallback(() => {
     popModal();
-  }, []);
+  }, [popModal]);
 
   const allCloseModal = useCallback((depth = 1) => {
     setModalStack([]);
