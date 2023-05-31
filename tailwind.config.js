@@ -24,10 +24,10 @@ module.exports = {
         zari_txt_warning: "#FAB402",
         zari_txt_success: "#00E577",
 
-        // button colors 다 위에 있는건 비활성화
+        // button colors 위에 있는건 비활성화
         zari_btn_disabled: "#5C5C5C",
-        // zari_primary: '#8F39D6',
-        // zari_danger: '#FF416E',
+        zari_btn_primary: "#8F39D6",
+        zari_btn_danger: "#FF416E",
       },
     },
   },
