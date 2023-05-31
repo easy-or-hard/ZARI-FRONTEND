@@ -1,5 +1,3 @@
-import CncOriginPath from "@/app/component/constellation/constellations/cnc-origin.path";
-
 export default function LibOriginPath() {
   return (
     <>
