@@ -7,7 +7,7 @@ import { JWT } from "@/const";
  * 매칭할 경로를 설정합니다.
  */
 export const config = {
-  matcher: ["/byeol/create", "/byeol/me"],
+  matcher: ["/auth/sign-in", "/byeol/create", "/byeol/me"],
 };
 
 /**
@@ -16,7 +16,13 @@ export const config = {
  * @param {NextRequest} request
  */
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/byeol/create")) {
+  if (request.nextUrl.pathname.startsWith("/auth/sign-in")) {
+    const { key, fetcher } = authFetcher.isUser();
+    const { data: isUser } = await fetcher(key);
+    if (isUser) {
+      return NextResponse.redirect(new URL("/", request.nextUrl.origin));
+    }
+  } else if (request.nextUrl.pathname.startsWith("/byeol/create")) {
     const { key, fetcher } = authFetcher.isUser();
     const { data: isUser } = await fetcher(key);
     if (!isUser) {
