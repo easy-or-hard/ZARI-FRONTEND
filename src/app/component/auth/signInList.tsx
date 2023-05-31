@@ -1,17 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { API } from "@/const";
 
 import { useIsByeol, useIsUser } from "@/services/auth/auth.use";
 
+/**
+ * @description OAuth 가능 리스트 컴포넌트
+ * @constructor
+ */
 export default function SignInList() {
   const router = useRouter();
-  const { data: user, isLoading: isLoadingUser } = useIsUser();
-  const { data: byeol, isLoading: isLoadingByeol } = useIsByeol(
-    user ? user.data : false
-  );
+  const { data: user } = useIsUser();
+  const { data: byeol } = useIsByeol(user ? user.data : false);
   const openWindow = useCallback(async (provider: string) => {
     const width = 500;
     const height = 600;
@@ -28,7 +30,6 @@ export default function SignInList() {
   useEffect(() => {
     if (user?.data) {
       if (byeol?.data) {
-        console.log("byeol", byeol.data);
         router.replace("/byeol/me");
       } else if (byeol?.data) {
         router.replace("/byeol/create");
@@ -53,7 +54,7 @@ export default function SignInList() {
       <li className="border border-solid rounded-full p-4 text-center">
         kakao(준비중)
       </li>
-      {/*<li className="border border-solid rounded-full m-5 p-5 text-center">apple(준비중)</li>*/}
+      {/* <li className="border border-solid rounded-full m-5 p-5 text-center">apple(준비중)</li>*/}
     </ul>
   );
 }

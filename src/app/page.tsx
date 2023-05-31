@@ -6,12 +6,14 @@ import Splash from "@/app/component/constellation/splash";
 
 import { useIsByeol, useIsUser } from "@/services/auth/auth.use";
 
+/**
+ * @description 메인 페이지
+ * @constructor
+ */
 export default function MainPage() {
   const router = useRouter();
-  const { data: user, isLoading: isLoadingUser } = useIsUser();
-  const { data: byeol, isLoading: isLoadingByeol } = useIsByeol(
-    user ? user.data : false
-  );
+  const { data: user } = useIsUser();
+  const { data: byeol } = useIsByeol(user ? user.data : false);
 
   useEffect(() => {
     if (user?.data) {
