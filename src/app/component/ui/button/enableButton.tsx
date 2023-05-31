@@ -1,13 +1,22 @@
-import React from "react";
+import { ReactNode } from "react";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-  enabled?: boolean;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
+  enabled?: boolean;
 };
 
+/**
+ * 활성 비활성 가능한 버튼 컴포넌트
+ * @param { ReactNode }children
+ * @param { string } className
+ * @param { Function }onClick
+ * @param { "button" | "submit" | "reset" } type
+ * @param { boolean } enabled
+ * @constructor
+ */
 export function EnableButton({
   children,
   className,
