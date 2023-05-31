@@ -10,6 +10,7 @@ import { BaseResponseDto } from "@/services/common/dto/base.response.dto";
  * 유저의 별을 생성합니다.
  * @param {ByeolCreateDto | FormData} createData 타입은 다르지만 내부의 구조는 같아야합니다.
  * @param {RequestCookie} accessToken 서버에서 호출할 경우에는 쿠키가 필요합니다.
+ * @return {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
 const createByeol = (
   createData: ByeolCreateDto | FormData,
@@ -34,31 +35,32 @@ const createByeol = (
 
 /**
  * 별 이름을 검증합니다.
- * @param name
+ * @param {string} name
+ * @return {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
 const isNameAvailable = (name: string) => {
   const url = `${API.BASE_URL}/byeol/is-name-available/${name}`;
-  let init = fetcher.createRequestOptions("GET");
+  const init = fetcher.createRequestOptions("GET");
 
   return fetcher.create<BaseResponseDto>({ key: url, init });
 };
 
 const findById = (id: number) => {
   const url = `${API.BASE_URL}/byeol/${id}`;
-  let init = fetcher.createRequestOptions("GET");
+  const init = fetcher.createRequestOptions("GET");
 
   return fetcher.create<OkResponseDto<IncludeZariByeolDto>>({ key: url, init });
 };
 
 /**
  * 나의 별 정보를 가져옵니다.
- * @param accessToken
+ * @param {RequestCookie} accessToken
  * @throws {ZariError} response.ok 가 false 일 경우 에러를 던집니다.
- * @returns {Object} key, fetcher 가 담긴 객체를 반환합니다.
+ * @return {Object} key, fetcher 가 담긴 객체를 반환합니다.
  */
 const findMe = (accessToken?: RequestCookie) => {
   const url = `${API.BASE_URL}/byeol/me`;
-  let init = fetcher.createRequestOptions("GET", accessToken);
+  const init = fetcher.createRequestOptions("GET", accessToken);
 
   return fetcher.create<OkResponseDto<IncludeZariByeolDto>>({ key: url, init });
 };
