@@ -27,13 +27,12 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (isLoading) return;
-    else if (byeol?.data) {
+    if (byeol?.data) {
       router.replace("/byeol/me");
-    } else if (!byeol?.data) {
+    } else if (byeol?.data === false) {
       router.replace("/byeol/create");
     }
-  }, [byeol, router]);
+  }, [byeol, isLoading, router]);
 
   return (
     <ul className="grid gap-4">
