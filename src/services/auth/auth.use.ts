@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR, { SWRConfiguration } from "swr";
 import authFetcher from "@/services/auth/auth.fetcher";
 
 /**
@@ -20,10 +20,11 @@ export const useIsUser = () => {
  */
 export const useIsByeol = (isUser = true) => {
   const { key, fetcher } = authFetcher.isByeol();
-  const swrOptions = {
+  const swrOptions: SWRConfiguration = {
     revalidateOnMount: true,
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
+    refreshInterval: 1000, //  1 sec
   };
   return useSWR(isUser ? key : "", fetcher, swrOptions);
 };
