@@ -26,9 +26,7 @@ import StarIcon from "@/app/component/ui/icon/size16/star";
 
 import React, { useContext, useState } from "react";
 import { ToastContext } from "@/app/component/ui/toast-message/toast-provider";
-import { CancelButton } from "@/app/component/button/cancel.button";
-import { DangerButton } from "@/app/component/button/danger.button";
-import { EnableButton } from "@/app/component/button/enableButton";
+import { EnableButton } from "@/app/component/ui/button/enableButton";
 import SpeedDial from "@/app/component/ui/menu/speed-dial";
 
 export default function Components() {
@@ -109,10 +107,6 @@ export default function Components() {
         <EnableButton type="button" onClick={() => alert("일반 버튼 입니다")}>
           클릭시 비활성화
         </EnableButton>
-        <DangerButton>위험한 버튼(삭제 기능)</DangerButton>
-        <CancelButton onClick={() => setIsNameAvailable(false)}>
-          취소(폼 내용 삭제)
-        </CancelButton>
       </form>
       <hr />
     </div>
