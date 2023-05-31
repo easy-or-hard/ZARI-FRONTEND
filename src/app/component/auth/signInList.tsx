@@ -4,7 +4,7 @@ import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { API } from "@/const";
 
-import { useIsByeol, useIsUser } from "@/services/auth/auth.use";
+import { useIsByeol } from "@/services/auth/auth.use";
 
 /**
  * @description OAuth 가능 리스트 컴포넌트
@@ -12,9 +12,8 @@ import { useIsByeol, useIsUser } from "@/services/auth/auth.use";
  */
 export default function SignInList() {
   const router = useRouter();
-  const { data: user } = useIsUser();
-  const { data: byeol } = useIsByeol(user ? user.data : false);
-  const openWindow = useCallback(async (provider: string) => {
+  const { data: byeol } = useIsByeol();
+  const openWindow = useCallback((provider: string) => {
     const width = 500;
     const height = 600;
     const left = window.screenLeft + window.innerWidth / 2 - width / 2;
@@ -28,14 +27,12 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (user?.data) {
-      if (byeol?.data) {
-        router.replace("/byeol/me");
-      } else if (byeol?.data) {
-        router.replace("/byeol/create");
-      }
+    if (byeol?.data) {
+      router.replace("/byeol/me");
+    } else if (byeol?.data) {
+      router.replace("/byeol/create");
     }
-  }, [byeol, router, user]);
+  }, [byeol, router]);
 
   return (
     <ul className="grid gap-4">
