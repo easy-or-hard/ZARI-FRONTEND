@@ -25,7 +25,17 @@ export async function middleware(request: NextRequest) {
     const { key, fetcher } = authFetcher.isUser(jwt);
     const { data: isUser } = await fetcher(key);
     if (isUser) {
-      return NextResponse.redirect(new URL("/", request.nextUrl.origin));
+      const { key, fetcher } = authFetcher.isByeol(jwt);
+      const { data: isByeol } = await fetcher(key);
+      if (!isByeol) {
+        return NextResponse.redirect(
+          new URL("/byeol/create", request.nextUrl.origin)
+        );
+      } else {
+        return NextResponse.redirect(
+          new URL("/byeol/me", request.nextUrl.origin)
+        );
+      }
     }
   } else if (request.nextUrl.pathname.startsWith("/byeol/create")) {
     const { key, fetcher } = authFetcher.isUser();
