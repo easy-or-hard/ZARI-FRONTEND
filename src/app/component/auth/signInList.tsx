@@ -12,7 +12,7 @@ import { useIsByeol } from "@/services/auth/auth.use";
  */
 export default function SignInList() {
   const router = useRouter();
-  const { data: byeol } = useIsByeol();
+  const { data: byeol, isLoading } = useIsByeol();
   const openWindow = useCallback((provider: string) => {
     const width = 500;
     const height = 600;
@@ -27,9 +27,10 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (byeol?.data) {
+    if (isLoading) return;
+    else if (byeol?.data) {
       router.replace("/byeol/me");
-    } else if (byeol?.data) {
+    } else if (!byeol?.data) {
       router.replace("/byeol/create");
     }
   }, [byeol, router]);

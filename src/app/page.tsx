@@ -4,28 +4,16 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Splash from "@/app/component/constellation/splash";
 
-import { useIsByeol, useIsUser } from "@/services/auth/auth.use";
-
 /**
  * @description 메인 페이지
  * @constructor
  */
 export default function MainPage() {
   const router = useRouter();
-  const { data: user } = useIsUser();
-  const { data: byeol } = useIsByeol(user ? user.data : false);
 
   useEffect(() => {
-    if (user?.data) {
-      if (byeol?.data) {
-        router.replace("/byeol/me");
-      } else if (!byeol?.data) {
-        router.replace("/byeol/create");
-      }
-    } else {
-      router.replace("/auth/sign-in");
-    }
-  }, [user, byeol, router]);
+    router.replace("/auth/sign-in");
+  }, []);
 
   return (
     <div
