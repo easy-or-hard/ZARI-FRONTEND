@@ -1,8 +1,8 @@
-import { EnableButton } from "@/app/component/ui/button/enableButton";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
 import { useContext, useMemo } from "react";
 import { BaseModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 import CloseButton from "@/app/component/ui/button/icon/close.button";
+import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
 
 export type ReadBanzzackModalProps = {
   banzzack: BanzzackEntity;
@@ -40,12 +40,12 @@ export default function ReadBanzzackModal({
       >
         <div className={"h-32 max-h-60"}>{banzzack.content}</div>
       </div>
-      <EnableButton
-        className={"font-bold"}
+      <ConfirmButton
+        colorType={"accept"}
         onClick={() => alert("아직 이벤트를 안 넣었음")}
       >
-        나도 반짝이 붙이기
-      </EnableButton>
+        <span className={"text-bold"}>나도 반짝이 붙이기</span>
+      </ConfirmButton>
     </div>
   );
 }

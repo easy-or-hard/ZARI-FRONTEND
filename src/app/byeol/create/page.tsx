@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import ByeolNameInput from "@/app/component/byeol/byeol-name.input";
 import BirthdaySelect from "@/app/component/byeol/birthday.select";
 import React, { useCallback, useState } from "react";
-import { EnableButton } from "@/app/component/ui/button/enableButton";
 import { ZariError } from "@/services/common/fetcher";
+import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
 
 /**
  * 별 생성 페이지
@@ -53,12 +53,13 @@ export default function CreatePage() {
         <ByeolNameInput setIsNameAvailable={setIsNameAvailable} />
         <BirthdaySelect setIsSelectedBirthday={setIsSelectedBirthday} />
       </div>
-      <EnableButton
-        enabled={isNameAvailable && isSelectedBirthday}
-        type="submit"
+      <ConfirmButton
+        type={"submit"}
+        colorType={"accept"}
+        disabled={isNameAvailable && isSelectedBirthday}
       >
         자리 만들기!
-      </EnableButton>
+      </ConfirmButton>
     </form>
   );
 }
