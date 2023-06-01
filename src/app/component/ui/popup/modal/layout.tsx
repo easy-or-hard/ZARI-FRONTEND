@@ -6,9 +6,5 @@ export default function PopupLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <ModalProvider>{children}</ModalProvider>
-    </>
-  );
+  return <ModalProvider>{children}</ModalProvider>;
 }
