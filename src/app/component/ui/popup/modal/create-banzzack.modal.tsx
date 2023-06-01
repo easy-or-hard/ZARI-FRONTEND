@@ -8,27 +8,31 @@ import {
   useMemo,
   useState,
 } from "react";
-import { IncludeConstellationByeolBanzzackZariDto } from "@/services/zari/dto/include-constellation-byeol-banzzack-zari.dto";
 import {
   BaseModalContext,
   ModalContext,
 } from "@/app/component/ui/popup/modal/modal.provider";
 import CloseButton from "@/app/component/ui/button/icon/close.button";
 import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
+import banzzackFetcher from "@/services/banzzack/banzzack.fetcher";
 
 const MAX_LENGTH = 150;
 
 export type CreateBanzzackModalProps = {
-  includeConstellationByeolBanzzackZariDto: IncludeConstellationByeolBanzzackZariDto;
+  byeolName: string;
+  zariId: number;
+  starNumber: number;
 };
 
 /**
  * @description 반짝이 생성 모달
- * @param { IncludeConstellationByeolBanzzackZariDto } includeConstellationByeolBanzzackZariDto
+ * @param { CreateBanzzackModalProps } createBanzzackModal
  * @constructor
  */
 export default function CreateBanzzackModal({
-  includeConstellationByeolBanzzackZariDto,
+  byeolName,
+  zariId,
+  starNumber,
 }: CreateBanzzackModalProps) {
   // BaseModalContext 임포트
   const baseModalContext = useContext(BaseModalContext);
@@ -69,13 +73,23 @@ export default function CreateBanzzackModal({
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
-      // TODO, nextjs13 의 실험적 기능 action 이 turbo 와 같이 사용할 수 있게 되면 action 으로 바꿔서 테스트하기
+      // TODO, nextjs 13 의 실험적 기능 action 이 turbo 와 같이 사용할 수 있게 되면 action 으로 바꿔서 테스트하기
       event.preventDefault();
 
       setIsClicked(true);
 
+      const formData = new FormData(event.currentTarget);
+      const content = formData.get("content") as string;
+
       const handleAccept = () => {
-        // TODO, /banzzack 에 post 요청으로 반짝이 생성
+        const createBanzzack = {
+          zariId,
+          starNumber,
+          content,
+        };
+        console.log(createBanzzack);
+        const { key, fetcher } = banzzackFetcher.createBanzzack(createBanzzack);
+        fetcher(key);
       };
 
       const handleCancel = () => {
@@ -95,10 +109,8 @@ export default function CreateBanzzackModal({
     <form onSubmit={handleSubmit} className={"flex flex-col gap-2"}>
       <div className="flex justify-between items-center">
         <div className={"font-bold indent-1"}>
-          <span className={"text-zari_txt_primary"}>
-            {includeConstellationByeolBanzzackZariDto.byeol.name}
-          </span>{" "}
-          에게 남기는 반짝이
+          <span className={"text-zari_txt_primary"}>{byeolName}</span> 에게
+          남기는 반짝이
         </div>
         <CloseButton onClick={closeModal} />
       </div>
@@ -106,6 +118,7 @@ export default function CreateBanzzackModal({
         className={"bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4"}
       >
         <textarea
+          name={"content"}
           className={"w-full bg-transparent h-32 max-h-60 outline-none"}
           placeholder={"여기에 이야기를 적어보세요"}
           maxLength={MAX_LENGTH}
