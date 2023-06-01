@@ -1,5 +1,4 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import authFetcher from "@/services/auth/auth.fetcher";
 import { JWT } from "@/const";
 
@@ -11,50 +10,44 @@ export const config = {
 };
 
 /**
- * 화면 진입시 인증이 필요한 페이지에 대해서 인증을 진행합니다.
- * 컴포넌트가 인증이 필요하다면 인증 기능을 컴포넌트에 명시하십시오.
- * @param {NextRequest} request
+ * @function middleware
+ * @description 화면 진입시 인증이 필요한 페이지에 대해 인증을 진행합니다.
+ * 컴포넌트가 인증이 필요하다면 인증 기능을 컴포넌트에 명시해야 합니다.
+ * @param {NextRequest} request - next.js의 요청 객체
+ * @return {Promise} - 인증 결과에 따라 다른 응답을 반환합니다.
  */
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/auth/sign-in")) {
-    const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
-    if (!jwt) {
-      return NextResponse.next();
-    }
+  const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
+  const { key: isUserKey, fetcher: isUserFetcher } = authFetcher.isUser(jwt);
+  const { key: isByeolKey, fetcher: isByeolFetcher } = authFetcher.isByeol(jwt);
 
-    const { key, fetcher } = authFetcher.isUser(jwt);
-    const { data: isUser } = await fetcher(key);
-    if (isUser) {
-      const { key, fetcher } = authFetcher.isByeol(jwt);
-      const { data: isByeol } = await fetcher(key);
-      if (!isByeol) {
-        return NextResponse.redirect(
-          new URL("/byeol/create", request.nextUrl.origin)
-        );
-      } else {
-        return NextResponse.redirect(
-          new URL("/byeol/me", request.nextUrl.origin)
-        );
+  const { data: isUser } = await isUserFetcher(isUserKey);
+  let url;
+
+  switch (request.nextUrl.pathname) {
+    case "/auth/sign-in":
+      if (!jwt || !isUser) {
+        return NextResponse.next();
       }
-    }
-  } else if (request.nextUrl.pathname.startsWith("/byeol/create")) {
-    const { key, fetcher } = authFetcher.isUser();
-    const { data: isUser } = await fetcher(key);
-    if (!isUser) {
-      return NextResponse.redirect(new URL("/", request.nextUrl.origin));
-    }
-  } else if (request.nextUrl.pathname.startsWith("/byeol/me")) {
-    const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
-    const { key, fetcher } = authFetcher.isByeol(jwt);
-    try {
-      const { data: isByeol } = await fetcher(key);
-      if (!isByeol) {
-        return NextResponse.redirect(new URL("/", request.nextUrl.origin));
+      const { data: isByeol } = await isByeolFetcher(isByeolKey);
+      url = isByeol ? "/byeol/me" : "/byeol/create";
+      break;
+    case "/byeol/create":
+      url = isUser ? null : "/";
+      break;
+    case "/byeol/me":
+      try {
+        const { data: isByeol } = await isByeolFetcher(isByeolKey);
+        url = isByeol ? null : "/";
+      } catch (e) {
+        url = "/";
       }
-    } catch (e) {
-      return NextResponse.redirect(new URL("/", request.nextUrl.origin));
-    }
+      break;
+    default:
+      return NextResponse.next();
   }
 
-  return NextResponse.next();
+  return url
+    ? NextResponse.redirect(new URL(url, request.nextUrl.origin))
+    : NextResponse.next();
 }
