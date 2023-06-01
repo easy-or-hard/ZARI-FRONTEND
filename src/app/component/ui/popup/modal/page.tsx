@@ -3,8 +3,7 @@
 import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 import { useContext, useReducer } from "react";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
-import { ByeolEntity } from "@/services/byeol/entities/byeol.entity";
-import { IncludeConstellationByeolBanzzackZariDto } from "@/services/zari/dto/include-constellation-byeol-banzzack-zari.dto";
+import { CreateBanzzackModalProps } from "@/app/component/ui/popup/modal/create-banzzack.modal";
 
 const words =
   "김수한무 거북이와 두루미 삼천갑자 동방삭 치치카포 사리사리센타 워리워리 세브리깡 무두셀라 구름이 허리케인에 담벼락 담벼락에 서생원 서생원에 고양이 고양이엔 바둑이 바둑이는 돌돌이".split(
@@ -42,10 +41,10 @@ export default function ModalTestPage() {
     content: state.text,
   };
 
-  const sampleByeol = {
-    byeol: {
-      name: "킹태희",
-    } as ByeolEntity,
+  const sampleByeol: CreateBanzzackModalProps = {
+    byeolName: "반짝이를 입력할 당시의 이름",
+    starNumber: 1,
+    zariId: 5,
   };
 
   const confirmContent = (
@@ -72,12 +71,7 @@ export default function ModalTestPage() {
       <hr />
       <button
         type={"button"}
-        onClick={() =>
-          showCreateBanzzackModal({
-            includeConstellationByeolBanzzackZariDto:
-              sampleByeol as IncludeConstellationByeolBanzzackZariDto,
-          })
-        }
+        onClick={() => showCreateBanzzackModal(sampleByeol)}
       >
         writeBanzzackModal
       </button>
