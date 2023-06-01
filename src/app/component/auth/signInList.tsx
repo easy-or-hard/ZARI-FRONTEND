@@ -27,11 +27,8 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (byeol?.data) {
-      router.replace("/byeol/me");
-    } else if (byeol?.data === false) {
-      router.replace("/byeol/create");
-    }
+    if (isLoading) return;
+    router.refresh();
   }, [byeol, isLoading, router]);
 
   return (
