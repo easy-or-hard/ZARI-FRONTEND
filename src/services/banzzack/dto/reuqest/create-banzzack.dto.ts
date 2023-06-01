@@ -1,6 +1,4 @@
-import { BaseResponseDto } from "@/services/common/dto/base.response.dto";
-
-export type CreateBanzzackDto = BaseResponseDto & {
+export type CreateBanzzackDto = {
   content: string;
   starNumber: number;
   zariId: number;
