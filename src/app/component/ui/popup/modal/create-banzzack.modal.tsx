@@ -87,8 +87,8 @@ export default function CreateBanzzackModal({
           starNumber,
           content,
         };
-        console.log(createBanzzack);
         const { key, fetcher } = banzzackFetcher.createBanzzack(createBanzzack);
+        // TODO, 붙인 뒤에 화면에 반짝이가 바로 반영되도록 변경하기
         fetcher(key);
       };
 
@@ -102,7 +102,7 @@ export default function CreateBanzzackModal({
         onCancel: handleCancel,
       });
     },
-    [confirmContent, showConfirmModal]
+    [confirmContent, showConfirmModal, starNumber, zariId]
   );
 
   return (
