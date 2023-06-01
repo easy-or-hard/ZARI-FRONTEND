@@ -2,11 +2,12 @@ export default function LeoOriginPath() {
   return (
     <>
       <g id="_11" data-name="11">
-        <circle cx="199.71" cy="524.56" r="20" />
+        <circle cx="199.71" cy="524.56" r="20" opacity="0" />
         <circle cx="199.71" cy="524.56" r="5" fill="none" stroke="#fff" />
       </g>
       <g id="_10" data-name="10">
         <circle cx="145.03" cy="494.04" r="20" opacity="0" />
+        <circle cx="145.03" cy="494.04" r="5" fill="none" stroke="#fff" />
       </g>
       <g id="_9" data-name="9">
         <circle cx="20" cy="464.96" r="20" opacity="0" />
