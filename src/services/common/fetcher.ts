@@ -65,8 +65,50 @@ const create = <T>({ key, init }: { key: string; init: RequestInit }) => {
   return { key, fetcher };
 };
 
+export const baseFetcher = async <T>(
+  url: RequestInfo | string,
+  init: RequestInit
+) => {
+  let response;
+  try {
+    response = await fetch(url, init);
+  } catch (error) {
+    // 네트워크 오류
+    throw error;
+  }
+
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    console.log("responseJson: 💀💀💀💀💀💀💀💀", responseJson);
+    throw new ZariError(responseJson);
+  }
+
+  return responseJson as T;
+};
+
+export const baseFetcherOptions = (
+  method: string,
+  accessToken?: RequestCookie | undefined
+): RequestInit => {
+  const init: RequestInit = {
+    method,
+    credentials: "include",
+  };
+
+  if (accessToken) {
+    init.headers = {
+      Cookie: `${JWT.ACCESS_TOKEN}=${accessToken.value};`,
+    };
+  }
+
+  return init;
+};
+
 const fetcher = {
   createRequestOptions,
   create,
+  baseRequest: baseFetcher,
+  baseRequestOptions: baseFetcherOptions,
 };
 export default fetcher;

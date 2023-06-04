@@ -1,4 +1,4 @@
-export default function AgrOriginPath() {
+export default function AqrOriginPath() {
   return (
     <>
       <g id="_13" data-name="13">

@@ -1,59 +1,46 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import byeolFetcher from "@/services/byeol/byeol.fetcher";
-import { ZariError } from "@/services/common/fetcher";
+import React, { useEffect, useState } from "react";
+import useIsNameAvailableByeol from "@/services/byeol/use.Is-name-available.byeol";
 
 type ByeolNameInputProps = {
+  name: string;
+  setName: (name: string) => void;
   setIsNameAvailable: (isAvailable: boolean) => void;
 };
 
 export default function ByeolNameInput({
+  name,
+  setName,
   setIsNameAvailable,
 }: ByeolNameInputProps) {
-  const [name, setName] = useState("");
   const [namingGuide, setNamingGuide] = useState({
     message: "",
     color: "#FFFFFF",
   });
-
-  const isNameAvailable = useCallback(
-    async (_name: string) => {
-      if (!_name) {
-        setNamingGuide({
-          message: "",
-          color: "#FFFFFF",
-        });
-        return;
-      }
-
-      const { key, fetcher } = byeolFetcher.isNameAvailable(_name);
-      try {
-        const responseJson = await fetcher(key);
-        setNamingGuide({
-          message: responseJson.message,
-          color: "#00E577",
-        });
-        setIsNameAvailable(true);
-      } catch (error) {
-        if (error instanceof ZariError) {
-          setNamingGuide({
-            message: error.message,
-            color: "#FF416E",
-          });
-          setIsNameAvailable(false);
-        } else {
-          console.error("예상하지 못한 에러 입니다");
-          throw error;
-        }
-      }
-    },
-    [setIsNameAvailable]
-  );
+  const { data, error } = useIsNameAvailableByeol(name);
 
   useEffect(() => {
-    isNameAvailable(name);
-  }, [isNameAvailable, name]);
+    if (error) {
+      setNamingGuide({
+        message: error.message,
+        color: "#FF416E",
+      });
+      setIsNameAvailable(false);
+    } else if (!data) {
+      setNamingGuide({
+        message: "",
+        color: "#FFFFFF",
+      });
+      setIsNameAvailable(false);
+    } else if (data) {
+      setNamingGuide({
+        message: "사용 가능한 이름이에요",
+        color: "#00E577",
+      });
+      setIsNameAvailable(true);
+    }
+  }, [data, error, setIsNameAvailable]);
 
   return (
     <div className={"flex flex-col mb-8"}>

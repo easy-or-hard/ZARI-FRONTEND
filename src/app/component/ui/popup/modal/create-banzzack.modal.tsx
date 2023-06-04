@@ -14,7 +14,8 @@ import {
 } from "@/app/component/ui/popup/modal/modal.provider";
 import CloseButton from "@/app/component/ui/button/icon/close.button";
 import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
-import banzzackFetcher from "@/services/banzzack/banzzack.fetcher";
+import useBanzzack from "@/services/banzzack/use.banzzack";
+import { PostPatchBanzzackDto } from "@/services/banzzack/dto/reuqest/post-patch-banzzack.dto";
 
 const MAX_LENGTH = 150;
 
@@ -22,6 +23,7 @@ export type CreateBanzzackModalProps = {
   byeolName: string;
   zariId: number;
   starNumber: number;
+  closeBeforeCallback: Function;
 };
 
 /**
@@ -33,6 +35,7 @@ export default function CreateBanzzackModal({
   byeolName,
   zariId,
   starNumber,
+  closeBeforeCallback,
 }: CreateBanzzackModalProps) {
   // BaseModalContext 임포트
   const baseModalContext = useContext(BaseModalContext);
@@ -49,6 +52,7 @@ export default function CreateBanzzackModal({
   const { showConfirmModal } = useMemo(() => modalContext, [modalContext]);
 
   // 로직 시작
+  const { post } = useBanzzack({ zariId, starNumber });
   const [textLength, setTextLength] = useState(0); // 글자 수를 저장하는 상태
   const [isClicked, setIsClicked] = useState(false); // 반짝이 생성 버튼 클릭 여부
 
@@ -82,14 +86,9 @@ export default function CreateBanzzackModal({
       const content = formData.get("content") as string;
 
       const handleAccept = () => {
-        const createBanzzack = {
-          zariId,
-          starNumber,
-          content,
-        };
-        const { key, fetcher } = banzzackFetcher.createBanzzack(createBanzzack);
-        // TODO, 붙인 뒤에 화면에 반짝이가 바로 반영되도록 변경하기
-        fetcher(key);
+        const postPatchBanzzackDto: PostPatchBanzzackDto = { content };
+
+        post(postPatchBanzzackDto);
       };
 
       const handleCancel = () => {
@@ -105,6 +104,11 @@ export default function CreateBanzzackModal({
     [confirmContent, showConfirmModal, starNumber, zariId]
   );
 
+  const handleCloseModal = useCallback(() => {
+    closeBeforeCallback();
+    closeModal();
+  }, [closeBeforeCallback, closeModal]);
+
   return (
     <form onSubmit={handleSubmit} className={"flex flex-col gap-2"}>
       <div className="flex justify-between items-center">
@@ -112,7 +116,7 @@ export default function CreateBanzzackModal({
           <span className={"text-zari_txt_primary"}>{byeolName}</span> 에게
           남기는 반짝이
         </div>
-        <CloseButton onClick={closeModal} />
+        <CloseButton onClick={handleCloseModal} />
       </div>
       <div
         className={"bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4"}

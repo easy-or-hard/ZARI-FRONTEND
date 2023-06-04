@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default function EffectBanzzack({ cx, cy, isRead = false }: Props) {
-  const r = isRead ? 1.5 : 3;
+  const r = isRead ? 5 : 10;
 
   // svg 의 값이 string 이므로 number 로 변환
   // 효율을 위해서 ....

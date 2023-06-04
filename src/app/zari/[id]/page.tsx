@@ -1,10 +1,12 @@
 "use client";
 
 import constellationMap from "@/app/component/constellation/map";
-import { useZariFindById } from "@/services/zari/zari.use";
-import { MouseEventHandler, useContext } from "react";
+import useZari from "@/services/zari/use.zari";
+import { MouseEventHandler, useContext, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
+import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
+import { API } from "@/const";
 
 type Props = {
   params: {
@@ -18,26 +20,50 @@ type Props = {
  * @constructor
  */
 export default function ZariPage({ params: { id } }: Props) {
+  // 컨텍스트 임포트
   const modalContext = useContext(ModalContext);
   if (!modalContext) throw new Error("ModalContext is null");
   const { showReadBanzzackModal, showCreateBanzzackModal } = modalContext;
+
+  // 로직 시작
   const {
-    data: OkResponseIncludeConstellationByeolBanzzackZari,
+    data: includeConstellationByeolBanzzackZari,
     isLoading,
     error,
-  } = useZariFindById(id);
+  } = useZari(id);
+
+  const [locks, setLocks] = useState(new Map());
+  console.log(locks);
+  // SSE 접속을 시작
+  useEffect(() => {
+    const eventSource = new EventSource(`${API.BASE_URL}/zari/${id}/event`);
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.locked) {
+        locks.set(data.starNumber, true);
+      } else {
+        locks.delete(data.starNumber);
+      }
+      const newLocks = new Map(locks);
+      setLocks(newLocks);
+    };
+
+    // 컴포넌트가 언마운트되면 SSE 접속을 종료
+    return () => {
+      eventSource.close();
+    };
+  }, [id, locks]);
 
   if (isLoading) return null;
-  else if (error || !OkResponseIncludeConstellationByeolBanzzackZari) {
+  else if (error || !includeConstellationByeolBanzzackZari) {
     notFound();
   }
-
-  const includeConstellationByeolBanzzackZari =
-    OkResponseIncludeConstellationByeolBanzzackZari.data;
 
   const {
     origin: ConstellationOriginComponent,
     effect: ConstellationEffectComponent,
+    writing: ConstellationWritingComponent,
   } = constellationMap[includeConstellationByeolBanzzackZari.constellationIAU];
 
   const handlerBanzzack: MouseEventHandler<SVGSVGElement> = (event) => {
@@ -50,15 +76,39 @@ export default function ZariPage({ params: { id } }: Props) {
         (banzzack) => banzzack.starNumber === +starNumber
       );
 
+      // TODO, useBanzzack 훅을 만들어놨는데 이걸로 교체하기
       if (banzzack) {
         showReadBanzzackModal({ banzzack });
       } else {
-        const createBanzzackModalProps = {
-          byeolName: includeConstellationByeolBanzzackZari.byeol.name,
-          zariId: includeConstellationByeolBanzzackZari.id,
-          starNumber: +starNumber,
-        };
-        showCreateBanzzackModal(createBanzzackModalProps);
+        if (!locks.get(+starNumber)) {
+          baseFetcher(
+            `${API.BASE_URL}/zari/${id}/banzzack/${starNumber}/lock`,
+            baseFetcherOptions("POST")
+          )
+            .then(() => {
+              // 락이 걸려있지 않은 경우에만 반짝이를 생성
+              const createBanzzackModalProps = {
+                byeolName: includeConstellationByeolBanzzackZari.byeol.name,
+                zariId: includeConstellationByeolBanzzackZari.id,
+                starNumber: +starNumber,
+                closeBeforeCallback: () => {
+                  baseFetcher(
+                    `${API.BASE_URL}/zari/${id}/banzzack/${starNumber}/release`,
+                    baseFetcherOptions("DELETE")
+                  ).then(() => {
+                    locks.delete(+starNumber);
+                    const newLocks = new Map(locks);
+                    setLocks(newLocks);
+                  });
+                },
+              };
+              showCreateBanzzackModal(createBanzzackModalProps);
+            })
+            .catch((e) => {
+              // TODO, 얼럿이나 토스트 띄우기
+              console.log("🧊🧊🧊🧊🧊🧊잠겨있음", e);
+            });
+        }
       }
     }
   };
@@ -79,6 +129,7 @@ export default function ZariPage({ params: { id } }: Props) {
         viewBox="0 0 360 640"
       >
         {/* 이펙트가 별자리 origin 보다 문맥상으로 상단에 있어야 origin 의 객체를 가리지 않습니다. */}
+        <ConstellationWritingComponent lockMap={locks} />
         <ConstellationEffectComponent
           banzzacks={includeConstellationByeolBanzzackZari.banzzacks}
         />

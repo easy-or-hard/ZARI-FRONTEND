@@ -1,6 +1,9 @@
 import { API } from "@/const";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import fetcher from "@/services/common/fetcher";
+import fetcher, {
+  baseFetcher,
+  baseFetcherOptions,
+} from "@/services/common/fetcher";
 import { OkResponseDto } from "@/services/common/dto/ok.response.dto";
 
 /**
@@ -11,9 +14,7 @@ import { OkResponseDto } from "@/services/common/dto/ok.response.dto";
  */
 const isUser = (accessToken?: RequestCookie) => {
   const url = `${API.BASE_URL}/auth/is-user`;
-  const init = fetcher.createRequestOptions("GET", accessToken);
-
-  return fetcher.create<OkResponseDto<boolean>>({ key: url, init });
+  return baseFetcher<Boolean>(url, baseFetcherOptions("GET", accessToken));
 };
 
 /**
@@ -23,7 +24,12 @@ const isUser = (accessToken?: RequestCookie) => {
  */
 const isByeol = (accessToken?: RequestCookie) => {
   const url = `${API.BASE_URL}/auth/is-byeol`;
-  const init = fetcher.createRequestOptions("GET", accessToken);
+  return baseFetcher<Boolean>(url, baseFetcherOptions("GET", accessToken));
+};
+
+const signOut = () => {
+  const url = `${API.BASE_URL}/auth/sign-out`;
+  const init = fetcher.createRequestOptions("GET");
 
   return fetcher.create<OkResponseDto<boolean>>({ key: url, init });
 };
@@ -31,5 +37,6 @@ const isByeol = (accessToken?: RequestCookie) => {
 const authFetcher = {
   isUser,
   isByeol,
+  signOut,
 };
 export default authFetcher;

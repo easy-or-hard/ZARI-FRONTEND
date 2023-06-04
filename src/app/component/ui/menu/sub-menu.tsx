@@ -4,12 +4,11 @@ import HomeIcon from "@/app/component/ui/icon/size24/home";
 import SignOutIcon from "@/app/component/ui/icon/size24/sign-out";
 import SettingIcon from "@/app/component/ui/icon/size24/setting";
 import { useRouter } from "next/navigation";
-import { API } from "@/const";
-import { mutate } from "swr";
-import authFetcher from "@/services/auth/auth.fetcher";
+import { useSignOut } from "@/services/auth/auth.use";
 
 export default function SubMenu() {
   const router = useRouter();
+  const signOut = useSignOut();
   return (
     <span
       className={`px-3 py-4 bg-zari_default_white rounded-full inline-grid gap-4`}
@@ -20,18 +19,7 @@ export default function SubMenu() {
       <button>
         <SettingIcon color={"#161616"} />
       </button>
-      <button
-        onClick={async () => {
-          await fetch(`${API.BASE_URL}/auth/sign-out`, {
-            method: "GET",
-            credentials: "include",
-          });
-
-          // TODO, mutate 가 전역으로 써도 되는지 검토하기
-          const { key } = authFetcher.isByeol();
-          await mutate(key, undefined, false);
-        }}
-      >
+      <button onClick={signOut}>
         <SignOutIcon color={"#161616"} />
       </button>
     </span>

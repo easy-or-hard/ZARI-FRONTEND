@@ -1,4 +1,4 @@
-export type ByeolCreateDto = {
+export type PostByeolDto = {
   birthMonth: number;
   birthDay: number;
 };

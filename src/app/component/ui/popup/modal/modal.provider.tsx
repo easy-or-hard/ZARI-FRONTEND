@@ -43,10 +43,12 @@ export default function ModalProvider({ children }: Props) {
   // 여러 팝업이 나올 수 있게, 배열 관리
   const [modalStack, setModalStack] = useState<ReactNode[]>([]);
 
+  // 모달을 배열로 관리하기위한 모달 푸시 메소드
   const pushModal = useCallback((modal: ReactNode) => {
     setModalStack((modals) => [...modals, modal]);
   }, []);
 
+  // 배열로 관리하는 모달을 pop 으로 최상단에서 하나씩 제거
   const popModal = useCallback(() => {
     setModalStack((modals) => modals.slice(0, -1));
   }, []);

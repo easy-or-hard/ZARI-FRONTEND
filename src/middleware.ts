@@ -18,10 +18,8 @@ export const config = {
  */
 export async function middleware(request: NextRequest) {
   const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
-  const { key: isUserKey, fetcher: isUserFetcher } = authFetcher.isUser(jwt);
-  const { key: isByeolKey, fetcher: isByeolFetcher } = authFetcher.isByeol(jwt);
+  const isUser = await authFetcher.isUser(jwt);
 
-  const { data: isUser } = await isUserFetcher(isUserKey);
   let url;
 
   switch (request.nextUrl.pathname) {
@@ -29,7 +27,7 @@ export async function middleware(request: NextRequest) {
       if (!jwt || !isUser) {
         return NextResponse.next();
       }
-      const { data: isByeol } = await isByeolFetcher(isByeolKey);
+      const isByeol = await authFetcher.isByeol(jwt);
       url = isByeol ? "/byeol/me" : "/byeol/create";
       break;
     case "/byeol/create":
@@ -37,7 +35,7 @@ export async function middleware(request: NextRequest) {
       break;
     case "/byeol/me":
       try {
-        const { data: isByeol } = await isByeolFetcher(isByeolKey);
+        const isByeol = await authFetcher.isByeol(jwt);
         url = isByeol ? null : "/";
       } catch (e) {
         url = "/";

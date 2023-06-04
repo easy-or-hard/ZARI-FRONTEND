@@ -12,7 +12,7 @@ import { useIsByeol } from "@/services/auth/auth.use";
  */
 export default function SignInList() {
   const router = useRouter();
-  const { data: byeol, isLoading } = useIsByeol();
+  const { isLoading } = useIsByeol();
   const openWindow = useCallback((provider: string) => {
     const width = 500;
     const height = 600;
@@ -27,9 +27,13 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) {
+      return;
+    }
+
+    // 미들웨어서 라우팅 하기 때문에 새로 고침만 하면 됩니다.
     router.refresh();
-  }, [byeol, isLoading, router]);
+  });
 
   return (
     <ul className="grid gap-4">
