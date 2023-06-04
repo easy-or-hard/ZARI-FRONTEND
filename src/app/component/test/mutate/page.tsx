@@ -23,7 +23,7 @@ export default function MutateTestPage() {
     <>
       <div>뮤테이트 테스트</div>
       <div>{isLoading && "로딩중"}</div>
-      <div>{byeol && byeol.data ? "true" : "false"}</div>
+      <div>{byeol ? "true" : "false"}</div>
       <div>mutate test page</div>
       <ul>
         <li

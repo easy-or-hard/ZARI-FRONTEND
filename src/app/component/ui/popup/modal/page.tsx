@@ -45,6 +45,7 @@ export default function ModalTestPage() {
     byeolName: "반짝이를 입력할 당시의 이름",
     starNumber: 1,
     zariId: 5,
+    closeBeforeCallback: () => alert("closeBeforeCallback"),
   };
 
   const confirmContent = (
