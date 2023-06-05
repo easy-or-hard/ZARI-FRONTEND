@@ -88,6 +88,8 @@ export default function CreateBanzzackModal({
       const handleAccept = () => {
         const postPatchBanzzackDto: PostPatchBanzzackDto = { content };
 
+        closeBeforeCallback();
+
         post(postPatchBanzzackDto);
       };
 
