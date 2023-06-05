@@ -33,6 +33,7 @@ export default function ZariPage({ params: { id } }: Props) {
   // 로직 시작
   const {
     data: includeConstellationByeolBanzzackZari,
+    mutate,
     isLoading,
     error,
   } = useZari(id);
