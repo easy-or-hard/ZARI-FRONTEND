@@ -1,11 +1,26 @@
+"use client";
+
 import WriteIcon from "@/app/component/ui/icon/size24/write";
 import SpeedDial from "@/app/component/ui/menu/speed-dial";
+import { useCallback } from "react";
+import { useIsByeol } from "@/services/auth/auth.use";
 
-export default function ZariHeader() {
+type Props = {
+  onClickWrite: () => void;
+};
+
+export default function ZariHeader({ onClickWrite }: Props) {
+  const { data: isByeol } = useIsByeol();
+  const handlerClickWrite = useCallback(() => {
+    onClickWrite();
+  }, [onClickWrite]);
+
   return (
-    <header className="absolute top-400 w-full h-16 p-4 flex justify-between">
+    <header className="absolute w-full px-4 mt-5 flex justify-between items-start">
       <SpeedDial />
-      <WriteIcon />
+      <button disabled={!isByeol} onClick={handlerClickWrite}>
+        <WriteIcon />
+      </button>
     </header>
   );
 }

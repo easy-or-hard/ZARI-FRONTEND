@@ -34,7 +34,7 @@ export default function CreatePage() {
       await post(postByeolDto);
       router.replace(`/byeol/me`);
     },
-    [post, router]
+    [post]
   );
 
   useEffect(() => {

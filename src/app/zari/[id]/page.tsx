@@ -2,12 +2,12 @@
 
 import constellationMap from "@/app/component/constellation/map";
 import useZari from "@/services/zari/use.zari";
-import { MouseEventHandler, useContext, useEffect, useState } from "react";
+import { MouseEventHandler, useCallback, useContext, useEffect } from "react";
 import { notFound } from "next/navigation";
 import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
-import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
-import { API } from "@/const";
 import { ToastContext } from "@/app/component/ui/toast-message/toast-provider";
+import ZariHeader from "@/app/component/zari/zari-header";
+import useZariLockBanzzack from "@/services/zari/use.zari-lock-banzzack";
 
 type Props = {
   params: {
@@ -28,43 +28,62 @@ export default function ZariPage({ params: { id } }: Props) {
 
   const modalContext = useContext(ModalContext);
   if (!modalContext) throw new Error("ModalContext is null");
-  const { showReadBanzzackModal, showCreateBanzzackModal } = modalContext;
+  const { showReadBanzzackModal, showCreateBanzzackModal, allCloseModal } =
+    modalContext;
 
   // 로직 시작
   const {
     data: includeConstellationByeolBanzzackZari,
-    mutate,
     isLoading,
     error,
   } = useZari(id);
 
-  const [locks, setLocks] = useState<Record<number, boolean>>({});
+  const { locks, lock, release, createBanzzackTimeOut, timeOutInit } =
+    useZariLockBanzzack(id);
 
-  // SSE 접속을 시작
+  // 서버에서 타임아웃을 날리면 모든 모달 팝업 닫기, 타임아웃 초기화
   useEffect(() => {
-    const eventSource = new EventSource(`${API.BASE_URL}/zari/${id}/event`);
+    if (createBanzzackTimeOut) {
+      allCloseModal();
+      timeOutInit();
+      // 릴리즈가 되면 반짝이이 붙이기에 성공한 케이스도 호출 돼서 일딴 주석합니다.
+      // TODO, 반짝이 붙이기 타임아웃에만 토스트 띄우도록 수정하기
+      // showToast("반짝이 붙이기를 취소했어요");
+    }
+  }, [createBanzzackTimeOut]);
 
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.locked) {
-        setLocks({ ...locks, [data.starNumber]: true });
-      } else {
-        mutate().finally(() => {
-          setLocks((prevLocks) => {
-            const updatedLocks = { ...prevLocks };
-            delete updatedLocks[data.starNumber];
-            return updatedLocks;
-          });
-        });
-      }
-    };
+  const handlerRandomBanzzackCreate = useCallback(() => {
+    // Get all elements of ConstellationOriginComponent
+    const gElements = document.querySelectorAll(
+      "svg g[id] > circle:first-child"
+    );
 
-    // 컴포넌트가 언마운트되면 SSE 접속을 종료
-    return () => {
-      eventSource.close();
-    };
-    // todo, 의존성에 locks 를 넣는게 좋을까? 고민해봐
-  }, [id, mutate]);
+    // Filter out elements that are in locks or includeConstellationByeolBanzzackZari.banzzacks
+    const availableElements = Array.from(gElements).filter((element) => {
+      const starNumber = Number(
+        element.parentElement?.getAttribute("data-name")
+      );
+      return (
+        !locks[starNumber] &&
+        !includeConstellationByeolBanzzackZari?.banzzacks.find(
+          (banzzack) => banzzack.starNumber === starNumber
+        )
+      );
+    });
+
+    // If there are no available elements, return
+    if (availableElements.length === 0) {
+      showToast("모든 반짝이가 붙었어요");
+      return;
+    }
+
+    // Select a random element from the available elements
+    const randomElement =
+      availableElements[Math.floor(Math.random() * availableElements.length)];
+
+    // Trigger a click event on the random element
+    randomElement.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  }, [includeConstellationByeolBanzzackZari, locks]);
 
   if (isLoading) return null;
   else if (error || !includeConstellationByeolBanzzackZari) {
@@ -91,38 +110,25 @@ export default function ZariPage({ params: { id } }: Props) {
       if (banzzack) {
         showReadBanzzackModal({ banzzack });
       } else {
-        if (!locks[starNumber]) {
-          baseFetcher(
-            `${API.BASE_URL}/zari/${id}/banzzack/${starNumber}/lock`,
-            baseFetcherOptions("POST")
-          )
+        if (locks[starNumber]) {
+          showToast("✨ 누군가 반짝이를 붙이고 있어요");
+        } else {
+          // 락이 성공하면 반짝이 붙이기
+          lock(starNumber)
             .then(() => {
-              // 락이 걸려있지 않은 경우에만 반짝이를 생성
               const createBanzzackModalProps = {
                 byeolName: includeConstellationByeolBanzzackZari.byeol.name,
                 zariId: includeConstellationByeolBanzzackZari.id,
-                starNumber: +starNumber,
+                starNumber: starNumber,
                 closeBeforeCallback: () => {
-                  baseFetcher(
-                    `${API.BASE_URL}/zari/${id}/banzzack/${starNumber}/release`,
-                    baseFetcherOptions("DELETE")
-                  ).then(() => {
-                    setLocks((prevLocks) => {
-                      const updatedLocks = { ...prevLocks };
-                      delete updatedLocks[starNumber];
-                      return updatedLocks;
-                    });
-                  });
+                  release(starNumber);
                 },
               };
               showCreateBanzzackModal(createBanzzackModalProps);
             })
-            .catch((e) => {
-              // TODO, 얼럿이나 토스트 띄우기
-              console.log("🧊🧊🧊🧊🧊🧊잠겨있음", e);
+            .catch(() => {
+              showToast("✨ 누군가 반짝이를 붙이고 있어요");
             });
-        } else {
-          showToast("✨ 누군가 반짝이를 붙이고 있어요");
         }
       }
     }
@@ -130,6 +136,7 @@ export default function ZariPage({ params: { id } }: Props) {
 
   return (
     <div className="h-full p-4 flex flex-col items-center">
+      <ZariHeader onClickWrite={handlerRandomBanzzackCreate} />
       <div className={"p-4 flex flex-col justify-around items-center"}>
         <div className="font-bold text-center text-5xl">
           {includeConstellationByeolBanzzackZari.byeol.name}

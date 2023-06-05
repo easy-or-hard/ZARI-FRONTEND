@@ -1,4 +1,8 @@
-export default function WriteIcon() {
+type Props = {
+  fill?: string;
+};
+
+export default function WriteIcon({ fill }: Props) {
   return (
     <svg
       width="42"

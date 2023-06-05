@@ -20,6 +20,8 @@ type BaseModalContextType = {
 };
 
 type ModalContextType = {
+  closeModal: () => void;
+  allCloseModal: () => void;
   showConfirmModal: (props: ConfirmModalProps) => void;
   showReadBanzzackModal: (props: ReadBanzzackModalProps) => void;
   showCreateBanzzackModal: (props: CreateBanzzackModalProps) => void;
@@ -86,6 +88,8 @@ export default function ModalProvider({ children }: Props) {
   return (
     <ModalContext.Provider
       value={{
+        closeModal,
+        allCloseModal,
         showReadBanzzackModal,
         showCreateBanzzackModal,
         showConfirmModal,

@@ -1,4 +1,6 @@
 // TODO, 현재 반짝이를 읽음 플래그가 없어서 isRead 를 옵셔널로 했습니다. 반드시 BFF 플래그를 추가하고 수정하세요.
+import { CSSProperties } from "react";
+
 type Props = {
   cx: number | string;
   cy: number | string;
@@ -11,6 +13,10 @@ export default function EffectBanzzack({ cx, cy, isRead = false }: Props) {
   // svg 의 값이 string 이므로 number 로 변환
   cx = +cx;
   cy = +cy;
+
+  // 랜덤한 애니메이션 지속 시간을 생성 (1초에서 9초 사이)
+  const duration = Math.random() * 9 + 1; // seconds
+
   return (
     <>
       <defs>
@@ -20,7 +26,10 @@ export default function EffectBanzzack({ cx, cy, isRead = false }: Props) {
           {/* 테두리 색상을 투명으로 지정 */}
         </radialGradient>
       </defs>
-      <g className="effectAnimation">
+      <g
+        className="effectAnimation"
+        style={{ "--duration": `${duration}s` } as CSSProperties}
+      >
         <ellipse
           cx={cx}
           cy={cy}

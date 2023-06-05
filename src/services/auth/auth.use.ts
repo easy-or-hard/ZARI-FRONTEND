@@ -1,7 +1,6 @@
 import useSWR, { mutate, SWRConfiguration } from "swr";
 import authFetcher from "@/services/auth/auth.fetcher";
 import { API } from "@/const";
-import { useCallback } from "react";
 import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
 
 /**
@@ -23,16 +22,12 @@ export const useIsByeol = () => {
   );
 };
 
-export const useSignOut = () => {
-  const signOut = useCallback(async () => {
-    const { key, fetcher } = authFetcher.signOut();
-    const { data: isSignedOut } = await fetcher(key);
-    if (isSignedOut) {
-      mutate(`${API.BASE_URL}/auth/is-user`, undefined, { revalidate: false });
-      mutate(`${API.BASE_URL}/auth/is-byeol`, undefined, { revalidate: false });
-      mutate(`${API.BASE_URL}/byeol/me`, undefined, { revalidate: false });
-    }
-  }, []);
-
-  return signOut;
+export const signOut = async () => {
+  const { key, fetcher } = authFetcher.signOut();
+  const { data: isSignedOut } = await fetcher(key);
+  if (isSignedOut) {
+    mutate(`${API.BASE_URL}/auth/is-user`, undefined, { revalidate: false });
+    mutate(`${API.BASE_URL}/auth/is-byeol`, undefined, { revalidate: false });
+    mutate(`${API.BASE_URL}/byeol/me`, undefined, { revalidate: false });
+  }
 };

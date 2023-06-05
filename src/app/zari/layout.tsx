@@ -1,4 +1,3 @@
-import ZariHeader from "@/app/component/zari/zari-header";
 import React from "react";
 import ModalProvider from "@/app/component/ui/popup/modal/modal.provider";
 import ToastProvider from "@/app/component/ui/toast-message/toast-provider";
@@ -10,7 +9,6 @@ export default function ZariLayout({
 }) {
   return (
     <>
-      <ZariHeader />
       <ToastProvider>
         <ModalProvider>{children}</ModalProvider>
       </ToastProvider>

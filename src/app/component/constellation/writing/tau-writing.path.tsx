@@ -1,7 +1,7 @@
 "use client";
 
+import SpeakPath from "@/app/component/ui/icon/size24/speak.path";
 import { ConstellationWriterProps } from "@/app/component/constellation/map";
-import SpeakPath from "@/app/component/banzzack/effect-banzzack";
 
 export default function TauWritingPath({ locks }: ConstellationWriterProps) {
   return (

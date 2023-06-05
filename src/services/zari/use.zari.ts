@@ -17,7 +17,10 @@ export default function useZari(id: number) {
       baseFetcher<IncludeConstellationByeolBanzzackZariDto>(
         url,
         baseFetcherOptions("GET")
-      )
+      ),
+    {
+      refreshWhenHidden: true,
+    }
   );
 
   return {
