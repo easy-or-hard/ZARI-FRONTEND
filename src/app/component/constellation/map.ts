@@ -39,7 +39,7 @@ export type ConstellationComponentProps = {
 };
 
 export type ConstellationWriterProps = {
-  lockMap: Map<number, boolean>;
+  locks: Record<number, boolean>;
 };
 
 type ConstellationComponents = {

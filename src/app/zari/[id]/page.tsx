@@ -37,8 +37,8 @@ export default function ZariPage({ params: { id } }: Props) {
     error,
   } = useZari(id);
 
-  const [locks, setLocks] = useState(new Map());
-  console.log(locks);
+  const [locks, setLocks] = useState<Record<number, boolean>>({});
+
   // SSE 접속을 시작
   useEffect(() => {
     const eventSource = new EventSource(`${API.BASE_URL}/zari/${id}/event`);
@@ -46,19 +46,24 @@ export default function ZariPage({ params: { id } }: Props) {
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.locked) {
-        locks.set(data.starNumber, true);
+        setLocks({ ...locks, [data.starNumber]: true });
       } else {
-        locks.delete(data.starNumber);
+        mutate().finally(() => {
+          setLocks((prevLocks) => {
+            const updatedLocks = { ...prevLocks };
+            delete updatedLocks[data.starNumber];
+            return updatedLocks;
+          });
+        });
       }
-      const newLocks = new Map(locks);
-      setLocks(newLocks);
     };
 
     // 컴포넌트가 언마운트되면 SSE 접속을 종료
     return () => {
       eventSource.close();
     };
-  }, [id, locks]);
+    // todo, 의존성에 locks 를 넣는게 좋을까? 고민해봐
+  }, [id, mutate]);
 
   if (isLoading) return null;
   else if (error || !includeConstellationByeolBanzzackZari) {
@@ -75,7 +80,7 @@ export default function ZariPage({ params: { id } }: Props) {
     const target = event.target as SVGElement;
     if (target.tagName === "circle") {
       const parent = target.parentNode as SVGGElement;
-      const starNumber = parent.getAttribute("data-name");
+      const starNumber = Number(parent.getAttribute("data-name"));
       if (!starNumber) return; // 이 케이스가 나와서는 안 됨. 나온다는것은 svg 파일이 잘못된 것임.
       const banzzack = includeConstellationByeolBanzzackZari.banzzacks.find(
         (banzzack) => banzzack.starNumber === +starNumber
@@ -85,7 +90,7 @@ export default function ZariPage({ params: { id } }: Props) {
       if (banzzack) {
         showReadBanzzackModal({ banzzack });
       } else {
-        if (!locks.get(+starNumber)) {
+        if (!locks[starNumber]) {
           baseFetcher(
             `${API.BASE_URL}/zari/${id}/banzzack/${starNumber}/lock`,
             baseFetcherOptions("POST")
@@ -101,9 +106,11 @@ export default function ZariPage({ params: { id } }: Props) {
                     `${API.BASE_URL}/zari/${id}/banzzack/${starNumber}/release`,
                     baseFetcherOptions("DELETE")
                   ).then(() => {
-                    locks.delete(+starNumber);
-                    const newLocks = new Map(locks);
-                    setLocks(newLocks);
+                    setLocks((prevLocks) => {
+                      const updatedLocks = { ...prevLocks };
+                      delete updatedLocks[starNumber];
+                      return updatedLocks;
+                    });
                   });
                 },
               };
@@ -136,7 +143,7 @@ export default function ZariPage({ params: { id } }: Props) {
         viewBox="0 0 360 640"
       >
         {/* 이펙트가 별자리 origin 보다 문맥상으로 상단에 있어야 origin 의 객체를 가리지 않습니다. */}
-        <ConstellationWritingComponent lockMap={locks} />
+        <ConstellationWritingComponent locks={locks} />
         <ConstellationEffectComponent
           banzzacks={includeConstellationByeolBanzzackZari.banzzacks}
         />
