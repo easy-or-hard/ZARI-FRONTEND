@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
 import { API } from "@/const";
+import { ToastContext } from "@/app/component/ui/toast-message/toast-provider";
 
 type Props = {
   params: {
@@ -21,6 +22,10 @@ type Props = {
  */
 export default function ZariPage({ params: { id } }: Props) {
   // 컨텍스트 임포트
+  const toastContext = useContext(ToastContext);
+  if (!toastContext) throw new Error("ToastContext is null");
+  const showToast = toastContext;
+
   const modalContext = useContext(ModalContext);
   if (!modalContext) throw new Error("ModalContext is null");
   const { showReadBanzzackModal, showCreateBanzzackModal } = modalContext;
@@ -108,6 +113,8 @@ export default function ZariPage({ params: { id } }: Props) {
               // TODO, 얼럿이나 토스트 띄우기
               console.log("🧊🧊🧊🧊🧊🧊잠겨있음", e);
             });
+        } else {
+          showToast("✨ 누군가 반짝이를 붙이고 있어요");
         }
       }
     }

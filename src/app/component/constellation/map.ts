@@ -23,6 +23,16 @@ import ScoEffectPath from "@/app/component/constellation/effects/sco-effect.path
 import SgrEffectPath from "@/app/component/constellation/effects/sgr-effect.path";
 import TauEffectPath from "@/app/component/constellation/effects/tau-effect.path";
 import AqrWritingPath from "@/app/component/constellation/writing/agr-wrting.path";
+import VirWritingPath from "@/app/component/constellation/writing/vir-writing.path";
+import CapWritingPath from "@/app/component/constellation/writing/cap-writing.path";
+import CncWritingPath from "@/app/component/constellation/writing/cnc-writing.path";
+import GemWritingPath from "@/app/component/constellation/writing/gem-writing.path";
+import LeoWritingPath from "@/app/component/constellation/writing/leo-writing.path";
+import LibWritingPath from "@/app/component/constellation/writing/lib-writing.path";
+import PscWritingPath from "@/app/component/constellation/writing/psc-writing.path";
+import ScoWritingPath from "@/app/component/constellation/writing/sco-writing.path";
+import SgrWritingPath from "@/app/component/constellation/writing/sgr-writing.path";
+import TauWritingPath from "@/app/component/constellation/writing/tau-writing.path";
 
 export type ConstellationComponentProps = {
   banzzacks: BanzzackEntity[];
@@ -47,52 +57,52 @@ const constellationMap: Record<string, ConstellationComponents> = {
   Cap: {
     origin: CapOriginPath,
     effect: CapEffectPath,
-    writing: AqrWritingPath,
+    writing: CapWritingPath,
   },
   Cnc: {
     origin: CncOriginPath,
     effect: CncEffectPath,
-    writing: AqrWritingPath,
+    writing: CncWritingPath,
   },
   Gem: {
     origin: GemOriginPath,
     effect: GemEffectPath,
-    writing: AqrWritingPath,
+    writing: GemWritingPath,
   },
   Leo: {
     origin: LeoOriginPath,
     effect: LeoEffectPath,
-    writing: AqrWritingPath,
+    writing: LeoWritingPath,
   },
   Lib: {
     origin: LibOriginPath,
     effect: LibEffectPath,
-    writing: AqrWritingPath,
+    writing: LibWritingPath,
   },
   Psc: {
     origin: PscOriginPath,
     effect: PscEffectPath,
-    writing: AqrWritingPath,
+    writing: PscWritingPath,
   },
   Sco: {
     origin: ScoOriginPath,
     effect: ScoEffectPath,
-    writing: AqrWritingPath,
+    writing: ScoWritingPath,
   },
   Sgr: {
     origin: SgrOriginPath,
     effect: SgrEffectPath,
-    writing: AqrWritingPath,
+    writing: SgrWritingPath,
   },
   Tau: {
     origin: TauOriginPath,
     effect: TauEffectPath,
-    writing: AqrWritingPath,
+    writing: TauWritingPath,
   },
   Vir: {
     origin: VirOriginPath,
     effect: VirEffectPath,
-    writing: AqrWritingPath,
+    writing: VirWritingPath,
   },
 };
 
