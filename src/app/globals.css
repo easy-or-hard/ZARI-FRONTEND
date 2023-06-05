@@ -88,3 +88,35 @@ main {
   opacity: 0;
   transition: opacity 300ms;
 }
+
+/* --delay 는 요소에서 style 로 지정 */
+.effectAnimation {
+  /*animation: fadeIn 1s ease-in-out;*/
+  opacity: 0;
+  animation-name: fadeIn, pulse;
+  animation-duration: 1s, 3s;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: forwards, forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

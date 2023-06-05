@@ -21,11 +21,7 @@ export default function EffectBanzzack({ cx, cy, isRead = false }: Props) {
           {/* 테두리 색상을 투명으로 지정 */}
         </radialGradient>
       </defs>
-      <g
-        className={
-          "animate-pulse animate-infinite animate-duration-2000 animate-ease-in-out"
-        }
-      >
+      <g className="effectAnimation">
         <ellipse
           cx={cx}
           cy={cy}
