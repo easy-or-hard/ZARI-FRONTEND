@@ -137,7 +137,7 @@ export default function CreateBanzzackModal({
       <ConfirmButton
         colorType={"accept"}
         type={"submit"}
-        disabled={isClicked}
+        disabled={isClicked || textLength === 0}
         isToggle={true}
       >
         <span className="font-bold">반짝이 붙이기</span>
