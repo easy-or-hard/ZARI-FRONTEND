@@ -2,6 +2,7 @@
 
 import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
 import { useState } from "react";
+import GradientButton from "./gradient/gradient.button";
 
 /**
  * 버튼 컴포넌트 확인 페이지
@@ -41,6 +42,10 @@ export default function ButtonTestPage() {
       <ConfirmButton onClick={() => setClicked(false)} colorType="accept">
         초기화
       </ConfirmButton>
+      <h3>그라데이션버튼</h3>
+      <GradientButton onClick={() => console.log("isClick!!")}>
+        자리 만들기 완료!
+      </GradientButton>
       <hr />
     </>
   );

@@ -28,6 +28,9 @@ module.exports = {
         zari_btn_disabled: "#5C5C5C",
         zari_btn_primary: "#8F39D6",
         zari_btn_danger: "#FF416E",
+
+        zari_gradient_to: "#9731C7",
+        zari_gradient_from: "#4D35E1",
       },
     },
   },
