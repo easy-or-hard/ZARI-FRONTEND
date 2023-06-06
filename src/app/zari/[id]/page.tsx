@@ -6,7 +6,7 @@ import { MouseEventHandler, useCallback, useContext, useEffect } from "react";
 import { notFound } from "next/navigation";
 import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 import { ToastContext } from "@/app/component/ui/toast-message/toast-provider";
-import ZariHeader from "@/app/component/zari/zari-header";
+import ZariHeader from "@/app/zari/[id]/zari-header";
 import useZariLockBanzzack from "@/services/zari/use.zari-lock-banzzack";
 
 type Props = {

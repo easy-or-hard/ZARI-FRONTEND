@@ -1,5 +1,5 @@
 "use client";
-import { useIsByeol } from "@/services/auth/auth.use";
+import { useIsByeol } from "@/services/auth/use.auth";
 import { useCallback } from "react";
 import { API } from "@/const";
 

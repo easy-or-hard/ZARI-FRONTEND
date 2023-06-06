@@ -77,10 +77,12 @@ main {
 
 .dim-enter-active {
   opacity: 0.5;
+  backdrop-filter: blur(90px);
   transition: opacity 300ms;
 }
 
 .dim-exit {
+  backdrop-filter: blur(90px);
   opacity: 0.5;
 }
 
@@ -121,3 +123,19 @@ main {
   }
 }
 
+
+
+.my-node-enter {
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}

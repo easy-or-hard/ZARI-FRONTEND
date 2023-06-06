@@ -1,18 +1,31 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useContext, useEffect } from "react";
 import { API } from "@/const";
-
-import { useIsByeol } from "@/services/auth/auth.use";
+import { useIsByeol, useIsUser } from "@/services/auth/use.auth";
+import { JoinStepControlContext } from "@/app/component/auth/join-step-control.provider";
 
 /**
  * @description OAuth 가능 리스트 컴포넌트
  * @constructor
  */
 export default function SignInList() {
-  const router = useRouter();
-  const { isLoading } = useIsByeol();
+  const joinStepControlContext = useContext(JoinStepControlContext);
+  if (!joinStepControlContext) {
+    throw new Error("joinStepControlContext is null");
+  }
+  const { step, setStep } = joinStepControlContext;
+
+  const {
+    data: isUser,
+    isLoading: isUserLoding,
+    isValidating: isUserValidating,
+  } = useIsUser();
+  const {
+    data: isByeol,
+    isLoading: isByeolLoading,
+    isValidating: isByeolValidating,
+  } = useIsByeol();
   const openWindow = useCallback((provider: string) => {
     const width = 500;
     const height = 600;
@@ -27,13 +40,24 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (isLoading) {
+    if (isUserLoding || isUserValidating || isByeolLoading || isByeolValidating)
       return;
-    }
 
-    // 미들웨어서 라우팅 하기 때문에 새로 고침만 하면 됩니다.
-    router.refresh();
-  });
+    if (isUser && isByeol === false) {
+      setStep(step + 1);
+    } else if (isUser && isByeol) {
+      setStep(-1);
+    }
+  }, [
+    isByeol,
+    isByeolLoading,
+    isByeolValidating,
+    isUser,
+    isUserLoding,
+    isUserValidating,
+    setStep,
+    step,
+  ]);
 
   return (
     <ul className="grid gap-4">

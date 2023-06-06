@@ -1,4 +1,4 @@
-import SignInList from "@/app/component/auth/signInList";
+import SignInList from "@/app/component/auth/sign-in/sign-in-list";
 
 export default function SignInComponent() {
   return (

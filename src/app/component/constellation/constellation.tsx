@@ -15,9 +15,5 @@ export type ConstellationComponentProps = {
 
 export default function Constellation({ IAU }: Props) {
   const ConstellationOriginComponent = constellationMap[IAU].origin;
-  return (
-    <>
-      <ConstellationOriginComponent />
-    </>
-  );
+  return <ConstellationOriginComponent />;
 }

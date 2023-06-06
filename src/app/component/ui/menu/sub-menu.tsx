@@ -4,7 +4,7 @@ import HomeIcon from "@/app/component/ui/icon/size24/home";
 import SignOutIcon from "@/app/component/ui/icon/size24/sign-out";
 import SettingIcon from "@/app/component/ui/icon/size24/setting";
 import { useRouter } from "next/navigation";
-import { signOut, useIsByeol } from "@/services/auth/auth.use";
+import { signOut, useIsByeol } from "@/services/auth/use.auth";
 import { useContext } from "react";
 import { ToastContext } from "@/app/component/ui/toast-message/toast-provider";
 

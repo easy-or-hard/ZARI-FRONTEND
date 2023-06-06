@@ -3,6 +3,20 @@ import authFetcher from "@/services/auth/auth.fetcher";
 import { API } from "@/const";
 import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
 
+export const useIsUser = () => {
+  const swrOptions: SWRConfiguration = {
+    revalidateOnMount: true,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    refreshWhenHidden: true,
+  };
+  return useSWR(
+    `${API.BASE_URL}/auth/is-user`,
+    (url) => baseFetcher<Boolean>(url, baseFetcherOptions("GET")),
+    swrOptions
+  );
+};
+
 /**
  * @description 별 사용자인지 확인합니다.
  * @return { SWRResponse } SWRResponse 를 반환합니다.
@@ -13,7 +27,6 @@ export const useIsByeol = () => {
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
     refreshWhenHidden: true,
-    refreshInterval: 1000, //  1 sec
   };
   return useSWR(
     `${API.BASE_URL}/auth/is-byeol`,
