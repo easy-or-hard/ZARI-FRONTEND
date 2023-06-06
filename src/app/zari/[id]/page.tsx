@@ -126,8 +126,12 @@ export default function ZariPage({ params: { id } }: Props) {
               };
               showCreateBanzzackModal(createBanzzackModalProps);
             })
-            .catch(() => {
-              showToast("✨ 누군가 반짝이를 붙이고 있어요");
+            .catch((error) => {
+              if (error.statusCode === 401) {
+                showToast("✨ 회원 가입 먼저 하라우!");
+              } else {
+                showToast("✨ 누군가 반짝이를 붙이고 있어요");
+              }
             });
         }
       }
