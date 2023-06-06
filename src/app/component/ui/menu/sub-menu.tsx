@@ -12,7 +12,7 @@ import { ModalContext } from "@/app/component/ui/popup/modal/modal.provider";
 export default function SubMenu() {
   const modalConext = useContext(ModalContext);
   if (!modalConext) throw new Error("ModalContext is null");
-  const { showConfirmModal } = modalConext;
+  const { showConfirmModal, showSettingsModal } = modalConext;
 
   const toastContext = useContext(ToastContext);
   if (!toastContext) throw new Error("ToastContext is null");
@@ -21,16 +21,7 @@ export default function SubMenu() {
   const router = useRouter();
 
   const handlerSettings = () => {
-    showConfirmModal({
-      onAccept: () => {
-        signOut().then(() => showToast("로그아웃 되었어요"));
-      },
-      accept: "나갈래요",
-      cancel: "머물게요",
-      title: "로그아웃 할까요?",
-      description: "다시 로그인 하면 자리로 돌아 올 수 있어요",
-      acceptType: "danger",
-    });
+    showSettingsModal();
   };
 
   const handlerSignOut = () => {
