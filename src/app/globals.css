@@ -102,12 +102,51 @@ main {
   animation-fill-mode: forwards, forwards;
 }
 
+/* --delay 는 요소에서 style 로 지정 */
+.speakAnimation {
+  opacity: 0;
+  animation-name: fadeIn;
+  animation-duration: .3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.speakCircle1, .speakCircle2, .speakCircle3 {
+  animation: fadeInOut 1.5s infinite;
+  opacity: 0;
+}
+
+.speakCircle1 {
+  animation-delay: 0s;
+}
+
+.speakCircle2 {
+  animation-delay: 0.3s;
+}
+
+.speakCircle3 {
+  animation-delay: 0.6s;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 30% {
+    opacity: 0;
+  }
+  60%, 80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -122,3 +161,4 @@ main {
     opacity: .2;
   }
 }
+
