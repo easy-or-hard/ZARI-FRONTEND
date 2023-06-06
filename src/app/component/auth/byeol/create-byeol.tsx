@@ -24,7 +24,7 @@ export default function CreateByeol() {
   if (!joinStepControlContext) {
     throw new Error("joinStepControlContext is null");
   }
-  const { step, setStep } = joinStepControlContext;
+  const { setStep } = joinStepControlContext;
 
   const [name, setName] = useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
