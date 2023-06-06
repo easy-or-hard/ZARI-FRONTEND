@@ -166,7 +166,6 @@ main {
   }
 }
 
-
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -180,7 +179,7 @@ main {
 }
 
 .bg-gradient {
-  background: linear-gradient(270deg, #4D35E1, #9731C7);
+  background: linear-gradient(270deg, #4d35e1, #9731c7);
   background-size: 200% 200%;
-  animation: gradient 20s linear infinite;
+  animation: gradient 10s linear infinite;
 }
