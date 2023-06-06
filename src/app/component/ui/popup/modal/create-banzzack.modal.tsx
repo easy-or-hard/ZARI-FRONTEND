@@ -63,18 +63,6 @@ export default function CreateBanzzackModal({
     []
   );
 
-  const confirmContent = useMemo(
-    () => (
-      <div>
-        <div className={"mb-3 font-bold"}>반짝이를 붙일까요?</div>
-        한번 붙은 반짝이는 수정을 할 수 없어요
-        <br />
-        그리고 나의 이야기는 모두가 볼 수 있어요
-      </div>
-    ),
-    []
-  );
-
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       // TODO, nextjs 13 의 실험적 기능 action 이 turbo 와 같이 사용할 수 있게 되면 action 으로 바꿔서 테스트하기
@@ -98,12 +86,14 @@ export default function CreateBanzzackModal({
       };
 
       showConfirmModal({
-        children: confirmContent,
+        title: "반짝이를 붙일까요?",
+        description:
+          "한번 붙은 반짝이는 수정을 할 수 없어요 <br /> 그리고 나의 이야기는 모두가 볼 수 있어요",
         onAccept: handleAccept,
         onCancel: handleCancel,
       });
     },
-    [confirmContent, showConfirmModal, starNumber, zariId]
+    [showConfirmModal, starNumber, zariId]
   );
 
   const handleCloseModal = useCallback(() => {

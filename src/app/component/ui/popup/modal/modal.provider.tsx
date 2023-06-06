@@ -11,6 +11,7 @@ import CreateBanzzackModal, {
 import ConfirmModal, {
   ConfirmModalProps,
 } from "@/app/component/ui/popup/modal/confirm.modal";
+import SettingsModal from "@/app/component/ui/popup/modal/settings.modal";
 
 type BaseModalContextType = {
   closeModal: () => void;
@@ -25,6 +26,7 @@ type ModalContextType = {
   showConfirmModal: (props: ConfirmModalProps) => void;
   showReadBanzzackModal: (props: ReadBanzzackModalProps) => void;
   showCreateBanzzackModal: (props: CreateBanzzackModalProps) => void;
+  showSettingsModal: () => void;
 };
 
 export const BaseModalContext = createContext<BaseModalContextType | null>(
@@ -77,6 +79,10 @@ export default function ModalProvider({ children }: Props) {
     [pushModal]
   );
 
+  const showSettingsModal = useCallback(() => {
+    pushModal(<SettingsModal />);
+  }, [pushModal]);
+
   const closeModal = useCallback(() => {
     popModal();
   }, [popModal]);
@@ -93,6 +99,7 @@ export default function ModalProvider({ children }: Props) {
         showReadBanzzackModal,
         showCreateBanzzackModal,
         showConfirmModal,
+        showSettingsModal,
       }}
     >
       {children}

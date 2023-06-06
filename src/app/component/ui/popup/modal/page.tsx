@@ -19,8 +19,12 @@ export default function ModalTestPage() {
   if (!modalContext) {
     throw new Error("ModalContext is null");
   }
-  const { showReadBanzzackModal, showCreateBanzzackModal, showConfirmModal } =
-    modalContext;
+  const {
+    showReadBanzzackModal,
+    showCreateBanzzackModal,
+    showConfirmModal,
+    showSettingsModal,
+  } = modalContext;
 
   const [state, dispatch] = useReducer(
     (state) => {
@@ -48,15 +52,6 @@ export default function ModalTestPage() {
     closeBeforeCallback: () => alert("closeBeforeCallback"),
   };
 
-  const confirmContent = (
-    <div>
-      <div className={"mb-3 font-bold"}>반짝이를 붙일까요?</div>
-      한번 붙은 반짝이는 수정을 할 수 없어요
-      <br />
-      그리고 나의 이야기는 모두가 볼 수 있어요
-    </div>
-  );
-
   return (
     <>
       <button
@@ -82,13 +77,20 @@ export default function ModalTestPage() {
         type={"button"}
         onClick={() =>
           showConfirmModal({
-            children: confirmContent,
+            title: "반짝이를 붙일까요?",
+            description:
+              "한번 붙은 반짝이는 수정을 할 수 없어요 그리고 나의 이야기는 모두가 볼 수 있어요",
             onAccept: () => alert("accept"),
             onCancel: () => alert("cancel"),
           })
         }
       >
         confirmModal
+      </button>
+
+      <hr />
+      <button type={"button"} onClick={() => showSettingsModal()}>
+        세팅
       </button>
     </>
   );

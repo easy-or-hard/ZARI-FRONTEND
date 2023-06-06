@@ -33,10 +33,11 @@ export default function ConfirmButton({
     <button
       className={`px-10 py-3 rounded-lg ${
         disabled && isToggle ? disabledClass : colorClass
-      }`}
+      } ${colorType === "accept" ? "bg-gradient" : ""}`}
       type={type}
       onClick={onClick}
       disabled={disabled}
+      // style={style}
     >
       {children}
     </button>

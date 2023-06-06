@@ -5,27 +5,23 @@ import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
 
 export type ConfirmModalProps = {
-  children: ReactNode;
+  title?: string;
+  description: ReactNode;
   onAccept: () => void;
   onCancel?: () => void;
   cancel?: string;
   accept?: string;
+  acceptType?: "accept" | "cancel" | "danger";
 };
 
-/**
- * @description 확인 모달
- * @param {ReactNode} children
- * @param {Function} onConfirm
- * @param {string} cancel
- * @param {string} accept
- * @constructor
- */
 export default function ConfirmModal({
-  children,
+  title,
+  description,
   onAccept,
   onCancel,
   cancel = "취소",
   accept = "확인",
+  acceptType = "accept",
 }: ConfirmModalProps) {
   const baseModalContext = useContext(BaseModalContext);
   if (!baseModalContext) {
@@ -51,8 +47,10 @@ export default function ConfirmModal({
   }, [closeModal, onCancel]);
 
   return (
-    <div>
-      <div className="mb-4">{children}</div>
+    // 패딩을 부모가 관리하는데 기본 패딩 p3에 추가로 p2를 줌
+    <div className="p-2">
+      {title && <div className="font-bold pb-3">{title}</div>}
+      <div className="mb-4">{description}</div>
       <div className="grid grid-cols-2 gap-2">
         <ConfirmButton
           onClick={handleCancel}
@@ -62,7 +60,7 @@ export default function ConfirmModal({
           {cancel}
         </ConfirmButton>
         <ConfirmButton
-          colorType={"accept"}
+          colorType={acceptType}
           disabled={isClicked}
           onClick={handleAccept}
         >

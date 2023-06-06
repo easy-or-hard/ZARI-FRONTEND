@@ -1,15 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import useIsNameAvailableByeol from "@/services/byeol/use.Is-name-available.byeol";
 
 type ByeolNameInputProps = {
+  title?: ReactNode;
   name: string;
   setName: (name: string) => void;
   setIsNameAvailable: (isAvailable: boolean) => void;
 };
 
 export default function ByeolNameInput({
+  title = (
+    <div
+      className={
+        "text-center mb-8 text-suit text-2xl font-bold leading-relaxed"
+      }
+    >
+      별님의 이름과 생일을 알려주세요
+    </div>
+  ),
   name,
   setName,
   setIsNameAvailable,
@@ -44,13 +54,7 @@ export default function ByeolNameInput({
 
   return (
     <div className={"flex flex-col mb-8"}>
-      <div
-        className={
-          "text-center mb-8 text-suit text-2xl font-bold leading-relaxed"
-        }
-      >
-        별님의 이름과 생일을 알려주세요
-      </div>
+      {title}
       <input
         className={`bg-[#3A2B4D] p-4 rounded-xl block w-full`}
         type={"text"}
