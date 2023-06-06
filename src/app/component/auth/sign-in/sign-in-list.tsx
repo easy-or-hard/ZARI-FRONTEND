@@ -18,7 +18,7 @@ export default function SignInList() {
 
   const {
     data: isUser,
-    isLoading: isUserLoding,
+    isLoading: isUserLoading,
     isValidating: isUserValidating,
   } = useIsUser();
   const {
@@ -26,6 +26,7 @@ export default function SignInList() {
     isLoading: isByeolLoading,
     isValidating: isByeolValidating,
   } = useIsByeol();
+
   const openWindow = useCallback((provider: string) => {
     const width = 500;
     const height = 600;
@@ -40,20 +41,23 @@ export default function SignInList() {
   }, []);
 
   useEffect(() => {
-    if (isUserLoding || isUserValidating || isByeolLoading || isByeolValidating)
+    if (
+      isUserLoading ||
+      isUserValidating ||
+      isByeolLoading ||
+      isByeolValidating
+    )
       return;
 
     if (isUser && isByeol === false) {
-      setStep(step + 1);
-    } else if (isUser && isByeol) {
-      setStep(-1);
+      setStep(1);
     }
   }, [
     isByeol,
     isByeolLoading,
     isByeolValidating,
     isUser,
-    isUserLoding,
+    isUserLoading,
     isUserValidating,
     setStep,
     step,
