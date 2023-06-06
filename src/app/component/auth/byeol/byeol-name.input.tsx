@@ -31,17 +31,29 @@ export default function ByeolNameInput({
   const { data, error } = useIsNameAvailableByeol(name);
 
   useEffect(() => {
+    if (name) return;
+
+    setNamingGuide({
+      message: "",
+      color: "#FFFFFF",
+    });
+    setIsNameAvailable(false);
+  }, [name]);
+
+  useEffect(() => {
     if (error) {
-      setNamingGuide({
-        message: error.message,
-        color: "#FF416E",
-      });
-      setIsNameAvailable(false);
-    } else if (!data) {
-      setNamingGuide({
-        message: "",
-        color: "#FFFFFF",
-      });
+      const statusCode = error.statusCode;
+      if (statusCode === 409) {
+        setNamingGuide({
+          message: "이미 사용중인 이름이에요",
+          color: "#FAB402",
+        });
+      } else {
+        setNamingGuide({
+          message: error.message,
+          color: "#FF416E",
+        });
+      }
       setIsNameAvailable(false);
     } else if (data) {
       setNamingGuide({
