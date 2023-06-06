@@ -4,7 +4,6 @@ import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
 import { ByeolEntity } from "@/services/byeol/entities/byeol.entity";
 import { PostByeolDto } from "@/services/byeol/dto/reuqest/post-byeol.dto";
 import { MutatorOptions } from "swr/_internal";
-import { PatchByeolDto } from "@/services/byeol/dto/reuqest/patch-byeol.dto";
 
 export type UniqueByeol = {
   name: string;
@@ -58,17 +57,12 @@ export default function useByeol(uniqueByeol?: UniqueByeol | undefined) {
       console.error(error);
     }
   };
-  const patch = async (patchByeolDto: PatchByeolDto) => {
-    if (!data) {
-      throw new Error("데이터가 없습니다.");
-    }
-
-    const fetcher = byeolFetcher("PATCH", patchByeolDto);
+  const patch = async () => {
+    const fetcher = byeolFetcher("PATCH");
     const options: MutatorOptions = {
       rollbackOnError: true,
       optimisticData: {
         ...data,
-        ...patchByeolDto,
       },
     };
 

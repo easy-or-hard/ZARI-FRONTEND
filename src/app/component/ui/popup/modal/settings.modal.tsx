@@ -6,6 +6,8 @@ import CloseButton from "@/app/component/ui/button/icon/close.button";
 import ByeolNameInput from "@/app/component/auth/byeol/byeol-name.input";
 import NewTabIcon from "@/app/component/ui/icon/size16/new-tab";
 import { BaseModalContext } from "@/app/component/ui/popup/modal/modal.provider";
+import useByeol from "@/services/byeol/use.byeol";
+import { ToastContext } from "@/app/component/ui/toast-message/toast-provider";
 
 export default function SettingsModal() {
   const modalContext = useContext(BaseModalContext);
@@ -14,13 +16,24 @@ export default function SettingsModal() {
   }
   const { closeModal } = useMemo(() => modalContext, [modalContext]);
 
+  const toastContext = useContext(ToastContext);
+  if (!toastContext) throw new Error("ToastContext is null");
+  const showToast = toastContext;
+
   const [isClicked, setIsClicked] = useState(false);
   const [name, setName] = useState("");
   const [isNameAvailable, setIsNameAvailable] = useState(false);
 
+  const { patch } = useByeol({ name });
+  console.log("🍓🍓", name);
+
   const handleAccept = useCallback(() => {
     setIsClicked(true);
-  }, []);
+    patch().then(() => {
+      closeModal();
+      showToast("별 이름이 변경되었어요!");
+    });
+  }, [closeModal, patch, showToast]);
 
   return (
     // 패딩을 부모가 관리하는데 기본 패딩 p3에 추가로 p2를 줌
@@ -59,9 +72,10 @@ export default function SettingsModal() {
       </div>
       <div className="grid">
         <ConfirmButton
-          disabled={isClicked || isNameAvailable}
+          disabled={isClicked || !isNameAvailable}
           onClick={handleAccept}
           colorType={"accept"}
+          isToggle={true}
         >
           저장하기
         </ConfirmButton>

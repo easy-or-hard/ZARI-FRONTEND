@@ -22,7 +22,7 @@ export default function ConfirmButton({
   isToggle = false,
 }: ConfirmProps) {
   const colorClass = {
-    accept: "bg-zari_btn_primary",
+    accept: "bg-gradient",
     cancel: "border",
     danger: "bg-zari_danger",
   }[colorType];
@@ -33,11 +33,10 @@ export default function ConfirmButton({
     <button
       className={`px-10 py-3 rounded-lg ${
         disabled && isToggle ? disabledClass : colorClass
-      } ${colorType === "accept" ? "bg-gradient" : ""}`}
+      }`}
       type={type}
       onClick={onClick}
       disabled={disabled}
-      // style={style}
     >
       {children}
     </button>
