@@ -50,10 +50,8 @@ export default function SignInList() {
       return;
 
     if (isUser && isByeol === false) {
-      console.log("🍓");
       setStep(1);
     } else if (isByeol) {
-      console.log("😱");
       setStep(-1);
     }
   }, [
