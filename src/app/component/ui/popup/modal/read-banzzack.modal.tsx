@@ -35,9 +35,7 @@ export default function ReadBanzzackModal({
         </div>
         <CloseButton onClick={closeModal} />
       </div>
-      <div
-        className={"bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4"}
-      >
+      <div className={"bg-zari_btn_disabled rounded-lg px-2 py-4"}>
         <div className={"h-32 max-h-60"}>{banzzack.content}</div>
       </div>
       <ConfirmButton

@@ -11,7 +11,10 @@ type Props = {
  */
 export default function Dim({ children }: Props) {
   return (
-    <div className="absolute top-0 w-full h-full bg-zari_default_black opacity-50">
+    <div
+      className="backdrop-blur-sm absolute top-0 w-full h-full"
+      style={{ backgroundColor: "rgba(22,22,22,.5)" }}
+    >
       {children}
     </div>
   );

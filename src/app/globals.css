@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "SUIT";
+  src: url("/fonts/SUITE-Variable.woff2")
+}
+
+@layer base {
+  html {
+    font-family: "SUIT Medium", system-ui, sans-serif;
+  }
+}
+
 body {
   color: white;
 }
@@ -9,6 +20,10 @@ body {
 /* 테일 윈드에 없는 기능이라서 여기에서 적용합니다. */
 main {
   height: 100svh;
+}
+
+p {
+  word-break: keep-all;
 }
 
 /* Track */
@@ -57,11 +72,12 @@ main {
 
 .modal-enter-active {
   opacity: 1;
-  transform: translateX(0);
+  transform: scale(1);
   transition: opacity 300ms, transform 300ms;
 }
 
 .modal-exit {
+  transform: scale(1);
   opacity: 1;
 }
 
@@ -71,19 +87,37 @@ main {
   transition: opacity 300ms, transform 300ms;
 }
 
+.modal-content-enter {
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.modal-content-enter-active {
+  border: 1px solid rgba(255, 255, 255, .2);
+  transition: transform 300ms;
+}
+
+.modal-content-exit {
+  border: 1px solid rgba(255, 255, 255, .2);
+}
+
+.modal-content-exit-active {
+  border: 1px solid rgba(255, 255, 255, 0);
+  transition: transform 300ms;
+}
+
 .dim-enter {
   opacity: 0;
 }
 
 .dim-enter-active {
-  opacity: 0.5;
-  backdrop-filter: blur(90px);
+  opacity: 1;
+  backdrop-filter: blur(4px);
   transition: opacity 300ms;
 }
 
 .dim-exit {
-  backdrop-filter: blur(90px);
-  opacity: 0.5;
+  backdrop-filter: blur(4px);
+  opacity: 1;
 }
 
 .dim-exit-active {
@@ -182,4 +216,26 @@ main {
   background: linear-gradient(270deg, #4d35e1, #9731c7);
   background-size: 200% 200%;
   animation: gradient 10s linear infinite;
+}
+
+.modal-title {
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0em;
+}
+
+.modal-content-title {
+  font-size: 16px;
+  color: #B8B8B8;
+}
+
+.modal-content-subtitle {
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0em;
+  color: #A191B3;
+}
+
+button {
+  font-size: 16px;
 }

@@ -35,14 +35,18 @@ export default function BaseModal() {
       )}
       {modalStack.map((modalContent, index) => (
         <CSSTransition key={index} timeout={300} classNames="modal">
+          {/* modal container */}
           <div
-            className={`absolute top-0 px-10 w-full h-full grid place-items-center`}
+            className={`absolute top-0 px-4 w-full h-full grid place-items-center`}
           >
-            <div
-              className={`relative modal border-[1px] border-white border-opacity-20 w-full bg-zari_default_black backdrop-blur-lg rounded-2xl p-3`}
-            >
-              {modalContent}
-            </div>
+            <CSSTransition timeout={300} classNames="modal-content">
+              {/* modal */}
+              <div
+                className={`bg-zari_default_black  bg-opacity-50 border-[1px] border-white border-opacity-20 w-full rounded-2xl p-3`}
+              >
+                {modalContent}
+              </div>
+            </CSSTransition>
           </div>
         </CSSTransition>
       ))}

@@ -27,7 +27,7 @@ export default function SettingsModal() {
     <div className="p-2">
       {/* 헤더 */}
       <div className="flex justify-between items-center mb-7">
-        <div className="text-lg font-bold">자리의 무언가를 바꿔볼까요?</div>
+        <div className="modal-title">자리의 무언가를 바꿔볼까요?</div>
         <button onClick={closeModal}>
           <CloseButton />
         </button>
@@ -36,7 +36,7 @@ export default function SettingsModal() {
       {/* 이름 변경 */}
       <div className="mb-15">
         <ByeolNameInput
-          title={<div className="mb-3">별 이름 바꾸기</div>}
+          title={<div className="modal-content-title mb-3">별 이름 바꾸기</div>}
           name={name}
           setName={setName}
           setIsNameAvailable={setIsNameAvailable}
@@ -45,8 +45,8 @@ export default function SettingsModal() {
 
       {/* 설명 */}
       <div className="mb-10">
-        <div className="mb-3">저 할말있어요</div>
-        <p className="mb-5">
+        <div className="modal-content-title mb-3">저 할말있어요!</div>
+        <p className="modal-content-subtitle mb-5">
           자리에 대해 하고 싶은 말이 있다면 아래 이메일로 의견을 보내주세요!
           <br /> 적극적인 패드백은 언제든이 환영이에요 :-)
         </p>

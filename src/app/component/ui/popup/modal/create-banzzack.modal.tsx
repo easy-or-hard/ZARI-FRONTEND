@@ -110,9 +110,7 @@ export default function CreateBanzzackModal({
         </div>
         <CloseButton onClick={handleCloseModal} />
       </div>
-      <div
-        className={"bg-zari_default_white bg-opacity-20 rounded-lg px-2 py-4"}
-      >
+      <div className={"bg-zari_btn_disabled rounded-lg px-2 py-4"}>
         <textarea
           name={"content"}
           className={"w-full bg-transparent h-32 max-h-60 outline-none"}
