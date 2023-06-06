@@ -1,5 +1,8 @@
 import "./globals.css";
 import React from "react";
+import JoinStepControlProvider from "@/app/component/auth/join-step-control.provider";
+import ToastProvider from "@/app/component/ui/toast-message/toast-provider";
+import ModalProvider from "@/app/component/ui/popup/modal/modal.provider";
 
 export const metadata = {
   title: "ZARI",
@@ -21,7 +24,11 @@ export default function RootLayout({
             backgroundRepeat: "no-repeat, no-repeat", // 각각의 반복 설정
           }}
         >
-          {children}
+          <ToastProvider>
+            <ModalProvider>
+              <JoinStepControlProvider>{children}</JoinStepControlProvider>
+            </ModalProvider>
+          </ToastProvider>
         </main>
       </body>
     </html>

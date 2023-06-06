@@ -6,7 +6,7 @@ import { JWT } from "@/const";
  * 매칭할 경로를 설정합니다.
  */
 export const config = {
-  matcher: ["/auth/sign-in", "/byeol/create", "/byeol/me"],
+  matcher: ["/byeol/me"],
 };
 
 /**
@@ -18,21 +18,10 @@ export const config = {
  */
 export async function middleware(request: NextRequest) {
   const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
-  const isUser = await authFetcher.isUser(jwt);
 
   let url;
 
   switch (request.nextUrl.pathname) {
-    case "/auth/sign-in":
-      if (!jwt || !isUser) {
-        return NextResponse.next();
-      }
-      const isByeol = await authFetcher.isByeol(jwt);
-      url = isByeol ? "/byeol/me" : "/byeol/create";
-      break;
-    case "/byeol/create":
-      url = isUser ? null : "/";
-      break;
     case "/byeol/me":
       try {
         const isByeol = await authFetcher.isByeol(jwt);

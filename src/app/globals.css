@@ -106,13 +106,15 @@ main {
 .speakAnimation {
   opacity: 0;
   animation-name: fadeIn;
-  animation-duration: .3s;
+  animation-duration: 0.3s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
 
-.speakCircle1, .speakCircle2, .speakCircle3 {
+.speakCircle1,
+.speakCircle2,
+.speakCircle3 {
   animation: fadeInOut 1.5s infinite;
   opacity: 0;
 }
@@ -139,10 +141,12 @@ main {
 }
 
 @keyframes fadeInOut {
-  0%, 30% {
+  0%,
+  30% {
     opacity: 0;
   }
-  60%, 80% {
+  60%,
+  80% {
     opacity: 1;
   }
   100% {
@@ -152,13 +156,12 @@ main {
 
 @keyframes pulse {
   0% {
-    opacity: .2;
+    opacity: 0.2;
   }
   50% {
     opacity: 1;
   }
   100% {
-    opacity: .2;
+    opacity: 0.2;
   }
 }
-

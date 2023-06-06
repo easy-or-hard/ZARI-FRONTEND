@@ -24,7 +24,7 @@ export default function CreateByeol() {
   if (!joinStepControlContext) {
     throw new Error("joinStepControlContext is null");
   }
-  const { setStep } = joinStepControlContext;
+  const { step, setStep } = joinStepControlContext;
 
   const [name, setName] = useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -51,10 +51,10 @@ export default function CreateByeol() {
   );
 
   useEffect(() => {
-    if (isByeol || !isUser) {
+    if (isUser && isByeol) {
       setStep(-1);
     }
-  }, [isByeol, isUser]);
+  }, [isByeol, isUser, setStep]);
 
   return (
     <form
