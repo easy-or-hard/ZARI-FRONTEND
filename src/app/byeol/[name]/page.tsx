@@ -1,4 +1,5 @@
-import React from "react";
+import byeolFetcher from "@/services/byeol/byeol.fetcher";
+import ZariPage from "@/app/zari/[id]/page";
 
 type Props = {
   params: {
@@ -6,6 +7,13 @@ type Props = {
   };
 };
 
-export default function ConstellationPage({ params: { name } }: Props) {
-  return <div>별 이름: {name}</div>;
+/**
+ * @description 별자리를 볼 수 있는 페이지
+ * @constructor
+ */
+export default async function MePage({ params: { name } }: Props) {
+  const { key, fetcher } = byeolFetcher.findByName(name);
+  const includeZariByeol = await fetcher(key);
+
+  return <ZariPage params={{ id: includeZariByeol.zaris[0].id }} />;
 }

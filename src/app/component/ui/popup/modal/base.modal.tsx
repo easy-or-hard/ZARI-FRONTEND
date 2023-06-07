@@ -43,6 +43,7 @@ export default function BaseModal() {
               {/* modal */}
               <div
                 className={`bg-zari_default_black  bg-opacity-50 border-[1px] border-white border-opacity-20 w-full rounded-2xl p-3`}
+                style={{ backgroundColor: "rgba(22,22,22, .9)" }}
               >
                 {modalContent}
               </div>

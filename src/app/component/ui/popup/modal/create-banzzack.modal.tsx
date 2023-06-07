@@ -87,8 +87,12 @@ export default function CreateBanzzackModal({
 
       showConfirmModal({
         title: "반짝이를 붙일까요?",
-        description:
-          "한번 붙은 반짝이는 수정을 할 수 없어요 <br /> 그리고 나의 이야기는 모두가 볼 수 있어요",
+        description: (
+          <p>
+            한번 붙은 반짝이는 수정을 할 수 없어요 <br /> 그리고 나의 이야기는
+            모두가 볼 수 있어요
+          </p>
+        ),
         onAccept: handleAccept,
         onCancel: handleCancel,
       });

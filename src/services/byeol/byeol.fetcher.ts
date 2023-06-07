@@ -52,6 +52,13 @@ const findById = (id: number) => {
   return fetcher.create<OkResponseDto<IncludeZariByeolDto>>({ key: url, init });
 };
 
+const findByName = (name: string) => {
+  const url = `${API.BASE_URL}/byeol?name=${name}`;
+  const init = fetcher.createRequestOptions("GET");
+
+  return fetcher.create<IncludeZariByeolDto>({ key: url, init });
+};
+
 /**
  * 나의 별 정보를 가져옵니다.
  * @param {RequestCookie} accessToken
@@ -69,7 +76,8 @@ const byeolFetcher = {
   createByeol,
   isNameAvailable: isNameAvailable,
   findById,
-  findMe: findMe,
+  findMe,
+  findByName,
 };
 
 export default byeolFetcher;
