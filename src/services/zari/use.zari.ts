@@ -20,6 +20,10 @@ export default function useZari(id: number) {
       ),
     {
       refreshWhenHidden: true,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      refreshInterval: 1000,
+      refreshWhenOffline: true,
     }
   );
 

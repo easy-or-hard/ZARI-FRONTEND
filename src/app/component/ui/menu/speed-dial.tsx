@@ -14,7 +14,7 @@ export default function SpeedDial() {
       {/* handler */}
       <button
         onClick={() => setMenuButtonRotate(!menuButtonRotate)}
-        className={`z-10 transition-transform ${
+        className={`transition-transform ${
           menuButtonRotate ? "rotate-45" : ""
         } bg-zari_primary p-3 rounded-full inline-grid place-items-center`}
       >
