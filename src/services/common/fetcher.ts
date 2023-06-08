@@ -71,6 +71,7 @@ export const baseFetcher = async <T>(
 ) => {
   let response;
   try {
+    console.log("🐛url: ", url);
     response = await fetch(url, init);
   } catch (error) {
     // 네트워크 오류
@@ -80,7 +81,7 @@ export const baseFetcher = async <T>(
   const responseJson = await response.json();
 
   if (!response.ok) {
-    console.log("responseJson: 💀💀💀💀💀💀💀💀", responseJson);
+    console.log("🐛responseJson: ", responseJson);
     throw new ZariError(responseJson);
   }
 
