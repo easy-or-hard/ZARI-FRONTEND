@@ -17,14 +17,14 @@ export default function useZari(id: number) {
       baseFetcher<IncludeConstellationByeolBanzzackZariDto>(
         url,
         baseFetcherOptions("GET")
-      ),
-    {
-      refreshWhenHidden: true,
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
-      refreshInterval: 1000,
-      refreshWhenOffline: true,
-    }
+      )
+    // {
+    //   refreshWhenHidden: true,
+    //   revalidateOnFocus: true,
+    //   revalidateOnReconnect: true,
+    //   refreshInterval: 1000,
+    //   refreshWhenOffline: true,
+    // }
   );
 
   return {
