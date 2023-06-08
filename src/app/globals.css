@@ -31,7 +31,7 @@ main {
 
   border: cornflowerblue 5px solid;
 
-  background-image: linear-gradient(to bottom, rgba(19, 16, 29, 0.7), rgba(63, 44, 83, 0.2)), url(/test_bg.jpg);
+  background-image: linear-gradient(to bottom, rgba(19, 16, 29, 0.7), rgba(63, 44, 83, 0.2)), url(/BG_Star.png);
   background-position: center, top center;
   background-repeat: no-repeat, repeat;
 }
