@@ -15,8 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="kr">
-      <body className={"bg-gray-950"}>
-        <div id="decorator">앙퀴모리</div>
+      <body className={`bg-gray-950`}>
         <main>
           <ToastProvider>
             <ModalProvider>
