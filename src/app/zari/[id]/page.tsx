@@ -139,10 +139,10 @@ export default function ZariPage({ params: { id } }: Props) {
   };
 
   return (
-    <div className="h-full p-4 flex flex-col items-center">
+    <div className="h-full flex flex-col items-center">
       <ZariHeader onClickWrite={handlerRandomBanzzackCreate} />
       <div className={"p-4 flex flex-col justify-around items-center"}>
-        <div className="font-bold text-center text-5xl">
+        <div className="font-bold text-center text-4xl">
           {includeConstellationByeolBanzzackZari.byeol.name}
         </div>
         <div className="font-medium text-center">
