@@ -65,9 +65,9 @@ export default function SettingsModal() {
         </p>
         <a
           className=" inline-flex items-center gap-1 underline"
-          href="mailto:krb7korea@me.com"
+          href="mailto:master@xiyo.dev"
         >
-          krb7korea@me.com <NewTabIcon />
+          master@xiyo.dev <NewTabIcon />
         </a>
       </div>
       <div className="grid">
