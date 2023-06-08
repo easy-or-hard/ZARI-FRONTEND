@@ -21,10 +21,10 @@ export default function MainPage() {
 
   useEffect(() => {
     if (isLoading || isValidating) return;
-    if (step === -1) {
+    if (!isByeol) {
       setStep(0);
     }
-  }, [isLoading, isValidating]);
+  }, [isByeol, isLoading, isValidating, setStep]);
 
   useEffect(() => {
     if (isLoading || isValidating) return;
