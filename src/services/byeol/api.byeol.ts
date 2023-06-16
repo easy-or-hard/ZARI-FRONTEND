@@ -33,8 +33,8 @@ export const urlIsNameAvailable = (name: string) =>
  * 자리 URL
  */
 
-export const getZariUrl = (key: [name: string, constellationIAU: string]) =>
-  `${BYEOLS_URL}/${key[0]}/zaris/${key[1]}`;
+export const getZariUrl = ([name, constellationAIU]: ZariUniqueKey) =>
+  `${BYEOLS_URL}/${name}/zaris/${constellationAIU}`;
 
 /**
  * 반짝 URL
