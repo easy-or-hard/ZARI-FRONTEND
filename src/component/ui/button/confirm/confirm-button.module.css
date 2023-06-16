@@ -1,8 +1,9 @@
 .button {
-  height: 3rem;
-  border-radius: 0.5rem; /* 이 부분에서 라운딩 처리를 합니다. */
+  height: 50px;
+  border-radius: 8px; /* 이 부분에서 라운딩 처리를 합니다. */
 
   flex-shrink: 0; /* 버튼의 크기가 줄어들지 않도록 설정 */
+  font-weight: bold;
 }
 
 .accept {
@@ -12,6 +13,7 @@
 }
 
 .cancel {
+  box-sizing: border-box;
   border: 1px solid white;
 }
 

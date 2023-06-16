@@ -3,45 +3,62 @@ import { BaseModalContext } from "@/component/ui/popup/modal/modal.provider";
 import CloseButton from "@/component/ui/button/icon/close.button";
 import ConfirmButton from "@/component/ui/button/confirm/confirm.button";
 import { useBanzzack } from "@/services/banzzack/use.banzzack";
-import { BanzzackUnique } from "@/services/byeol/api.byeol";
+import { BanzzackKey } from "@/services/byeol/api.byeol";
+import styles from "./read-banzzack-modal.module.css";
+import { usePathname, useRouter } from "next/navigation";
+import { useMyByeol } from "@/services/byeol/use.byeol";
+
+export type ReadBanzzackModalProps = {
+  uniqueKey: BanzzackKey;
+};
 
 /**
  * @description 반짝이 읽기 모달
  * @constructor
- * @param {BanzzackUnique} key
+ * @param {BanzzackKey} uniqueKey
  */
-export default function ReadBanzzackModal(key: BanzzackUnique) {
+export default function ReadBanzzackModal({
+  uniqueKey,
+}: ReadBanzzackModalProps) {
   const baseModalContext = useContext(BaseModalContext);
   if (!baseModalContext) {
     throw new Error("BaseModalContext is null");
   }
   const { closeModal } = useMemo(() => baseModalContext, [baseModalContext]);
 
-  const { data } = useBanzzack(key);
+  const router = useRouter();
 
-  if (!data) return <>loading</>;
+  const pathName = usePathname();
+  const lastSection = decodeURIComponent(pathName.split("/").pop() as string);
+
+  const { data: myByeol } = useMyByeol();
+  const { data } = useBanzzack(uniqueKey);
+
+  const handleAnswer = () => {
+    alert(lastSection);
+    if (!data) return;
+    closeModal();
+    router.push(`/byeol/${data.byeolName}`);
+  };
+
+  // TODO: 로딩 애니메이션 빠른 시일내로 구현하겠습니다!
+  if (!data) return <>로딩 애니메이션 빠른 시일내로 구현하겠습니다!</>;
   return (
-    <div className={"flex flex-col gap-2"}>
-      <div className="flex justify-between items-center">
-        <div
-          className={
-            "font-bold indent-1 overflow-hidden whitespace-nowrap overflow-ellipsis"
-          }
-        >
-          <span className={"text-zari_txt_primary"}>{data.byeolName}</span> 의
-          반짝이
+    <div className={styles.wrap}>
+      <div className={styles.wrapTitle}>
+        <div className={styles.title}>
+          <span className={styles.byeolName}>{data.byeolName}</span> 의 반짝이
         </div>
         <CloseButton onClick={closeModal} />
       </div>
-      <div className={"bg-zari_btn_disabled rounded-lg px-2 py-4"}>
-        <div className={"h-32 max-h-60"}>{data.content}</div>
+      <div className={styles.wrapContent}>
+        <div className={styles.content}>{data.content}</div>
       </div>
-      <ConfirmButton
-        colorType={"accept"}
-        onClick={() => alert("아직 이벤트를 안 넣었음")}
-      >
-        <span className={"text-bold"}>나도 반짝이 붙이기</span>
-      </ConfirmButton>
+      {lastSection === myByeol?.name && (
+        <ConfirmButton colorType={"accept"} onClick={handleAnswer}>
+          나도 반짝이 붙이기
+        </ConfirmButton>
+      )}
     </div>
   );
 }

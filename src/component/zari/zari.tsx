@@ -8,7 +8,7 @@ import styles from "./zari.module.css";
 import ShareIcon from "@/component/ui/icon/size24/link";
 import { DOMAIN } from "@/const";
 import { useZari } from "@/services/zari/use.zari";
-import { BanzzackUnique } from "@/services/byeol/api.byeol";
+import { BanzzackKey, BanzzackUnique } from "@/services/byeol/api.byeol";
 
 type Props = {
   name: string;
@@ -30,7 +30,7 @@ export default function Zari({ name, constellationIAU }: Props) {
   if (!modalContext) throw new Error("ModalContext is null");
   const { showReadBanzzackModal, showCreateBanzzackModal } = modalContext;
 
-  const { data } = useZari([name, constellationIAU]);
+  const { data: zariData } = useZari([name, constellationIAU]);
 
   const constellation = constellationMap[constellationIAU];
   const ConstellationOrigin = constellation.origin;
@@ -56,18 +56,21 @@ export default function Zari({ name, constellationIAU }: Props) {
       console.log("🍓click", event.target.tagName.toLowerCase());
 
       const selectedStarNumber =
-        event.target.parentNode.getAttribute("data-name");
+        +event.target.parentNode.getAttribute("data-name");
 
-      console.log("🐛selectedStarNumber", selectedStarNumber);
-      console.log("🐛data", data);
-
-      const banzzack = data?.banzzacks.find((banzzack) => {
-        return banzzack.starNumber === selectedStarNumber;
-      });
+      const banzzack = zariData?.banzzacks.find(
+        (banzzack) => banzzack.starNumber === selectedStarNumber
+      );
 
       // 반짝이가 존재할 경우
       if (banzzack) {
-        showReadBanzzackModal(selectedStarNumber);
+        const banzzackUniqueKey: BanzzackKey = [
+          name,
+          constellationIAU,
+          selectedStarNumber,
+        ];
+
+        showReadBanzzackModal({ uniqueKey: banzzackUniqueKey });
       }
       // 반짝이가 없을 경우
       else {
@@ -82,7 +85,7 @@ export default function Zari({ name, constellationIAU }: Props) {
         });
       }
     },
-    [data?.banzzacks, showCreateBanzzackModal, showReadBanzzackModal]
+    [zariData?.banzzacks, showCreateBanzzackModal, showReadBanzzackModal]
   );
 
   return (
@@ -104,21 +107,22 @@ export default function Zari({ name, constellationIAU }: Props) {
           <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
           <feBlend mode="screen" in2="SourceGraphic" />
         </filter>
+        {zariData && <ConstellationEffect banzzacks={zariData?.banzzacks} />}
         <ConstellationOrigin />
-        {data && <ConstellationEffect banzzacks={data?.banzzacks} />}
-        {/* {data && <ConstellationWriting banzzacks={data?.banzzacks} />}*/}
+        {/* {zariData && <ConstellationWriting banzzacks={zariData?.banzzacks} />}*/}
       </svg>
       {/* svg 가 위에 있는 이유는 영역이 커서 문맥상 먼저 나온 돔이 클릭이 안 돼서... */}
       <div className={styles.description}>
         <div className={styles.byeolName}>{name}</div>
-        {data && (
+        {zariData && (
           <div className={styles.constellationName}>
-            {data.constellation.name}자리
+            {zariData.constellation.name}자리
           </div>
         )}
-        {data && (
+        {zariData && (
           <div className={styles.collectedStar}>
-            {data.banzzacks.length} / {data.constellation.constellationCount}
+            {zariData.banzzacks.length} /{" "}
+            {zariData.constellation.constellationCount}
           </div>
         )}
       </div>

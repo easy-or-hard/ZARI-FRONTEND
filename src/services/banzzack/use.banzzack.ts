@@ -3,8 +3,9 @@ import useSWRSubscription, {
   SWRSubscriptionOptions,
 } from "swr/subscription";
 import {
+  BanzzackKey,
   BanzzackUnique,
-  getBanzzackUrlByUniqueKey,
+  getBanzzackUrl,
   getEventBanzzacksUrl,
   getZariUrl,
 } from "@/services/byeol/api.byeol";
@@ -15,7 +16,7 @@ import {
   ZariError,
 } from "@/services/common/fetcher";
 import { useRef, useState } from "react";
-import useSWR, { mutate, SWRConfiguration } from "swr";
+import useSWR, { mutate } from "swr";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
 
 type LockAndUnlockEventBanzzackDto = {
@@ -30,14 +31,16 @@ type EventLockAndUnlockBanzzackDto = {
   locked: boolean;
 };
 
-export function useBanzzack(key: BanzzackUnique) {
-  const url = getBanzzackUrlByUniqueKey(key);
-  const options: SWRConfiguration = {};
-  return useSWR(url, baseFetcher<BanzzackEntity>, options);
+export function useBanzzack(key: BanzzackKey) {
+  return useSWR(key, (key: BanzzackKey) => {
+    const url = getBanzzackUrl(key);
+    console.log("🐛", url);
+    return baseFetcher<BanzzackEntity>(url);
+  });
 }
 
 export function usePostBanzzack(key: BanzzackUnique) {
-  const url = getBanzzackUrlByUniqueKey(key);
+  const url = getBanzzackUrl(key);
   const fetcher: MutationFetcher<BanzzackEntity, string> = (
     url: string,
     { arg }: { arg: string }

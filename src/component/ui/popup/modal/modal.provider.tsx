@@ -4,13 +4,14 @@ import { createContext, ReactNode, useCallback, useState } from "react";
 import ConfirmModal, {
   ConfirmModalProps,
 } from "@/component/ui/popup/modal/confirm.modal";
-import ReadBanzzackModal from "@/component/ui/popup/modal/read-banzzack.modal";
+import ReadBanzzackModal, {
+  ReadBanzzackModalProps,
+} from "@/component/ui/popup/modal/read-banzzack.modal";
 import SettingsModal from "@/component/ui/popup/modal/settings.modal";
 import CreateBanzzackModal, {
   CreateBanzzackModalProps,
 } from "@/component/ui/popup/modal/create-banzzack.modal";
 import BaseModal from "@/component/ui/popup/modal/base.modal";
-import { BanzzackUnique } from "@/services/byeol/api.byeol";
 
 type BaseModalContextType = {
   closeModal: () => void;
@@ -23,7 +24,7 @@ type ModalContextType = {
   closeModal: () => void;
   allCloseModal: () => void;
   showConfirmModal: (props: ConfirmModalProps) => void;
-  showReadBanzzackModal: (props: BanzzackUnique) => void;
+  showReadBanzzackModal: (props: ReadBanzzackModalProps) => void;
   showCreateBanzzackModal: (props: CreateBanzzackModalProps) => void;
   showSettingsModal: () => void;
 };
@@ -58,7 +59,7 @@ export default function ModalProvider({ children }: Props) {
 
   // 팝업 호출 메소드 초기화
   const showReadBanzzackModal = useCallback(
-    (props: BanzzackUnique) => {
+    (props: ReadBanzzackModalProps) => {
       pushModal(<ReadBanzzackModal {...props} />);
     },
     [pushModal]

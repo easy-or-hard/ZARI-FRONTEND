@@ -1,0 +1,31 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.wrapTitle {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.title {
+    font-weight: 700;
+    line-height: 26px;
+}
+
+.byeolName {
+    color: var(--primary-text);
+}
+
+.wrapContent {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 16px 12px;
+}
+.content {
+    font-weight: 400;
+    line-height: 26px;
+}
