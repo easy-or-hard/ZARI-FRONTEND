@@ -1,0 +1,26 @@
+.background {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    animation: twinkle 1s ease-in-out infinite alternate;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 5px #fff;
+}
+
+@keyframes twinkle {
+    0% { opacity: .2; box-shadow: 0 0 1px 1px #fff; }
+    100% { opacity: .1; box-shadow: 0 0 1px 1px #fff, 0 0 1px 1px #fff; }
+}
+
+
+.shootingStar {
+    width: 1px;
+    height: 1px;
+    transform: rotate(45deg);
+}

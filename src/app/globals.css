@@ -1,39 +1,90 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*@tailwind components;*/
+/*@tailwind utilities;*/
 
-@font-face {
-  font-family: "SUIT";
-  src: url("/fonts/SUITE-Variable.woff2")
+:root {
+  --primary-color: #8F39D6;
+  --secondary-color: #A191B3;
+
+  --danger-color: #FF416E;
+  --disabled-color: #A191B3;
+
+  --primary-text: #A356FB;
+  --disabled-text: #B8B8B8;
+
+  --disabled-button: #5C5C5C;
+  --modal-background: rgba(22, 22, 22, 0.6);
+
+  /* desktop */
+  --max-background-width: 1920px;
+  --min-background-width: 270px;
+
+  --max-background-height: 1080px;
+  --min-background-height: 480px;
+
+  /* mobile*/
+  --max-content-width: 428px;
+  --min-content-width: 270px;
+
+  --max-content-height: 926px;
+  --min-content-height: 480px;
 }
 
-@layer base {
-  html {
-    font-family: "SUIT Medium", system-ui, sans-serif;
-  }
-}
-
-* {
-  overflow: hidden;
+*:not(script, head) {
+  /*all: unset;*/
+  margin: 0;
+  padding: 0;
   color: white;
+}
+
+html {
+  font-size: 16px;
+  background-color: darkblue;
+  overflow: hidden;
+}
+
+body {
+  position: absolute;
+  overflow: hidden;
+  background-color: black;
+  color: cornsilk;
+
+  max-width: var(--max-background-width);
+  min-width: var(--min-background-width);
+  width: 100svw;
+  max-height: var(--max-background-height);
+  min-height: var(--min-background-height);
+  height: 100svh;
+
+  /*background-image: url(/test_bg.jpg);*/
+  background-image: url(/sky_bg_w.png);
+  background-position-x: calc(100% + ((var(--max-background-width) - 100svw) * .2));
+  background-position-y: top;
+  background-repeat: no-repeat;
 }
 
 main {
   position: absolute;
+  right: calc((100svw - var(--max-content-width)) * 0.2);
+  top: 50%;
+  transform: translateY(-50%);
+
   box-sizing: border-box;
-  min-height: 480px;
-  max-height: 926px;
+  max-width: var(--max-content-width);
+  min-width: var(--min-content-width);
+  width: 100svw;
+  max-height: var(--max-content-height);
+  min-height: var(--min-content-height);
   height: 100svh;
-  min-width: 270px;
-  max-width: 428px;
-  width: 100%;
-  right: calc((100vw - 428px) * 0.2);
 
-  border: cornflowerblue 5px solid;
+  /*background-image: linear-gradient(to bottom, rgba(19, 16, 29, 0.7), rgba(63, 44, 83, 0.2));*/
+  /*background-position: center, top center;*/
+  /*background-repeat: no-repeat, repeat;*/
 
-  background-image: linear-gradient(to bottom, rgba(19, 16, 29, 0.7), rgba(63, 44, 83, 0.2)), url(/BG_Star.png);
-  background-position: center, top center;
-  background-repeat: no-repeat, repeat;
+  border: 1.5rem solid;
+  border-image-source: url(/frame_430_v2.png);
+  border-image-slice: 33% 33% 33% 33%;
+  border-image-width: 3rem 3rem;
 }
 
 @media (max-width: 428px) {
@@ -41,6 +92,7 @@ main {
     right: 0%;
     box-sizing: unset;
     border: unset;
+    border-image-source: unset;
   }
 }
 
@@ -158,7 +210,7 @@ p {
   /*animation: fadeIn 1s ease-in-out;*/
   opacity: 0;
   animation-name: fadeIn, pulse;
-  animation-duration: 1s, var(--duration);
+  animation-duration: 1s, 2.5s;
   animation-timing-function: ease-in-out, ease-in-out;
   animation-iteration-count: 1, infinite;
   animation-fill-mode: forwards, forwards;
@@ -216,36 +268,6 @@ p {
   }
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.bg-gradient {
-  background: linear-gradient(270deg, #4d35e1, #9731c7);
-  background-size: 200% 200%;
-  animation: gradient 10s linear infinite;
-}
-
 .modal-title {
   font-size: 18px;
   line-height: 28px;
@@ -262,8 +284,4 @@ p {
   line-height: 24px;
   letter-spacing: 0em;
   color: #A191B3;
-}
-
-button {
-  font-size: 16px;
 }

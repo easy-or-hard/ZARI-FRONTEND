@@ -1,26 +1,26 @@
 import "./globals.css";
-import React from "react";
-import JoinStepControlProvider from "@/app/component/auth/join-step-control.provider";
-import ToastProvider from "@/app/component/ui/toast-message/toast-provider";
-import ModalProvider from "@/app/component/ui/popup/modal/modal.provider";
+import TeamIntroduce from "@/component/root/team-introduce";
+import { ReactNode } from "react";
+import localFont from "next/font/local";
+import ToastProvider from "@/component/ui/toast-message/toast-provider";
+import ModalProvider from "@/component/ui/popup/modal/modal.provider";
+
+const font = localFont({
+  src: "../../fonts/SUITE-Variable.woff2",
+});
 
 export const metadata = {
   title: "ZARI",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="kr">
-      <body className={`bg-gray-950`}>
+      <body className={font.className}>
+        <TeamIntroduce />
         <main>
           <ToastProvider>
-            <ModalProvider>
-              <JoinStepControlProvider>{children}</JoinStepControlProvider>
-            </ModalProvider>
+            <ModalProvider>{children}</ModalProvider>
           </ToastProvider>
         </main>
       </body>

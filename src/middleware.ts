@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import authFetcher from "@/services/auth/auth.fetcher";
 import { JWT } from "@/const";
+import { fetcherIsByeol } from "@/services/auth/fetcher.auth";
 
 /**
  * 매칭할 경로를 설정합니다.
@@ -18,14 +18,14 @@ export const config = {
  */
 export async function middleware(request: NextRequest) {
   const jwt = request.cookies.get(`${JWT.ACCESS_TOKEN}`);
+  if (!jwt) return NextResponse.redirect(new URL("/", request.nextUrl.origin));
 
   let url;
-
   switch (request.nextUrl.pathname) {
     case "/byeol/me":
       try {
-        const isByeol = await authFetcher.isByeol(jwt);
-        url = isByeol ? null : "/";
+        const data = await fetcherIsByeol(jwt);
+        url = data ? null : "/";
       } catch (e) {
         url = "/";
       }

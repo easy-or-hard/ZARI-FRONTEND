@@ -1,37 +1,21 @@
+import { getZariUrl } from "@/services/byeol/api.byeol";
 import useSWR from "swr";
-import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
-import { IncludeConstellationByeolBanzzackZariDto } from "@/services/zari/dto/include-constellation-byeol-banzzack-zari.dto";
-import apiZari from "@/services/zari/api.zari";
+import { baseFetcher, ZariError } from "@/services/common/fetcher";
+import useSWRMutation from "swr/mutation";
+import { ZariEntity } from "@/services/zari/entities/zari.entity";
 
-/**
- * @description zari 목록을 조회합니다.
- * @param {number} id
- * @return {SWRResponse} SWRResponse 를 반환합니다.
- */
-export default function useZari(id: number) {
-  const url = apiZari.url(id);
+export function useZari(key: [name: string, constellationIAU: string]) {
+  return useSWR(key, (key) => {
+    const url = getZariUrl(key);
+    return baseFetcher<ZariEntity>(url);
+  });
+}
 
-  const { data, isLoading, error, isValidating, mutate } = useSWR(
-    url,
-    (url: string) =>
-      baseFetcher<IncludeConstellationByeolBanzzackZariDto>(
-        url,
-        baseFetcherOptions("GET")
-      )
-    // {
-    //   refreshWhenHidden: true,
-    //   revalidateOnFocus: true,
-    //   revalidateOnReconnect: true,
-    //   refreshInterval: 1000,
-    //   refreshWhenOffline: true,
-    // }
-  );
-
-  return {
-    data,
-    isLoading,
-    error,
-    isValidating,
-    mutate,
-  };
+export function usePostZari(key: [string, string]) {
+  return useSWRMutation<ZariEntity, ZariError, [string, string]>(key, (key) => {
+    const url = getZariUrl(key);
+    return baseFetcher<ZariEntity>(url, {
+      method: "POST",
+    });
+  });
 }

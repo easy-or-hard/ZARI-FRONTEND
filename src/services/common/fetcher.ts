@@ -16,72 +16,24 @@ export class ZariError extends Error {
   }
 }
 
-/**
- *
- * @param {"GET" | "POST" | "PUT" | "DELETE" } method
- * @param {RequestInit} accessToken
- * @return {RequestInit} http method, credentials 등을 반환합니다.
- */
-const createRequestOptions = (
-  method: "GET" | "POST" | "PUT" | "DELETE",
-  accessToken?: RequestCookie | undefined
-) => {
-  const init: RequestInit = {
-    method: method,
-    credentials: "include", // 이 옵션이 크로스 브라우징에도 쿠키를 전송.
-  };
-
-  accessToken?.value &&
-    Object.assign(init, {
-      headers: {
-        Cookie: `${JWT.ACCESS_TOKEN}=${accessToken.value};`, // front 에서 bff 를 호출할 경우 브라우저가 준 쿠키 설정
-      },
-    });
-
-  return init;
-};
-
-/**
- * 페처를 만드는 팩토리 메소드 입니다.
- * @param {string} key http url 을 입력하세요.
- * @param {RequestInit} init http method, credentials 등을 입력하세요.
- * @return {Object} key, fetcher 가 담긴 객체를 반환합니다.
- * @throws ZariError
- */
-const create = <T>({ key, init }: { key: string; init: RequestInit }) => {
-  // input 타입을 의도적으로 string 타입만 썻습니다.
-  // URL 로 쓰면 SWR 에서 작동하지 않습니다.
-  const fetcher = async (input: string) => {
-    const response = await fetch(input, init);
-    const responseJson = await response.json();
-
-    if (!response.ok) {
-      throw new ZariError(responseJson);
-    }
-
-    return (await responseJson) as T;
-  };
-
-  return { key, fetcher };
-};
-
 export const baseFetcher = async <T>(
   url: RequestInfo | string,
-  init: RequestInit
+  init?: RequestInit
 ) => {
   let response;
+
   try {
-    console.log("🐛url: ", url);
-    response = await fetch(url, init);
+    response = await fetch(url, {
+      ...baseFetcherOptions("GET"),
+      ...init,
+    });
   } catch (error) {
     // 네트워크 오류
     throw error;
   }
 
   const responseJson = await response.json();
-
   if (!response.ok) {
-    console.log("🐛responseJson: ", responseJson);
     throw new ZariError(responseJson);
   }
 
@@ -89,8 +41,8 @@ export const baseFetcher = async <T>(
 };
 
 export const baseFetcherOptions = (
-  method: string,
-  accessToken?: RequestCookie | undefined
+  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE",
+  accessToken?: RequestCookie
 ): RequestInit => {
   const init: RequestInit = {
     method,
@@ -105,11 +57,3 @@ export const baseFetcherOptions = (
 
   return init;
 };
-
-const fetcher = {
-  createRequestOptions,
-  create,
-  baseRequest: baseFetcher,
-  baseRequestOptions: baseFetcherOptions,
-};
-export default fetcher;

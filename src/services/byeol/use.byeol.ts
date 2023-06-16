@@ -1,87 +1,78 @@
-import apiByeol from "@/services/byeol/api.byeol";
-import useSWR from "swr";
-import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
+import useSWRMutation, {
+  MutationFetcher,
+  SWRMutationConfiguration,
+} from "swr/mutation";
+import {
+  getByeolUrl,
+  getMyByeolUrl,
+  urlIsNameAvailable,
+} from "@/services/byeol/api.byeol";
 import { ByeolEntity } from "@/services/byeol/entities/byeol.entity";
-import { PostByeolDto } from "@/services/byeol/dto/reuqest/post-byeol.dto";
-import { MutatorOptions } from "swr/_internal";
+import useSWR, { mutate } from "swr";
+import {
+  baseFetcher,
+  baseFetcherOptions,
+  ZariError,
+} from "@/services/common/fetcher";
+import { PatchByeolDto } from "@/services/byeol/dto/reuqest/patch-byeol.dto";
 
-export type UniqueByeol = {
-  name: string;
-};
+const keyMe = ["me"];
 
-export default function useByeol(uniqueByeol?: UniqueByeol | undefined) {
-  const url = apiByeol.url(uniqueByeol);
+export function useMyByeol() {
+  return useSWR(keyMe, () => baseFetcher<ByeolEntity>(getMyByeolUrl()), {
+    onSuccess: (data) => {
+      mutate(getByeolUrl([data.name]), data, false);
+    },
+  });
+}
 
-  const { data, isLoading, error, isValidating, mutate } = useSWR(
-    url,
-    (url: string) => baseFetcher<ByeolEntity>(url, baseFetcherOptions("GET"))
+export function useByeol(key?: [string]) {
+  return useSWR(key ? key : null, (innerKey) =>
+    baseFetcher(getByeolUrl(innerKey), baseFetcherOptions("GET"))
   );
+}
 
-  const byeolFetcher = async (method: string, body?: any | undefined) => {
-    if (!url) {
-      throw new Error("url 이 없습니다.");
-    }
-    return baseFetcher<ByeolEntity>(url, {
-      ...baseFetcherOptions(method),
-      body: body ? JSON.stringify(body) : undefined,
+export function usePatchByeol() {
+  const { data } = useMyByeol();
+  const url = data ? getByeolUrl([data.name]) : undefined;
+  const fetcher: MutationFetcher<ByeolEntity, PatchByeolDto> = (
+    url: string,
+    { arg }: { arg: PatchByeolDto }
+  ) => {
+    return fetch(url, {
+      ...baseFetcherOptions("PATCH"),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(arg),
+    }).then(async (res) => {
+      if (!res.ok) {
+        throw new ZariError(await res.json());
+      }
+      return res.json();
     });
   };
 
-  const post = async (postByeolDto: PostByeolDto) => {
-    // TODO, throw 하지말고 다른 방식 고민하기
-    if (!url) {
-      return new Error("생성할 별의 이름이 없습니다");
-    } else if (isLoading) {
-      return new Error("데이터 수신중 입니다.");
-    } else if (isValidating) {
-      return new Error("데이터 재 수신중 입니다.");
-    } else if (data) {
-      throw new Error("데이터가 이미 있습니다.");
-    }
-
-    const fetcher = byeolFetcher("POST", postByeolDto);
-    const options: MutatorOptions = {
-      rollbackOnError: true,
-      optimisticData: {
-        ...postByeolDto,
-      },
-    };
-
-    try {
-      await mutate(fetcher, options);
-    } catch (error) {
-      // throw 되지 않기 위한 로직
-      console.error(error);
-    }
-  };
-  const patch = async () => {
-    const fetcher = byeolFetcher("PATCH");
-    const options: MutatorOptions = {
-      rollbackOnError: true,
-      optimisticData: {
-        ...data,
-      },
-    };
-
-    try {
-      await mutate(fetcher, options);
-    } catch (error) {
-      // throw 되지 않기 위한 로직
-      console.error(error);
-    }
+  const options: SWRMutationConfiguration<
+    ByeolEntity,
+    ZariError,
+    any,
+    any,
+    ByeolEntity
+  > = {
+    rollbackOnError: true,
+    onSuccess: (data) => {
+      mutate(getMyByeolUrl(), data, false);
+      mutate(getByeolUrl([data.name]), data, false);
+    },
   };
 
-  return {
-    data,
-    isLoading,
-    error,
-    isValidating,
-    mutate,
-    post,
-    patch,
-    // remove,
-  };
+  const { trigger } = useSWRMutation(url, fetcher, options);
+  const changeName = (name: string) => trigger({ name });
+  return { changeName };
+}
+
+export function useGetIsNameAvailableByeol(name?: string) {
+  const url = name ? urlIsNameAvailable(name) : null;
+  return useSWR<boolean>(url, baseFetcher);
 }

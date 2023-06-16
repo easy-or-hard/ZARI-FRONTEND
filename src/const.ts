@@ -5,3 +5,7 @@ export const JWT = {
 export class API {
   static BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 }
+
+export class DOMAIN {
+  static BASE_URL = process.env.NEXT_PUBLIC_DOMAIN as string;
+}

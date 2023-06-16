@@ -1,110 +1,123 @@
-import useSWR, { mutate } from "swr";
-import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
-import apiBanzzack from "@/services/banzzack/api.banzzack";
+import useSWRSubscription, {
+  SWRSubscription,
+  SWRSubscriptionOptions,
+} from "swr/subscription";
+import {
+  BanzzackUnique,
+  getBanzzackUrlByUniqueKey,
+  getEventBanzzacksUrl,
+  getZariUrl,
+} from "@/services/byeol/api.byeol";
+import useSWRMutation, { MutationFetcher } from "swr/mutation";
+import {
+  baseFetcher,
+  baseFetcherOptions,
+  ZariError,
+} from "@/services/common/fetcher";
+import { useRef, useState } from "react";
+import useSWR, { mutate, SWRConfiguration } from "swr";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
-import { PostPatchBanzzackDto } from "@/services/banzzack/dto/reuqest/post-patch-banzzack.dto";
-import { MutatorOptions } from "swr/_internal";
-import apiZari from "@/services/zari/api.zari";
 
-type UniqueBanzzack = {
-  zariId: number;
+type LockAndUnlockEventBanzzackDto = {
   starNumber: number;
+  lock: boolean;
 };
 
-export default function useBanzzack(uniqueBanzzack: UniqueBanzzack) {
-  const url = apiBanzzack.url(uniqueBanzzack);
+type EventLockAndUnlockBanzzackDto = {
+  name: string;
+  constellationIAU: string;
+  starNumber: number;
+  locked: boolean;
+};
 
-  const {
-    data,
-    isLoading,
-    error,
-    isValidating,
-    mutate: mutateBanzzack,
-  } = useSWR(url, (url: string) =>
-    baseFetcher<BanzzackEntity>(url, baseFetcherOptions("GET"))
-  );
+export function useBanzzack(key: BanzzackUnique) {
+  const url = getBanzzackUrlByUniqueKey(key);
+  const options: SWRConfiguration = {};
+  return useSWR(url, baseFetcher<BanzzackEntity>, options);
+}
 
-  const banzzackFetcher = async (method: string, body?: any | undefined) => {
-    if (!url) {
-      throw new Error("url 이 없습니다.");
-    }
-    return baseFetcher<BanzzackEntity>(url, {
-      ...baseFetcherOptions(method),
-      body: body ? JSON.stringify(body) : undefined,
+export function usePostBanzzack(key: BanzzackUnique) {
+  const url = getBanzzackUrlByUniqueKey(key);
+  const fetcher: MutationFetcher<BanzzackEntity, string> = (
+    url: string,
+    { arg }: { arg: string }
+  ) => {
+    return fetch(url, {
+      ...baseFetcherOptions("POST"),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(arg),
+    }).then(async (res) => {
+      if (!res.ok) {
+        throw new ZariError(await res.json());
+      }
+      return res.json();
     });
   };
 
-  const post = async (postPatchBanzzackDto: PostPatchBanzzackDto) => {
-    const fetcher = banzzackFetcher("POST", postPatchBanzzackDto);
-    const options: MutatorOptions = {
-      rollbackOnError: true,
-      optimisticData: {
-        ...uniqueBanzzack,
-        ...postPatchBanzzackDto,
+  return useSWRMutation(url, fetcher);
+}
+
+export function useEventBanzzacks(name: string, constellationIAU: string) {
+  const [locks, setLocks] = useState<number[]>([]);
+  const myLock = useRef<number>(0);
+  const url = getEventBanzzacksUrl(name, constellationIAU);
+  const subscribe: SWRSubscription = (
+    key: string,
+    { next }: SWRSubscriptionOptions<EventLockAndUnlockBanzzackDto>
+  ) => {
+    const eventSource = new EventSource(key);
+    eventSource.onmessage = (event) => {
+      const data: EventLockAndUnlockBanzzackDto = JSON.parse(event.data);
+      if (data.locked) {
+        setLocks((prevLocks) => [...prevLocks, data.starNumber]);
+      } else {
+        mutate(getZariUrl([name, constellationIAU]));
+        setLocks((prevLocks) => {
+          const updatedLocks = prevLocks.filter(
+            (starNumber) => starNumber !== data.starNumber
+          );
+          return updatedLocks;
+        });
+      }
+      next(undefined, data);
+    };
+
+    return () => {
+      if (myLock.current !== 0) {
+        unlock(myLock.current).then(() => eventSource.close());
+      } else {
+        eventSource.close();
+      }
+    };
+  };
+
+  const fetcher: MutationFetcher<void, LockAndUnlockEventBanzzackDto> = (
+    url: string,
+    { arg }: { arg: LockAndUnlockEventBanzzackDto }
+  ) => {
+    const body = JSON.stringify(arg);
+    return fetch(url, {
+      ...baseFetcherOptions("PATCH"),
+      headers: {
+        "Content-Type": "application/json",
       },
-    };
-
-    try {
-      await mutateBanzzack(fetcher, options);
-      await mutate(apiZari.url(uniqueBanzzack.zariId));
-    } catch (error) {
-      // throw 되지 않기 위한 로직
-      console.error(error);
-    }
+      body,
+    }).then(async (res) => {
+      if (!res.ok) throw new ZariError(await res.json());
+    });
   };
 
-  const patch = async (patchBanzzackDto: PostPatchBanzzackDto) => {
-    if (!data) {
-      throw new Error("데이터가 없습니다.");
-    }
+  const eventSubscribe = useSWRSubscription(url, subscribe);
+  const { trigger } = useSWRMutation(url, fetcher);
+  const lock = async (starNumber: number) =>
+    lockToggle(starNumber, true).then(() => (myLock.current = starNumber));
+  const unlock = async (starNumber: number) =>
+    lockToggle(starNumber, false).then(() => (myLock.current = 0));
 
-    const fetcher = banzzackFetcher("PATCH", patchBanzzackDto);
-    const options: MutatorOptions = {
-      rollbackOnError: true,
-      optimisticData: {
-        ...data,
-        ...patchBanzzackDto,
-      },
-    };
+  const lockToggle = async (starNumber: number, lock: boolean) =>
+    trigger({ starNumber, lock });
 
-    try {
-      await mutateBanzzack(fetcher, options);
-      await mutate(apiZari.url(uniqueBanzzack.zariId));
-    } catch (error) {
-      // throw 되지 않기 위한 로직
-      console.error(error);
-    }
-  };
-
-  const remove = async () => {
-    if (!data) {
-      throw new Error("데이터가 없습니다.");
-    }
-    const fetcher = banzzackFetcher("DELETE");
-    const options: MutatorOptions = {
-      optimisticData: undefined,
-    };
-
-    try {
-      await mutateBanzzack(fetcher, options);
-      await mutate(apiZari.url(uniqueBanzzack.zariId));
-    } catch (error) {
-      // throw 되지 않기 위한 로직
-      console.error(error);
-    }
-  };
-
-  return {
-    data,
-    isLoading,
-    error,
-    isValidating,
-    mutate: mutateBanzzack,
-    post,
-    patch,
-    remove,
-  };
+  return { ...eventSubscribe, locks, lock, unlock };
 }
