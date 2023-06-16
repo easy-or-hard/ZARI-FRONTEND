@@ -28,7 +28,7 @@ export function useMyByeol() {
 
 export function useByeol(key?: [string]) {
   return useSWR(key ? key : null, (innerKey) =>
-    baseFetcher(getByeolUrl(innerKey), baseFetcherOptions("GET"))
+    baseFetcher<ByeolEntity>(getByeolUrl(innerKey), baseFetcherOptions("GET"))
   );
 }
 

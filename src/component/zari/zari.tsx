@@ -28,15 +28,13 @@ export default function Zari({ name, constellationIAU }: Props) {
 
   const modalContext = useContext(ModalContext);
   if (!modalContext) throw new Error("ModalContext is null");
-  const { showReadBanzzackModal, showCreateBanzzackModal, allCloseModal } =
-    modalContext;
+  const { showReadBanzzackModal, showCreateBanzzackModal } = modalContext;
 
   const { data } = useZari([name, constellationIAU]);
 
   const constellation = constellationMap[constellationIAU];
   const ConstellationOrigin = constellation.origin;
   const ConstellationEffect = constellation.effect;
-  const ConstellationWriting = constellation.writing;
 
   const handleShare = useCallback(() => {
     navigator.clipboard
