@@ -1,15 +1,15 @@
 .wrapMain {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
 }
 
 .title {
-    font-size: 4rem;
-    font-weight: bold;
-    line-height: 5rem;
-    letter-spacing: 0.2em;
-    text-align: center;
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 5rem;
+  letter-spacing: 0.2em;
+  text-align: center;
 }

@@ -1,37 +1,36 @@
 .button {
-    height: 3rem;
-    border-radius: .5rem; /* 이 부분에서 라운딩 처리를 합니다. */
+  height: 3rem;
+  border-radius: 0.5rem; /* 이 부분에서 라운딩 처리를 합니다. */
 
-    flex-shrink: 0; /* 버튼의 크기가 줄어들지 않도록 설정 */
+  flex-shrink: 0; /* 버튼의 크기가 줄어들지 않도록 설정 */
 }
 
 .accept {
-    background: linear-gradient(270deg, #4d35e1, #9731c7);
-    background-size: 200% 200%;
-    animation: gradient 5s linear infinite;
+  background: linear-gradient(270deg, #4d35e1, #9731c7);
+  background-size: 200% 200%;
+  animation: gradient 5s linear infinite;
 }
 
 .cancel {
-    border: 1px solid white;
+  border: 1px solid white;
 }
 
 .danger {
-    background-color: var(--danger-color);
+  background-color: var(--danger-color);
 }
 
 .disabled {
-    background-color: var(--disabled-button);
+  background-color: var(--disabled-button);
 }
 
-
 @keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

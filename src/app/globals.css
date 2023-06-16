@@ -3,16 +3,16 @@
 /*@tailwind utilities;*/
 
 :root {
-  --primary-color: #8F39D6;
-  --secondary-color: #A191B3;
+  --primary-color: #8f39d6;
+  --secondary-color: #a191b3;
 
-  --danger-color: #FF416E;
-  --disabled-color: #A191B3;
+  --danger-color: #ff416e;
+  --disabled-color: #a191b3;
 
-  --primary-text: #A356FB;
-  --disabled-text: #B8B8B8;
+  --primary-text: #a356fb;
+  --disabled-text: #b8b8b8;
 
-  --disabled-button: #5C5C5C;
+  --disabled-button: #5c5c5c;
   --modal-background: rgba(22, 22, 22, 0.6);
 
   /* desktop */
@@ -58,7 +58,9 @@ body {
 
   /*background-image: url(/test_bg.jpg);*/
   background-image: url(/sky_bg_w.png);
-  background-position-x: calc(100% + ((var(--max-background-width) - 100svw) * .2));
+  background-position-x: calc(
+    100% + ((var(--max-background-width) - 100svw) * 0.2)
+  );
   background-position-y: top;
   background-repeat: no-repeat;
 }
@@ -172,12 +174,12 @@ p {
 }
 
 .modal-content-enter-active {
-  border: 1px solid rgba(255, 255, 255, .2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 300ms;
 }
 
 .modal-content-exit {
-  border: 1px solid rgba(255, 255, 255, .2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .modal-content-exit-active {
@@ -276,12 +278,12 @@ p {
 
 .modal-content-title {
   font-size: 16px;
-  color: #B8B8B8;
+  color: #b8b8b8;
 }
 
 .modal-content-subtitle {
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0em;
-  color: #A191B3;
+  color: #a191b3;
 }

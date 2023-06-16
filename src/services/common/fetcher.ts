@@ -58,9 +58,4 @@ export const baseFetcherOptions = (
   return init;
 };
 
-const fetcher = {
-  baseFetcher,
-  baseFetcherOptions,
-};
-
-export default fetcher;
+export default function fetchers() {}

@@ -1,15 +1,15 @@
 .modal {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    right: 1rem;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  right: 1rem;
+  transform: translateY(-50%);
 
-    background-color: var(--modal-background);
-    backdrop-filter: blur(4px);
+  background-color: var(--modal-background);
+  backdrop-filter: blur(4px);
 
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
 
-    padding: 12px;
+  padding: 12px;
 }

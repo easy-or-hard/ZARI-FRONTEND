@@ -2,18 +2,18 @@
 }
 
 .title {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .description {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .wrapButtons {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .wrapButtons button {
-    flex-basis: calc(50% - 6px);  /* 고려해야 하는 간격의 절반을 빼줍니다. */
+  flex-basis: calc(50% - 6px); /* 고려해야 하는 간격의 절반을 빼줍니다. */
 }
