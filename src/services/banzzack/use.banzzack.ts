@@ -3,8 +3,7 @@ import useSWRSubscription, {
   SWRSubscriptionOptions,
 } from "swr/subscription";
 import {
-  BanzzackKey,
-  BanzzackUnique,
+  BanzzackUniqueKey,
   getBanzzackUrl,
   getEventBanzzacksUrl,
   getZariUrl,
@@ -31,35 +30,30 @@ type EventLockAndUnlockBanzzackDto = {
   locked: boolean;
 };
 
-export function useBanzzack(key: BanzzackKey) {
-  return useSWR(key, (key: BanzzackKey) => {
+export function useBanzzack(key: BanzzackUniqueKey) {
+  return useSWR(key, (key: BanzzackUniqueKey) => {
     const url = getBanzzackUrl(key);
-    console.log("🐛", url);
     return baseFetcher<BanzzackEntity>(url);
   });
 }
 
-export function usePostBanzzack(key: BanzzackUnique) {
-  const url = getBanzzackUrl(key);
-  const fetcher: MutationFetcher<BanzzackEntity, string> = (
-    url: string,
-    { arg }: { arg: string }
-  ) => {
-    return fetch(url, {
-      ...baseFetcherOptions("POST"),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(arg),
-    }).then(async (res) => {
-      if (!res.ok) {
-        throw new ZariError(await res.json());
-      }
-      return res.json();
-    });
-  };
+export function usePostBanzzack(key: BanzzackUniqueKey) {
+  return useSWRMutation(
+    key,
+    (key: BanzzackUniqueKey, { arg }: { arg: { content: string } }) => {
+      const url = getBanzzackUrl(key);
 
-  return useSWRMutation(url, fetcher);
+      return baseFetcher<BanzzackEntity>(url, {
+        ...baseFetcherOptions("POST"),
+        body: JSON.stringify(arg),
+      });
+    },
+    {
+      onSuccess: (data) => {
+        mutate([key[0], key[1]]);
+      },
+    }
+  );
 }
 
 export function useEventBanzzacks(name: string, constellationIAU: string) {

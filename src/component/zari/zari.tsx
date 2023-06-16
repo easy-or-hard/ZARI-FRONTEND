@@ -8,7 +8,9 @@ import styles from "./zari.module.css";
 import ShareIcon from "@/component/ui/icon/size24/link";
 import { DOMAIN } from "@/const";
 import { useZari } from "@/services/zari/use.zari";
-import { BanzzackKey, BanzzackUnique } from "@/services/byeol/api.byeol";
+import { BanzzackUniqueKey } from "@/services/byeol/api.byeol";
+import { usePathname, useRouter } from "next/navigation";
+import { useMyByeol } from "@/services/byeol/use.byeol";
 
 type Props = {
   name: string;
@@ -28,7 +30,18 @@ export default function Zari({ name, constellationIAU }: Props) {
 
   const modalContext = useContext(ModalContext);
   if (!modalContext) throw new Error("ModalContext is null");
-  const { showReadBanzzackModal, showCreateBanzzackModal } = modalContext;
+  const { showReadBanzzackModal, showCreateBanzzackModal, showConfirmModal } =
+    modalContext;
+
+  // 로직 시작
+
+  // 자신의 자리에 별을 쓸 수 없게 하는 로직의 변수
+  const pathName = usePathname();
+  const lastSection = decodeURIComponent(pathName.split("/").pop() as string);
+  const { data: myByeol } = useMyByeol();
+
+  // 비인증 사용자가 반짝이를 붙일 때 필요한 변순
+  const router = useRouter();
 
   const { data: zariData } = useZari([name, constellationIAU]);
 
@@ -53,8 +66,6 @@ export default function Zari({ name, constellationIAU }: Props) {
         return;
       }
 
-      console.log("🍓click", event.target.tagName.toLowerCase());
-
       const selectedStarNumber =
         +event.target.parentNode.getAttribute("data-name");
 
@@ -64,23 +75,38 @@ export default function Zari({ name, constellationIAU }: Props) {
 
       // 반짝이가 존재할 경우
       if (banzzack) {
-        const banzzackUniqueKey: BanzzackKey = [
+        const banzzackUniqueKey: BanzzackUniqueKey = [
           name,
           constellationIAU,
           selectedStarNumber,
         ];
 
-        showReadBanzzackModal({ uniqueKey: banzzackUniqueKey });
+        showReadBanzzackModal({ banzzackUniqueKey });
       }
       // 반짝이가 없을 경우
       else {
-        const banzzackUnique: BanzzackUnique = {
+        if (lastSection === "byeol" || lastSection === myByeol?.name) {
+          showToast("자신의 자리에는 반짝이를 붙일 수 없어요");
+          return;
+        } else if (!myByeol) {
+          // 비인증상태라서 인증으로 보내기
+          showConfirmModal({
+            description: "반짝이를 붙이기 위해서는 인증을 해야해요.",
+            onAccept: () => {
+              router.push("/auth");
+            },
+            accept: "인증하러 가기",
+            cancel: "그냥 둘러보기",
+          });
+          return;
+        }
+        const banzzackUniqueKey: BanzzackUniqueKey = [
           name,
           constellationIAU,
-          starNumber: selectedStarNumber,
-        };
+          selectedStarNumber,
+        ];
         showCreateBanzzackModal({
-          unique: banzzackUnique,
+          banzzackUniqueKey,
           closeBeforeCallback: () => {},
         });
       }

@@ -28,7 +28,7 @@ export const baseFetcher = async <T>(
       ...init,
     });
   } catch (error) {
-    // 네트워크 오류
+    // TODO, 네트워크 오류 에 대해서 처리하기
     throw error;
   }
 
@@ -55,7 +55,15 @@ export const baseFetcherOptions = (
     };
   }
 
+  if (method === "POST" || method === "PATCH" || method === "PUT") {
+    init.headers = {
+      ...init.headers,
+      "Content-Type": "application/json",
+    };
+  }
+
   return init;
 };
 
+// TODO, 빌드시 디폴트가 필요해서 만든 의밍 없는 함수, 나중에 지우기
 export default function fetchers() {}

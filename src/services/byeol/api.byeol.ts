@@ -1,14 +1,10 @@
 import { API } from "@/const";
 
-export type BanzzackUnique = {
-  name: string;
-  constellationIAU: string;
-  starNumber: number;
-};
-
-export type BanzzackKey =
-  | [name: string, constellationIAU: string, starNumber: number]
-  | { banzzackId: number };
+export type BanzzackUniqueKey = [
+  name: string,
+  constellationIAU: string,
+  starNumber: number
+];
 
 /**
  * 인증 URL
@@ -35,7 +31,6 @@ export const urlIsNameAvailable = (name: string) =>
  * 자리 URL
  */
 
-export const getZarisUrl = (name: string) => `${BYEOLS_URL}/${name}/zaris`;
 export const getZariUrl = (key: [name: string, constellationIAU: string]) =>
   `${BYEOLS_URL}/${key[0]}/zaris/${key[1]}`;
 
@@ -46,17 +41,10 @@ export const getZariUrl = (key: [name: string, constellationIAU: string]) =>
 export const getEventBanzzacksUrl = (name: string, constellationIAU: string) =>
   `${BYEOLS_URL}/${name}/zaris/${constellationIAU}/banzzacks/event`;
 
-export const getBanzzacksUrl = (name: string, constellationIAU: string) =>
-  `${BYEOLS_URL}/${name}/zaris/${constellationIAU}/banzzacks`;
-
-export const getBanzzackUrl = (key: BanzzackKey) => {
-  if (Array.isArray(key)) {
-    const [name, constellationIAU, starNumber] = key;
-    return `${BYEOLS_URL}/${name}/zaris/${constellationIAU}/banzzacks/${starNumber}`;
-  } else {
-    return `${BYEOLS_URL}/banzzacks/${key.banzzackId}`;
-  }
+export const getBanzzackUrl = ([
+  name,
+  constellationIAU,
+  starNumber,
+]: BanzzackUniqueKey) => {
+  return `${BYEOLS_URL}/${name}/zaris/${constellationIAU}/banzzacks/${starNumber}`;
 };
-
-export const getBanzzackUrlByPrimaryKey = (id: number) =>
-  `${BYEOLS_URL}/banzzacks/${id}`;

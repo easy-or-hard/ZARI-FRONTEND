@@ -15,11 +15,11 @@ import {
 import CloseButton from "@/component/ui/button/icon/close.button";
 import ConfirmButton from "@/component/ui/button/confirm/confirm.button";
 import { usePostBanzzack } from "@/services/banzzack/use.banzzack";
-import { BanzzackUnique } from "@/services/byeol/api.byeol";
+import { BanzzackUniqueKey } from "@/services/byeol/api.byeol";
 import styles from "./create-banzzack-modal.module.css";
 
 export type CreateBanzzackModalProps = {
-  unique: BanzzackUnique;
+  banzzackUniqueKey: BanzzackUniqueKey;
   closeBeforeCallback: Function;
 };
 
@@ -27,12 +27,12 @@ const MAX_LENGTH = 150;
 
 /**
  * @description 반짝이 생성 모달
- * @param { BanzzackUnique } key
+ * @param { BanzzackUniqueKey } key
  * @param { Function } closeBeforeCallback
  * @constructor
  */
 export default function CreateBanzzackModal({
-  unique,
+  banzzackUniqueKey,
   closeBeforeCallback,
 }: CreateBanzzackModalProps) {
   // BaseModalContext 임포트
@@ -50,7 +50,9 @@ export default function CreateBanzzackModal({
   const { showConfirmModal } = useMemo(() => modalContext, [modalContext]);
 
   // 로직 시작
-  const { trigger } = usePostBanzzack(unique);
+  const byeolName = banzzackUniqueKey[0];
+
+  const { trigger } = usePostBanzzack(banzzackUniqueKey);
   const [textLength, setTextLength] = useState(0); // 글자 수를 저장하는 상태
   const [isClicked, setIsClicked] = useState(false); // 반짝이 생성 버튼 클릭 여부
 
@@ -68,7 +70,7 @@ export default function CreateBanzzackModal({
       setIsClicked(true);
 
       const formData = new FormData(event.currentTarget);
-      const content = formData.get("content") as string;
+      const content = { content: formData.get("content") as string };
 
       const handleOK = () => {
         trigger(content);
@@ -103,7 +105,7 @@ export default function CreateBanzzackModal({
     <form onSubmit={handleSubmit} className={styles.container}>
       <div className={styles.titleContainer}>
         <div className={styles.title}>
-          <span className={styles.byeolName}>{unique.name}</span> 에게 남기는
+          <span className={styles.byeolName}>{byeolName}</span> 에게 남기는
           반짝이
         </div>
         <CloseButton onClick={handleCloseModal} />
