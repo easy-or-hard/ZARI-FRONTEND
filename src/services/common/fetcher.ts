@@ -32,15 +32,11 @@ export const baseFetcher = async <T>(
     throw error;
   }
 
-  try {
-    const responseJson = await response.json();
-    if (!response.ok) {
-      throw new ZariError(responseJson);
-    }
-    return responseJson as T;
-  } catch (error) {
-    // TODO 바디가 없을 경우에 대해서는 어떻게 처리할지 고민하기
+  const responseJson = await response.json();
+  if (!response.ok) {
+    throw new ZariError(responseJson);
   }
+  return responseJson as T;
 };
 
 export const baseFetcherOptions = (
