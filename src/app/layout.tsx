@@ -6,7 +6,7 @@ import ToastProvider from "@/component/ui/toast-message/toast-provider";
 import ModalProvider from "@/component/ui/popup/modal/modal.provider";
 
 const font = localFont({
-  src: "../../fonts/SUITE-Variable.woff2",
+  src: "../../fonts/SUIT-Variable.woff2",
 });
 
 export const metadata = {
