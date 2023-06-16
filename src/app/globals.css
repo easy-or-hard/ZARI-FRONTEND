@@ -34,7 +34,6 @@
   /*all: unset;*/
   margin: 0;
   padding: 0;
-  color: white;
 }
 
 html {
@@ -46,8 +45,7 @@ html {
 body {
   position: absolute;
   overflow: hidden;
-  background-color: black;
-  color: cornsilk;
+  color: white;
 
   max-width: var(--max-background-width);
   min-width: var(--min-background-width);

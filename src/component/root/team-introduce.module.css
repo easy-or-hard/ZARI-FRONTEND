@@ -19,13 +19,14 @@
 }
 
 .wrapTitle {
-  color: var(--primary-color);
-  font-size: 5rem;
-  line-height: 6rem;
-  font-weight: bold;
-  letter-spacing: 0.1rem;
+  color: var(--primary-text);
+  font-weight: 700;
+  font-size: 66px;
+  line-height: 80px;
+
   text-align: center;
-  margin-bottom: 6rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 100px;
 }
 
 .wrapMembers {
@@ -34,7 +35,7 @@
   gap: 5rem;
 }
 
-.warpMember {
+.wrapMember {
   display: flex;
   justify-content: space-between;
   border-bottom-style: solid;
