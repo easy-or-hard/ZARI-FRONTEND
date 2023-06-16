@@ -1,5 +1,6 @@
-// TODO, 현재 반짝이를 읽음 플래그가 없어서 isRead 를 옵셔널로 했습니다. 반드시 BFF 플래그를 추가하고 수정하세요.
+import styles from "./effect-banzzack.module.css";
 
+// TODO, 현재 반짝이를 읽음 플래그가 없어서 isRead 를 옵셔널로 했습니다. 반드시 BFF 플래그를 추가하고 수정하세요.
 type Props = {
   cx: number | string;
   cy: number | string;
@@ -25,7 +26,7 @@ export default function EffectBanzzack({ cx, cy, isRead = false }: Props) {
           <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
         </filter>
       </defs>
-      <g filter={"url(#star-blur)"}>
+      <g filter={"url(#star-blur)"} className={styles.pulse}>
         <g>
           <ellipse cx={cx} cy={cy} rx={r * 3} ry={r * 5} />
           <ellipse cx={cx} cy={cy} rx={r * 5} ry={r * 3} />

@@ -1,11 +1,9 @@
 "use client";
 
-import { ConstellationComponentProps } from "@/component/constellation/map";
+import { ConstellationEffectProps } from "@/component/constellation/map";
 import EffectBanzzack from "@/component/banzzack/effect-banzzack";
 
-export default function TauEffectPath({
-  banzzacks,
-}: ConstellationComponentProps) {
+export default function TauEffectPath({ banzzacks }: ConstellationEffectProps) {
   return (
     <>
       {banzzacks.find((banzzack) => banzzack.starNumber === 11) && (

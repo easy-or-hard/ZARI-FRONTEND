@@ -11,6 +11,7 @@ import { useZari } from "@/services/zari/use.zari";
 import { BanzzackUniqueKey } from "@/services/byeol/api.byeol";
 import { usePathname, useRouter } from "next/navigation";
 import { useMyByeol } from "@/services/byeol/use.byeol";
+import { useEventBanzzacks } from "@/services/banzzack/use.banzzack";
 
 type Props = {
   name: string;
@@ -40,14 +41,20 @@ export default function Zari({ name, constellationIAU }: Props) {
   const lastSection = decodeURIComponent(pathName.split("/").pop() as string);
   const { data: myByeol } = useMyByeol();
 
-  // 비인증 사용자가 반짝이를 붙일 때 필요한 변순
+  // 비인증 사용자가 반짝이를 붙일 때 필요한 변수
   const router = useRouter();
 
+  // 반짝이 데이터 가져오기
   const { data: zariData } = useZari([name, constellationIAU]);
 
+  // 반짝이를 표현하기 위한 컴포넌트
   const constellation = constellationMap[constellationIAU];
   const ConstellationOrigin = constellation.origin;
   const ConstellationEffect = constellation.effect;
+  const ConstellationWriting = constellation.writing;
+
+  // 현재 누가 반짝이를 붙이는 중일경우를 체크하는 변수
+  const { locks, lock, unlock } = useEventBanzzacks([name, constellationIAU]);
 
   const handleShare = useCallback(() => {
     navigator.clipboard
@@ -80,12 +87,14 @@ export default function Zari({ name, constellationIAU }: Props) {
           constellationIAU,
           selectedStarNumber,
         ];
-
         showReadBanzzackModal({ banzzackUniqueKey });
       }
       // 반짝이가 없을 경우
       else {
-        if (lastSection === "byeol" || lastSection === myByeol?.name) {
+        if (locks.includes(selectedStarNumber)) {
+          showToast("현재 다른 사람이 반짝이를 붙이고 있어요");
+          return;
+        } else if (lastSection === "byeol" || lastSection === myByeol?.name) {
           showToast("자신의 자리에는 반짝이를 붙일 수 없어요");
           return;
         } else if (!myByeol) {
@@ -100,18 +109,39 @@ export default function Zari({ name, constellationIAU }: Props) {
           });
           return;
         }
+
+        // 찐 반짝이 붙이기
         const banzzackUniqueKey: BanzzackUniqueKey = [
           name,
           constellationIAU,
           selectedStarNumber,
         ];
-        showCreateBanzzackModal({
-          banzzackUniqueKey,
-          closeBeforeCallback: () => {},
+
+        lock(selectedStarNumber).then(() => {
+          showCreateBanzzackModal({
+            banzzackUniqueKey,
+            closeBeforeCallback: () => {
+              unlock(selectedStarNumber);
+            },
+          });
         });
       }
     },
-    [zariData?.banzzacks, showCreateBanzzackModal, showReadBanzzackModal]
+    [
+      zariData?.banzzacks,
+      name,
+      constellationIAU,
+      showReadBanzzackModal,
+      locks,
+      lastSection,
+      myByeol,
+      lock,
+      showToast,
+      showConfirmModal,
+      router,
+      showCreateBanzzackModal,
+      unlock,
+    ]
   );
 
   return (
@@ -133,9 +163,9 @@ export default function Zari({ name, constellationIAU }: Props) {
           <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
           <feBlend mode="screen" in2="SourceGraphic" />
         </filter>
+        <ConstellationWriting locks={locks} />
         {zariData && <ConstellationEffect banzzacks={zariData?.banzzacks} />}
         <ConstellationOrigin />
-        {/* {zariData && <ConstellationWriting banzzacks={zariData?.banzzacks} />}*/}
       </svg>
       {/* svg 가 위에 있는 이유는 영역이 커서 문맥상 먼저 나온 돔이 클릭이 안 돼서... */}
       <div className={styles.description}>

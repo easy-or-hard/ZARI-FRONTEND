@@ -7,13 +7,10 @@ import {
   getBanzzackUrl,
   getEventBanzzacksUrl,
   getZariUrl,
+  ZariUniqueKey,
 } from "@/services/byeol/api.byeol";
-import useSWRMutation, { MutationFetcher } from "swr/mutation";
-import {
-  baseFetcher,
-  baseFetcherOptions,
-  ZariError,
-} from "@/services/common/fetcher";
+import useSWRMutation from "swr/mutation";
+import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
 import { useRef, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
@@ -56,10 +53,11 @@ export function usePostBanzzack(key: BanzzackUniqueKey) {
   );
 }
 
-export function useEventBanzzacks(name: string, constellationIAU: string) {
+export function useEventBanzzacks([name, constellationIAU]: ZariUniqueKey) {
   const [locks, setLocks] = useState<number[]>([]);
   const myLock = useRef<number>(0);
   const url = getEventBanzzacksUrl(name, constellationIAU);
+
   const subscribe: SWRSubscription = (
     key: string,
     { next }: SWRSubscriptionOptions<EventLockAndUnlockBanzzackDto>
@@ -67,6 +65,7 @@ export function useEventBanzzacks(name: string, constellationIAU: string) {
     const eventSource = new EventSource(key);
     eventSource.onmessage = (event) => {
       const data: EventLockAndUnlockBanzzackDto = JSON.parse(event.data);
+
       if (data.locked) {
         setLocks((prevLocks) => [...prevLocks, data.starNumber]);
       } else {
@@ -78,7 +77,8 @@ export function useEventBanzzacks(name: string, constellationIAU: string) {
           return updatedLocks;
         });
       }
-      next(undefined, data);
+
+      next(null, data);
     };
 
     return () => {
@@ -90,24 +90,16 @@ export function useEventBanzzacks(name: string, constellationIAU: string) {
     };
   };
 
-  const fetcher: MutationFetcher<void, LockAndUnlockEventBanzzackDto> = (
-    url: string,
-    { arg }: { arg: LockAndUnlockEventBanzzackDto }
-  ) => {
-    const body = JSON.stringify(arg);
-    return fetch(url, {
-      ...baseFetcherOptions("PATCH"),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-    }).then(async (res) => {
-      if (!res.ok) throw new ZariError(await res.json());
-    });
-  };
-
   const eventSubscribe = useSWRSubscription(url, subscribe);
-  const { trigger } = useSWRMutation(url, fetcher);
+  const { trigger } = useSWRMutation(
+    url,
+    (url: string, { arg }: { arg: LockAndUnlockEventBanzzackDto }) => {
+      baseFetcher(url, {
+        ...baseFetcherOptions("PATCH"),
+        body: JSON.stringify(arg),
+      });
+    }
+  );
   const lock = async (starNumber: number) =>
     lockToggle(starNumber, true).then(() => (myLock.current = starNumber));
   const unlock = async (starNumber: number) =>

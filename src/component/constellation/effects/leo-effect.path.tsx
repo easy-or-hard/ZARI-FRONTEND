@@ -1,11 +1,9 @@
 "use client";
 
-import { ConstellationComponentProps } from "@/component/constellation/map";
+import { ConstellationEffectProps } from "@/component/constellation/map";
 import EffectBanzzack from "@/component/banzzack/effect-banzzack";
 
-export default function LeoEffectPath({
-  banzzacks,
-}: ConstellationComponentProps) {
+export default function LeoEffectPath({ banzzacks }: ConstellationEffectProps) {
   return (
     <>
       {banzzacks.find((banzzack) => banzzack.starNumber === 11) && (

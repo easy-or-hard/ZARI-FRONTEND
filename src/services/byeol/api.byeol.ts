@@ -1,5 +1,7 @@
 import { API } from "@/const";
 
+export type ZariUniqueKey = [name: string, constellationIAU: string];
+
 export type BanzzackUniqueKey = [
   name: string,
   constellationIAU: string,

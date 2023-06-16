@@ -49,18 +49,18 @@ import AriOriginPath from "@/component/constellation/constellations/ari-origin.p
 import AriEffectPath from "@/component/constellation/effects/ari-effect.path";
 import AriWritingPath from "@/component/constellation/writing/ari-writing.path";
 
-export type ConstellationComponentProps = {
+export type ConstellationEffectProps = {
   banzzacks: BanzzackEntity[];
 };
 
 export type ConstellationWriterProps = {
-  locks: Record<number, boolean>;
+  locks: Number[];
 };
 
 type ConstellationComponents = {
   icon: FunctionComponent;
   origin: FunctionComponent;
-  effect: FunctionComponent<ConstellationComponentProps>;
+  effect: FunctionComponent<ConstellationEffectProps>;
   writing: FunctionComponent<ConstellationWriterProps>;
 };
 
