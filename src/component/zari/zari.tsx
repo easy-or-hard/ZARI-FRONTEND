@@ -92,7 +92,7 @@ export default function Zari({ name, constellationIAU }: Props) {
       // 반짝이가 없을 경우
       else {
         if (locks.includes(selectedStarNumber)) {
-          showToast("현재 다른 사람이 반짝이를 붙이고 있어요");
+          showToast("다른 별이 반짝이를 붙이고 있어요");
           return;
         } else if (lastSection === "byeol" || lastSection === myByeol?.name) {
           showToast("자신의 자리에는 반짝이를 붙일 수 없어요");
