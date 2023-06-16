@@ -48,7 +48,7 @@ export default function Zari({ name, constellationIAU }: Props) {
   }, [showToast]);
 
   const handleSvgClick = useCallback(
-    (event) => {
+    (event: any) => {
       if (event.target.tagName.toLowerCase() !== "circle") {
         return;
       }
