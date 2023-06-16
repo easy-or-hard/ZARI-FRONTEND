@@ -2,7 +2,7 @@
 
 import constellationMap from "@/component/constellation/map";
 import Carousel from "@/component/carousel/carousel";
-import { createElement, useCallback, useState } from "react";
+import { createElement, useCallback, useRef, useState } from "react";
 import styles from "./zari-create.module.css";
 import ConfirmButton from "@/component/ui/button/confirm/confirm.button";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,10 @@ export default function ZariCreatePage() {
   // 그래서 "" 를 넣어줌 업데이트 내역 반드시 확인하고 안전하게 데이터 처리할것
   const { trigger } = usePostZari([byeol?.name ?? "", constellationIAU]);
 
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+
   const handleOnClick = useCallback(() => {
     setIsClicked(true);
     trigger().then(() => {
@@ -28,7 +32,13 @@ export default function ZariCreatePage() {
   return (
     <div className={styles.container}>
       <div className={styles.selector}>
-        <Carousel showItemCount={5} setConstellationIAU={setConstellationIAU}>
+        <Carousel
+          ref={sliderRef}
+          showItemCount={5}
+          setConstellationIAU={setConstellationIAU}
+          setIsMouseDown={setIsMouseDown}
+          isMouseDown={isMouseDown}
+        >
           {Object.values(constellationMap).map(
             ({ icon: ConstellationIcon }, index) => (
               <ConstellationIcon key={index} />
@@ -36,7 +46,6 @@ export default function ZariCreatePage() {
           )}
         </Carousel>
       </div>
-
       <svg
         className={styles.constellationOrigin}
         viewBox="0 0 360 640"
@@ -56,13 +65,15 @@ export default function ZariCreatePage() {
         {constellationIAU &&
           createElement(constellationMap[constellationIAU].origin)}
       </svg>
-      <ConfirmButton
-        colorType={"accept"}
-        disabled={isClicked}
-        onClick={handleOnClick}
-      >
-        자리 만들기 완료!
-      </ConfirmButton>
+      <div className={styles.wrapButton}>
+        <ConfirmButton
+          colorType={"accept"}
+          disabled={isClicked}
+          onClick={handleOnClick}
+        >
+          자리 만들기 완료!
+        </ConfirmButton>
+      </div>
     </div>
   );
 }

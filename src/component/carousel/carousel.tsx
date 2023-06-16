@@ -2,11 +2,11 @@
 
 import {
   Dispatch,
+  forwardRef,
   ReactNode,
   SetStateAction,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import styles from "./carousel.module.css";
@@ -16,21 +16,24 @@ import RightIcon from "@/component/ui/icon/arrow/right.icon";
 type Props = {
   children: ReactNode;
   showItemCount: 1 | 3 | 5 | 7 | 9;
-  setConstellationIAU: Dispatch<SetStateAction<string>>;
+  setConstellationIAU?: Dispatch<SetStateAction<string>>;
+  showArrow?: boolean;
+  isMouseDown?: boolean;
+  setIsMouseDown: Dispatch<SetStateAction<boolean>>;
 };
 
-/**
- * 원래 여러곳에서 사용할 수있는 캐러셀 컴포넌트를 만들려고했으나,,,
- * 하다보니 요구사항이 공통 컴포넌트로 활용하기에 힘들게해서, 현재는 자리만들기에서만 사용하고있습니다.
- * @constructor
- */
-export default function Carousel({
-  children,
-  showItemCount,
-  setConstellationIAU,
-}: Props) {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+const Carousel = (
+  {
+    children,
+    showItemCount,
+    setConstellationIAU,
+    showArrow = true,
+    isMouseDown,
+    setIsMouseDown,
+  }: Props,
+  sliderRef: any
+) => {
+  // const sliderRef = useRef<HTMLDivElement>(null);
   const [description, setDescription] = useState<{
     korName: string;
     date: string;
@@ -49,7 +52,7 @@ export default function Carousel({
 
     const centerIndex = Math.floor(centerPosition / itemSize); // 중앙에 위치한 아이템의 인덱스 계산
     return items[centerIndex] as HTMLElement;
-  }, []);
+  }, [sliderRef]);
 
   const selectItem = useCallback(() => {
     const centerItem = findCenterItem();
@@ -65,33 +68,26 @@ export default function Carousel({
 
       // 중앙 요소에 'selected' 클래스 추가
       centerItem.classList.add(styles.selected);
-      setConstellationIAU(centerItem.dataset.name ?? "");
+      setConstellationIAU && setConstellationIAU(centerItem.dataset.name ?? "");
+
       setDescription({
         korName: centerItem.dataset.korName ?? "",
         date: centerItem.dataset.date ?? "",
       });
     }
-  }, [findCenterItem, setConstellationIAU]);
-
-  const handleScroll = useCallback(() => {
-    if (scrollTimeoutRef.current !== null) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-
-    scrollTimeoutRef.current = setTimeout(() => selectItem(), 5);
-  }, [selectItem, setConstellationIAU]);
+  }, [findCenterItem, setConstellationIAU, sliderRef]);
 
   // 스크롤 감지 이벤트 붙이기
   useEffect(() => {
     const sliderElement = sliderRef.current;
-    if (sliderElement) {
-      sliderElement.addEventListener("scroll", handleScroll);
+    if (!sliderElement) return;
+    const handleScroll = () => requestAnimationFrame(selectItem);
 
-      return () => {
-        sliderElement.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [handleScroll]);
+    sliderElement.addEventListener("scroll", handleScroll);
+    return () => {
+      sliderElement.removeEventListener("scroll", handleScroll);
+    };
+  }, [selectItem, sliderRef]);
 
   const scrollMove = useCallback(
     (action: "prev" | "next") => {
@@ -111,8 +107,63 @@ export default function Carousel({
         behavior: "smooth", // 스크롤 애니메이션을 부드럽게 적용
       });
     },
-    [showItemCount]
+    [showItemCount, sliderRef]
   );
+
+  useEffect(() => {
+    const sliderElement = sliderRef.current;
+
+    // 외부에도 있는데, 내부에도 하나 더 만듬...
+    // 외부는 스크롤 스냅 CSS 활성화용.
+    // 내부는 마우스 드래그로 스크롤 이동시키기 위함.
+    let isMouseDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (!sliderElement) return;
+
+      isMouseDown = true;
+      setIsMouseDown(isMouseDown);
+      startX = e.pageX - sliderElement.offsetLeft;
+      scrollLeft = sliderElement.scrollLeft;
+      sliderElement.style.cursor = "grabbing";
+      sliderElement.style.userSelect = "none";
+    };
+
+    const handleMouseUp = () => {
+      if (!sliderElement) return;
+
+      isMouseDown = false;
+      setIsMouseDown(isMouseDown);
+      sliderElement.style.cursor = "grab";
+      sliderElement.style.removeProperty("user-select");
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isMouseDown || !sliderElement) return;
+
+      e.preventDefault();
+
+      const x = e.pageX - sliderElement.offsetLeft;
+      const walk = x - startX;
+      sliderElement.scrollLeft = scrollLeft - walk;
+    };
+
+    if (sliderElement) {
+      sliderElement.addEventListener("mousedown", handleMouseDown);
+      sliderElement.addEventListener("mousemove", handleMouseMove);
+      sliderElement.addEventListener("mouseup", handleMouseUp);
+      sliderElement.addEventListener("mouseleave", handleMouseUp);
+
+      return () => {
+        sliderElement.removeEventListener("mousedown", handleMouseDown);
+        sliderElement.removeEventListener("mousemove", handleMouseMove);
+        sliderElement.removeEventListener("mouseup", handleMouseUp);
+        sliderElement.removeEventListener("mouseleave", handleMouseUp);
+      };
+    }
+  }, [setIsMouseDown, sliderRef]);
 
   // 컴포넌트 최초 마운트시 별자리 설정
   useEffect(() => {
@@ -132,27 +183,35 @@ export default function Carousel({
   return (
     <>
       <div className={styles.wrapSlider}>
-        <button
-          type={"button"}
-          className={`${styles.button}`}
-          onClick={() => scrollMove("prev")}
-        >
-          <LeftIcon />
-        </button>
+        {showArrow && (
+          <button
+            type={"button"}
+            className={`${styles.button}`}
+            onClick={() => scrollMove("prev")}
+          >
+            <LeftIcon />
+          </button>
+        )}
 
-        <div ref={sliderRef} className={styles.slider} style={sliderStyle}>
+        <div
+          ref={sliderRef}
+          className={`${styles.slider} ${!isMouseDown && styles.sliderNoSnap}`}
+          style={sliderStyle}
+        >
           {emptyItem()}
           {children}
           {emptyItem()}
         </div>
 
-        <button
-          type={"button"}
-          className={`${styles.button}`}
-          onClick={() => scrollMove("next")}
-        >
-          <RightIcon />
-        </button>
+        {showArrow && (
+          <button
+            type={"button"}
+            className={`${styles.button}`}
+            onClick={() => scrollMove("next")}
+          >
+            <RightIcon />
+          </button>
+        )}
       </div>
       {description && (
         <div className={styles.description}>
@@ -162,4 +221,6 @@ export default function Carousel({
       )}
     </>
   );
-}
+};
+
+export default forwardRef(Carousel);
