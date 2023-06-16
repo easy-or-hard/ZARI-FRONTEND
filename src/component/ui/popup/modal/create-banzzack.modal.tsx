@@ -72,8 +72,8 @@ export default function CreateBanzzackModal({
       const formData = new FormData(event.currentTarget);
       const content = { content: formData.get("content") as string };
 
-      const handleOK = () => {
-        trigger(content);
+      const handleAccept = async () => {
+        await trigger(content);
         closeBeforeCallback();
       };
 
@@ -89,7 +89,7 @@ export default function CreateBanzzackModal({
             모두가 볼 수 있어요
           </p>
         ),
-        onAccept: handleOK,
+        onAccept: handleAccept,
         onCancel: handleCancel,
       });
     },
