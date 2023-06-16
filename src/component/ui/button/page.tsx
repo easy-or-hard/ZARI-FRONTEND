@@ -1,6 +1,6 @@
 "use client";
 
-import ConfirmButton from "@/app/component/ui/button/confirm/confirm.button";
+import ConfirmButton from "@/component/ui/button/confirm/confirm.button";
 import { useState } from "react";
 import GradientButton from "./gradient/gradient.button";
 
