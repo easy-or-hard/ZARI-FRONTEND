@@ -6,7 +6,6 @@ import {
   BanzzackUniqueKey,
   getBanzzackUrl,
   getEventBanzzacksUrl,
-  getZariUrl,
   ZariUniqueKey,
 } from "@/services/byeol/api.byeol";
 import useSWRMutation from "swr/mutation";
@@ -65,11 +64,10 @@ export function useEventBanzzacks([name, constellationIAU]: ZariUniqueKey) {
     const eventSource = new EventSource(key);
     eventSource.onmessage = (event) => {
       const data: EventLockAndUnlockBanzzackDto = JSON.parse(event.data);
-
       if (data.locked) {
         setLocks((prevLocks) => [...prevLocks, data.starNumber]);
       } else {
-        mutate(getZariUrl([name, constellationIAU]));
+        mutate([name, constellationIAU]);
         setLocks((prevLocks) => {
           const updatedLocks = prevLocks.filter(
             (starNumber) => starNumber !== data.starNumber
