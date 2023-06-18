@@ -168,7 +168,7 @@ export default function ButtonFeedbackEffect() {
       const parentTarget =
         target.parentNode && (target.parentNode as HTMLElement);
       if (
-        target.tagName.toLowerCase() !== "button" ||
+        target.tagName.toLowerCase() !== "button" &&
         parentTarget?.tagName.toLowerCase() !== "button"
       ) {
         return;
