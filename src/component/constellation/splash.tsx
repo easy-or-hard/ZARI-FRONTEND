@@ -11,15 +11,22 @@ export default function Splash() {
       preserveAspectRatio="xMidYMid meet"
     >
       <g id="star">
+        <circle cx={64.43} cy={27.69} r={5} stroke="#fff" />
         <EffectBanzzack cx={64.43} cy={27.69} />
+
+        <circle cx={156.05} cy={147.54} r={5} stroke="#fff" />
         <EffectBanzzack cx={156.05} cy={147.54} r={5} />
-        <EffectBanzzack cx={250.16} cy={265.75} r={5} />
+
+        <circle cx={250.16} cy={265.75} r={5} stroke="#fff" />
+        {/* <EffectBanzzack cx={250.16} cy={265.75} r={5} />*/}
+
+        <circle cx={215.99} cy={369.33} r={5} stroke="#fff" />
         <EffectBanzzack cx={215.99} cy={369.33} r={5} />
       </g>
       <g id="line">
         <line
           x1="209.07"
-          y1="384.78"
+          y1="380.78"
           x2="171.02"
           y2="442.22"
           fill="none"
