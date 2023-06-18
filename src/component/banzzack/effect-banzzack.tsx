@@ -10,10 +10,10 @@ export default function EffectBanzzack({ cx, cy, r = 10 }: Props) {
   cy = +cy;
   r = +r;
 
-  const largeRadius = r + 15;
-  const mediumRadius = r + 10;
-  const smallRadius = r + 5;
-  const fixedRadius = 1.5;
+  // const largeRadius = r + 15;
+  // const mediumRadius = r + 10;
+  // const smallRadius = r + 5;
+  // const fixedRadius = 1.5;
 
   return (
     <>
