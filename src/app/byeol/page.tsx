@@ -38,13 +38,17 @@ export default function MyPage() {
 
   return (
     <>
-      {byeol.zaris.map((zari) => (
-        <Zari
-          key={zari.constellationIAU}
-          name={byeol.name}
-          constellationIAU={zari.constellationIAU}
-        />
-      ))}
+      <Zari
+        name={byeol.name}
+        constellationIAU={byeol.zaris[0].constellationIAU}
+      />
+      {/* {byeol.zaris.map((zari) => (*/}
+      {/*  <Zari*/}
+      {/*    key={zari.constellationIAU}*/}
+      {/*    name={byeol.name}*/}
+      {/*    constellationIAU={zari.constellationIAU}*/}
+      {/*  />*/}
+      {/* ))}*/}
     </>
   );
 }
