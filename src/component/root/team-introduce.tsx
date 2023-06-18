@@ -1,12 +1,13 @@
 import styles from "./team-introduce.module.css";
-import ChatIcon from "@/component/ui/icon/size24/chat";
+import GithubIcon from "@/component/ui/icon/auth/github";
+import BehanceIcon from "@/component/ui/icon/auth/behance";
 
 export default function TeamIntroduce() {
   return (
     <div className={styles.wrapTeam}>
       <div className={styles.wrapTitle}>
-        <div>team</div>
-        <div>Easy or Hard</div>
+        <div className={styles.subTitle}>team</div>
+        <div className={styles.title}>AWAKE</div>
       </div>
       <ul className={styles.wrapMembers}>
         <li className={styles.wrapMember}>
@@ -14,21 +15,18 @@ export default function TeamIntroduce() {
             <div className={styles.teamName}>XIYO</div>
             <div className={styles.teamPosition}>developer</div>
           </div>
-          <ChatIcon />
+          <a href="https://github.com/XIYO" target={"_blank"}>
+            <GithubIcon />
+          </a>
         </li>
         <li className={styles.wrapMember}>
           <div className={styles.wrapMemberInfo}>
-            <div className={styles.teamName}>BUTTER ROLL</div>
+            <div className={styles.teamName}>CHI_MI</div>
             <div className={styles.teamPosition}>designer</div>
           </div>
-          <ChatIcon />
-        </li>
-        <li className={styles.wrapMember}>
-          <div className={styles.wrapMemberInfo}>
-            <div className={styles.teamName}>CHOGANGYEOL</div>
-            <div className={styles.teamPosition}>developer</div>
-          </div>
-          <ChatIcon />
+          <a href="https://www.behance.net/Chi_mi" target={"_blank"}>
+            <BehanceIcon />
+          </a>
         </li>
       </ul>
     </div>

@@ -3,7 +3,7 @@
   top: 50%;
   right: calc((100svw - var(--max-content-width)) * 0.2 + 40%);
 
-  width: var(--max-introduce-width);
+  width: 477px;
 
   display: flex;
   flex-direction: column;
@@ -19,14 +19,29 @@
 }
 
 .wrapTitle {
+  font-size: 66px;
+  font-weight: 700;
+  line-height: 80px;
+  letter-spacing: 0.1em;
+
+  margin-bottom: 100px;
+}
+
+.subTitle {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 25px;
+
+  letter-spacing: 0.1em;
+}
+
+.title {
   color: var(--primary-text);
+
+  font-style: normal;
   font-weight: 700;
   font-size: 66px;
-  line-height: 80px;
-
-  text-align: center;
-  letter-spacing: 0.1em;
-  margin-bottom: 100px;
+  line-height: 82px;
 }
 
 .wrapMembers {
