@@ -4,61 +4,157 @@ export default function Splash() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 50 320 435"
-      filter={`url(#blur)`}
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 340 521.81"
+      width={340}
+      height={521.81}
+      preserveAspectRatio="xMidYMid meet"
     >
-      <filter
-        id="blur"
-        x="-50%"
-        y="-50%"
-        width="200%"
-        height="200%"
-        filterUnits="userSpaceOnUse"
-      >
-        <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
-        <feBlend mode="screen" in2="SourceGraphic" />
-      </filter>
       <g id="star">
-        <circle id="_4" data-name="4" cx="181" cy="402" r="2" fill="#fff" />
-        <circle id="_3" data-name="3" cx="206" cy="277" r="2" fill="#fff" />
-        <circle id="_2" data-name="2" cx="122" cy="169" r="3" fill="#fff" />
-        <circle id="_1" data-name="1" cx="49" cy="79" r="2" fill="#fff" />
-        <EffectBanzzack cx={49} cy={79} />
+        <EffectBanzzack cx={64.43} cy={27.69} />
+        <EffectBanzzack cx={156.05} cy={147.54} r={5} />
+        <EffectBanzzack cx={250.16} cy={265.75} r={5} />
+        <EffectBanzzack cx={215.99} cy={369.33} r={5} />
       </g>
       <g id="line">
-        <line x1="60.57" y1="81.9" x2="122.08" y2="92.65" stroke="#fff" />
-        <line x1="183.47" y1="104.18" x2="262.4" y2="131.86" stroke="#fff" />
-        <line x1="268.53" y1="152.5" x2="195.51" y2="196.4" stroke="#fff" />
-        <line x1="166.91" y1="196.4" x2="131.36" y2="172.37" stroke="#fff" />
-        <line x1="112.81" y1="172.37" x2="43.3" y2="200.51" stroke="#fff" />
-        <line x1="34.9" y1="223.05" x2="102.22" y2="295.62" stroke="#fff" />
-        <line x1="131.36" y1="295.62" x2="192.75" y2="281.17" stroke="#fff" />
-        <line x1="215.62" y1="284.18" x2="268.53" y2="340.8" stroke="#fff" />
-        <line x1="131.36" y1="310.81" x2="245.57" y2="348.31" stroke="#fff" />
-        <line x1="262.4" y1="361.51" x2="191.74" y2="395.8" stroke="#fff" />
-        <line x1="175.99" y1="411.52" x2="162.83" y2="468.57" stroke="#fff" />
+        <line
+          x1="209.07"
+          y1="384.78"
+          x2="171.02"
+          y2="442.22"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="272.89"
+          y1="341.32"
+          x2="226.93"
+          y2="363.96"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="255.32"
+          y1="278.59"
+          x2="272.89"
+          y2="316.01"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="168.62"
+          y1="295.18"
+          x2="236.5"
+          y2="269.09"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="67.32"
+          y1="226.91"
+          x2="131.09"
+          y2="291.08"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="142.02"
+          y1="154.71"
+          x2="67.32"
+          y2="207.09"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="193.76"
+          y1="188.28"
+          x2="167.62"
+          y2="155.71"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="292.75"
+          y1="127.55"
+          x2="231.57"
+          y2="189.86"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="225.85"
+          y1="52.69"
+          x2="292.75"
+          y2="107.65"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="80.35"
+          y1="32.19"
+          x2="146.01"
+          y2="51.94"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
+        <line
+          x1="168.62"
+          y1="304.53"
+          x2="252.16"
+          y2="327.13"
+          fill="none"
+          opacity=".5"
+          stroke="#fff"
+        />
       </g>
       <g id="text">
-        <text transform="translate(125.96 98.77)" fill="#fff" fontSize=".7rem">
-          하나씩 이어진
+        <text transform="translate(151.01 56.34)" fill="#fff" fontSize="12.8">
+          <tspan x="0" y="0">
+            서로가 연결된
+          </tspan>
         </text>
-        <text transform="translate(251.32 144.5)" fill="#fff" fontSize=".7rem">
-          별자리 처럼
+        <text transform="translate(278.78 122.08)" fill="#fff" fontSize="12.8">
+          <tspan x="0" y="0">
+            하늘의
+          </tspan>
         </text>
-        <text transform="translate(172.42 205.39)" fill="#fff" fontSize=".7rem">
-          나와
+        <text transform="translate(189.89 203.03)" fill="#fff" fontSize="12.8">
+          <tspan x="0" y="0">
+            별들처럼
+          </tspan>
         </text>
-        <text transform="translate(20.22 215.81)" fill="#fff" fontSize=".7rem">
-          수많은
+        <text transform="translate(40.7 221.69)" fill="#fff" fontSize="12.8">
+          <tspan x="0" y="0">
+            나와 네가
+          </tspan>
         </text>
-        <text transform="translate(107.75 306.99)" fill="#fff" fontSize=".7rem">
-          네가
+        <text transform="translate(132.42 304.9)" fill="#fff" fontSize="12.8">
+          <tspan x="0" y="0">
+            하나씩
+          </tspan>
         </text>
-        <text transform="translate(253.29 354.3)" fill="#fff" fontSize=".7rem">
-          이어가는
+        <text transform="translate(256.24 333.75)" fill="#fff" fontSize="12.8">
+          <tspan x="0" y="0">
+            이어가는
+          </tspan>
         </text>
-        <text transform="translate(130 485)" fill="#fff" fontSize=".7rem">
-          우리의 이야기
+        <text transform="translate(130.59 460.85)" fill="#fff" fontSize="14.4">
+          <tspan x="0" y="0">
+            우리의 이야기
+          </tspan>
+        </text>
+        <text transform="translate(101.26 509.33)" fill="#fff" fontSize="48">
+          Z A R I
         </text>
       </g>
     </svg>
