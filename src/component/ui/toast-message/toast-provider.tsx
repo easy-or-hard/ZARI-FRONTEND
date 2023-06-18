@@ -3,7 +3,7 @@
 import React, { createContext, useCallback, useRef, useState } from "react";
 import ToastMessage from "@/component/ui/toast-message/toast-message";
 import { CSSTransition } from "react-transition-group";
-import styles from "./toast-provider.module.css";
+import anime from "animejs";
 
 export const ToastContext = createContext<(message: string) => void>(() => {});
 
@@ -16,10 +16,30 @@ export default function ToastProvider({
   const [isVisible, setIsVisible] = useState(false);
   const toastRef = useRef<HTMLHtmlElement>(null);
 
-  const showToast = useCallback((message: string) => {
+  const showToast = useCallback((message: string, timer: number = 3000) => {
     setMessage(message);
     setIsVisible(true);
-    setTimeout(() => setIsVisible(false), 3000);
+    setTimeout(() => setIsVisible(false), timer);
+  }, []);
+
+  const onEnter = useCallback(() => {
+    anime({
+      targets: toastRef.current,
+      translateY: [100, 0],
+      opacity: [0, 1],
+      duration: 200,
+      easing: "easeOutQuad",
+    });
+  }, []);
+
+  const onExit = useCallback(() => {
+    anime({
+      targets: toastRef.current,
+      translateY: [0, 100],
+      opacity: [1, 0],
+      duration: 200,
+      easing: "easeOutQuad",
+    });
   }, []);
 
   return (
@@ -29,12 +49,8 @@ export default function ToastProvider({
         nodeRef={toastRef}
         in={isVisible}
         timeout={200}
-        classNames={{
-          enter: styles.toastEnter,
-          enterActive: styles.toastEnterActive,
-          exit: styles.toastExit,
-          exitActive: styles.toastExitActive,
-        }}
+        onEnter={onEnter}
+        onExit={onExit}
         unmountOnExit
       >
         <ToastMessage ref={toastRef}>{message}</ToastMessage>
