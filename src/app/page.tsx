@@ -25,7 +25,6 @@ export default function MainPage() {
   return (
     <div className={styles.wrapMain}>
       <Splash />
-      <div className={styles.title}>ZARI</div>
     </div>
   );
 }
