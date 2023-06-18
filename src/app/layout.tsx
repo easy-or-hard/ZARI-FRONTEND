@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import localFont from "next/font/local";
 import ToastProvider from "@/component/ui/toast-message/toast-provider";
 import ModalProvider from "@/component/ui/popup/modal/modal.provider";
+import ButtonFeedbackEffect from "@/component/animation/star-field/button-feedback-effect";
 
 const font = localFont({
   src: "../../fonts/SUIT-Variable.woff2",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <ModalProvider>{children}</ModalProvider>
           </ToastProvider>
         </main>
+        <ButtonFeedbackEffect />
       </body>
     </html>
   );
