@@ -3,6 +3,11 @@
 import { getOAuthUrlForProvider } from "@/services/byeol/api.byeol";
 import { useRouter } from "next/navigation";
 import { useIsByeol } from "@/services/auth/use.auth";
+import styles from "./auth.module.css";
+import KakaotalkIcon from "@/component/ui/icon/auth/kakaotalk";
+import NaverIcon from "@/component/ui/icon/auth/naver";
+import GoogleIcon from "@/component/ui/icon/auth/google";
+import AppleIcon from "@/component/ui/icon/auth/apple";
 
 const openWindow = (provider: string) => {
   const width = 500;
@@ -26,32 +31,43 @@ export default function AuthPage() {
   }
 
   return (
-    <div>
-      <div className={"absolute top-20 left-0 right-0"}>
-        <div className="text-1xl text-center">우리의 이야기</div>
-        <div className="text-7xl font-bold text-center">ZARI</div>
+    <div className={styles.wrap}>
+      <div className={styles.wrapTitle}>
+        <div className={styles.subTitle}>우리의 이야기</div>
+        <div className={styles.title}>ZARI</div>
       </div>
-      <div className={"absolute p-4 bottom-0 w-full flex flex-col gap-4"}>
+      <div className={styles.wrapAuth}>
         <button
           type={"button"}
-          className="border border-solid rounded-full p-4 text-center"
+          className={styles.authButton}
           onClick={() => (!isLoading || !isValidating) && openWindow("github")}
         >
-          github
+          <KakaotalkIcon />
+          카카오톡
         </button>
         <button
           type={"button"}
-          className="border border-solid rounded-full p-4 text-center"
+          className={styles.authButton}
           onClick={() => openWindow("github")}
         >
-          github
+          <NaverIcon />
+          네이버
         </button>
         <button
           type={"button"}
-          className="border border-solid rounded-full p-4 text-center"
+          className={styles.authButton}
           onClick={() => openWindow("github")}
         >
-          github
+          <GoogleIcon />
+          Google
+        </button>
+        <button
+          type={"button"}
+          className={styles.authButton}
+          onClick={() => openWindow("github")}
+        >
+          <AppleIcon />
+          Apple
         </button>
       </div>
     </div>
