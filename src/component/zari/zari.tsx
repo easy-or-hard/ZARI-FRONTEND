@@ -65,7 +65,7 @@ export default function Zari({ name, constellationIAU }: Props) {
       .catch((error) => {
         console.error("클립보드 복사 실패: ", error);
       });
-  }, [showToast]);
+  }, [name, showToast]);
 
   const handleSvgClick = useCallback(
     (event: any) => {
