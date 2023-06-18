@@ -1,25 +1,34 @@
 "use client";
 
-import React, { createContext, useCallback, useRef, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import ToastMessage from "@/component/ui/toast-message/toast-message";
 import { CSSTransition } from "react-transition-group";
 import anime from "animejs";
 
 export const ToastContext = createContext<(message: string) => void>(() => {});
 
-export default function ToastProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ToastProvider({ children }: { children: ReactNode }) {
   const [message, setMessage] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const toastRef = useRef<HTMLHtmlElement>(null);
+  const toastRef = useRef<HTMLHtmlElement>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>();
 
   const showToast = useCallback((message: string, timer: number = 3000) => {
     setMessage(message);
     setIsVisible(true);
-    setTimeout(() => setIsVisible(false), timer);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setIsVisible(false);
+      timeoutRef.current = null;
+    }, timer);
   }, []);
 
   const onEnter = useCallback(() => {
