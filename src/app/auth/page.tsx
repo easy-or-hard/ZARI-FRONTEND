@@ -7,7 +7,9 @@ import styles from "./auth.module.css";
 import KakaotalkIcon from "@/component/ui/icon/auth/kakaotalk";
 import NaverIcon from "@/component/ui/icon/auth/naver";
 import GoogleIcon from "@/component/ui/icon/auth/google";
-import AppleIcon from "@/component/ui/icon/auth/apple";
+import { useMyByeol } from "@/services/byeol/use.byeol";
+import { useEffect } from "react";
+import GithubIcon from "@/component/ui/icon/auth/github";
 
 const openWindow = (provider: string) => {
   const width = 500;
@@ -24,11 +26,20 @@ const openWindow = (provider: string) => {
 
 export default function AuthPage() {
   const router = useRouter();
-  const { data, isLoading, isValidating } = useIsByeol();
+  const { data: isByeol, isLoading, isValidating } = useIsByeol();
+  const { data: myByeol } = useMyByeol(isByeol);
 
-  if (data) {
-    router.push("/byeol");
-  }
+  useEffect(() => {
+    if (!isByeol || !myByeol) {
+      return;
+    }
+
+    if (myByeol.zaris.length === 0) {
+      router.replace("/zari/create");
+    } else {
+      router.replace("/byeol");
+    }
+  }, [isByeol, myByeol, router]);
 
   return (
     <div className={styles.wrap}>
@@ -40,7 +51,7 @@ export default function AuthPage() {
         <button
           type={"button"}
           className={styles.authButton}
-          onClick={() => (!isLoading || !isValidating) && openWindow("github")}
+          onClick={() => (!isLoading || !isValidating) && openWindow("kakao")}
         >
           <KakaotalkIcon />
           카카오톡
@@ -48,7 +59,7 @@ export default function AuthPage() {
         <button
           type={"button"}
           className={styles.authButton}
-          onClick={() => openWindow("github")}
+          onClick={() => openWindow("naver")}
         >
           <NaverIcon />
           네이버
@@ -56,7 +67,7 @@ export default function AuthPage() {
         <button
           type={"button"}
           className={styles.authButton}
-          onClick={() => openWindow("github")}
+          onClick={() => openWindow("google")}
         >
           <GoogleIcon />
           Google
@@ -66,8 +77,8 @@ export default function AuthPage() {
           className={styles.authButton}
           onClick={() => openWindow("github")}
         >
-          <AppleIcon />
-          Apple
+          <GithubIcon width={17} />
+          github
         </button>
       </div>
     </div>
