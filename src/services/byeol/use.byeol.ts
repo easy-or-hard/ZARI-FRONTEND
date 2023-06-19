@@ -18,12 +18,16 @@ import { PatchByeolDto } from "@/services/byeol/dto/reuqest/patch-byeol.dto";
 
 const keyMe = ["me"];
 
-export function useMyByeol() {
-  return useSWR(keyMe, () => baseFetcher<ByeolEntity>(getMyByeolUrl()), {
-    onSuccess: (data) => {
-      mutate(getByeolUrl([data.name]), data, false);
-    },
-  });
+export function useMyByeol(isContinue: Boolean = true) {
+  return useSWR(
+    isContinue ? keyMe : null,
+    () => baseFetcher<ByeolEntity>(getMyByeolUrl()),
+    {
+      onSuccess: (data) => {
+        mutate(getByeolUrl([data.name]), data, false);
+      },
+    }
+  );
 }
 
 export function useByeol(key?: [string]) {
