@@ -38,9 +38,7 @@ export default function SubMenu() {
 
   const url = isByeol ? "/byeol/me" : "/";
   return (
-    <span
-      className={`px-3 py-4 bg-zari_default_white rounded-full inline-grid gap-4`}
-    >
+    <>
       <button onClick={() => router.push(url)}>
         <HomeIcon color={"#161616"} />
       </button>
@@ -54,6 +52,6 @@ export default function SubMenu() {
           <SignOutIcon color={"#161616"} />
         </button>
       )}
-    </span>
+    </>
   );
 }
