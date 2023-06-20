@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
+import { BanzzackUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
 import AqrOriginPath from "@/component/constellation/constellations/aqr-origin.path";
 import AqrEffectPath from "@/component/constellation/effects/agr-effect.path";
 import AqrWritingPath from "@/component/constellation/writing/agr-wrting.path";
@@ -50,7 +50,7 @@ import AriEffectPath from "@/component/constellation/effects/ari-effect.path";
 import AriWritingPath from "@/component/constellation/writing/ari-writing.path";
 
 export type ConstellationEffectProps = {
-  banzzacks: BanzzackEntity[];
+  banzzacks: BanzzackUniqueKey[];
 };
 
 export type ConstellationWriterProps = {

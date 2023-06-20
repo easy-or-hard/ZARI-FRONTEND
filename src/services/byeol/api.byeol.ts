@@ -1,12 +1,7 @@
 import { API } from "@/const";
-
-export type ZariUniqueKey = [name: string, constellationIAU: string];
-
-export type BanzzackUniqueKey = [
-  name: string,
-  constellationIAU: string,
-  starNumber: number
-];
+import { BanzzackTreeUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
+import { ZariTreeUniqueKey } from "@/services/zari/entities/zari.entity";
+import { ConstellationUniqueKey } from "@/services/constellation/entities/constellation.entity";
 
 /**
  * 인증 URL
@@ -22,31 +17,36 @@ export const IS_BYEOL_URL = `${API.BASE_URL}/auth/is-byeol`;
 /**
  * 별 URL
  */
-export const BYEOLS_URL = `${API.BASE_URL}/byeols`;
+export const BYEOLS_URL = `${API.BASE_URL}`;
 
-export const getMyByeolUrl = () => `${BYEOLS_URL}/me`;
-export const getByeolUrl = ([name]: [string]) => `${BYEOLS_URL}/${name}`;
+export const getMyByeolUrl = () => `${BYEOLS_URL}/byeols/me`;
+export const getByeolUrl = ([name]: [string]) => `${BYEOLS_URL}/byeols/${name}`;
 export const urlIsNameAvailable = (name: string) =>
-  `${BYEOLS_URL}/${name}/is-name-available`;
+  `${BYEOLS_URL}/byeols/${name}/is-name-available`;
 
 /**
  * 자리 URL
  */
 
-export const getZariUrl = ([name, constellationAIU]: ZariUniqueKey) =>
-  `${BYEOLS_URL}/${name}/zaris/${constellationAIU}`;
+export const getZariUrl = ([name, constellationAIU]: ZariTreeUniqueKey) =>
+  `${BYEOLS_URL}/byeols/${name}/zaris/${constellationAIU}`;
 
 /**
  * 반짝 URL
  */
 
 export const getEventBanzzacksUrl = (name: string, constellationIAU: string) =>
-  `${BYEOLS_URL}/${name}/zaris/${constellationIAU}/banzzacks/event`;
+  `${BYEOLS_URL}/byeols/${name}/zaris/${constellationIAU}/banzzacks/event`;
 
 export const getBanzzackUrl = ([
   name,
   constellationIAU,
   starNumber,
-]: BanzzackUniqueKey) => {
-  return `${BYEOLS_URL}/${name}/zaris/${constellationIAU}/banzzacks/${starNumber}`;
+]: BanzzackTreeUniqueKey) => {
+  return `${BYEOLS_URL}/byeols/${name}/zaris/${constellationIAU}/banzzacks/${starNumber}`;
 };
+
+export const getConstellationUrl = ([
+  constellationIAU,
+]: ConstellationUniqueKey) =>
+  `${BYEOLS_URL}/constellations/${constellationIAU}`;

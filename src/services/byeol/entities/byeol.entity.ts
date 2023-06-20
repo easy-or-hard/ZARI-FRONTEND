@@ -1,6 +1,8 @@
-import { ZariEntity } from "@/services/zari/entities/zari.entity";
+import { ZariOmitEntity } from "@/services/zari/entities/zari.entity";
 
-type OmitZariEntity = Omit<ZariEntity, "banzzacks" | "constellation">;
+export type ByeolUniqueKey = [name: ByeolEntity["name"]];
+
+export type ByeolTreeUniqueKey = [name: ByeolEntity["name"]];
 
 /**
  * Model Byeol
@@ -12,5 +14,5 @@ export type ByeolEntity = {
   createdAt: Date;
   updatedAt: Date;
   isActivate: boolean;
-  zaris: OmitZariEntity[];
+  zaris: ZariOmitEntity[];
 };

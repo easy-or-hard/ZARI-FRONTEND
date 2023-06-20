@@ -3,22 +3,17 @@ import { BaseModalContext } from "@/component/ui/popup/modal/modal.provider";
 import CloseButton from "@/component/ui/button/icon/close.button";
 import ConfirmButton from "@/component/ui/button/confirm/confirm.button";
 import { useBanzzack } from "@/services/banzzack/use.banzzack";
-import { BanzzackUniqueKey } from "@/services/byeol/api.byeol";
 import styles from "./read-banzzack-modal.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { useMyByeol } from "@/services/byeol/use.byeol";
+import { BanzzackTreeUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
 
 export type ReadBanzzackModalProps = {
-  banzzackUniqueKey: BanzzackUniqueKey;
+  banzzackTreeUniqueKey: BanzzackTreeUniqueKey;
 };
 
-/**
- * @description 반짝이 읽기 모달
- * @constructor
- * @param {BanzzackUniqueKey} uniqueKey
- */
 export default function ReadBanzzackModal({
-  banzzackUniqueKey,
+  banzzackTreeUniqueKey,
 }: ReadBanzzackModalProps) {
   const baseModalContext = useContext(BaseModalContext);
   if (!baseModalContext) {
@@ -32,7 +27,7 @@ export default function ReadBanzzackModal({
   const lastSection = decodeURIComponent(pathName.split("/").pop() as string);
 
   const { data: myByeol } = useMyByeol();
-  const { data } = useBanzzack(banzzackUniqueKey);
+  const { data } = useBanzzack(banzzackTreeUniqueKey);
 
   const handleAnswer = () => {
     alert(lastSection);

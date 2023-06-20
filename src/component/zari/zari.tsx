@@ -8,10 +8,11 @@ import styles from "./zari.module.css";
 import ShareIcon from "@/component/ui/icon/size24/link";
 import { DOMAIN } from "@/const";
 import { useZari } from "@/services/zari/use.zari";
-import { BanzzackUniqueKey } from "@/services/byeol/api.byeol";
 import { usePathname, useRouter } from "next/navigation";
 import { useMyByeol } from "@/services/byeol/use.byeol";
 import { useEventBanzzacks } from "@/services/banzzack/use.banzzack";
+import { BanzzackTreeUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
+import { useConstellation } from "@/services/constellation/use.constellation";
 
 type Props = {
   name: string;
@@ -46,6 +47,7 @@ export default function Zari({ name, constellationIAU }: Props) {
 
   // 반짝이 데이터 가져오기
   const { data: zariData } = useZari([name, constellationIAU]);
+  const { data: constellationData } = useConstellation([constellationIAU]);
 
   // 반짝이를 표현하기 위한 컴포넌트
   const constellation = constellationMap[constellationIAU];
@@ -77,17 +79,17 @@ export default function Zari({ name, constellationIAU }: Props) {
         +event.target.parentNode.getAttribute("data-name");
 
       const banzzack = zariData?.banzzacks.find(
-        (banzzack) => banzzack.starNumber === selectedStarNumber
+        (banzzack) => banzzack[1] === selectedStarNumber
       );
 
       // 반짝이가 존재할 경우
       if (banzzack) {
-        const banzzackUniqueKey: BanzzackUniqueKey = [
+        const banzzackTreeUniqueKey: BanzzackTreeUniqueKey = [
           name,
           constellationIAU,
           selectedStarNumber,
         ];
-        showReadBanzzackModal({ banzzackUniqueKey });
+        showReadBanzzackModal({ banzzackTreeUniqueKey: banzzackTreeUniqueKey });
       }
       // 반짝이가 없을 경우
       else {
@@ -111,7 +113,7 @@ export default function Zari({ name, constellationIAU }: Props) {
         }
 
         // 찐 반짝이 붙이기
-        const banzzackUniqueKey: BanzzackUniqueKey = [
+        const banzzackTreeUniqueKey: BanzzackTreeUniqueKey = [
           name,
           constellationIAU,
           selectedStarNumber,
@@ -119,7 +121,7 @@ export default function Zari({ name, constellationIAU }: Props) {
 
         lock(selectedStarNumber).then(() => {
           showCreateBanzzackModal({
-            banzzackUniqueKey,
+            banzzackTreeUniqueKey: banzzackTreeUniqueKey,
             closeBeforeCallback: () => {
               unlock(selectedStarNumber);
             },
@@ -170,15 +172,14 @@ export default function Zari({ name, constellationIAU }: Props) {
       {/* svg 가 위에 있는 이유는 영역이 커서 문맥상 먼저 나온 돔이 클릭이 안 돼서... */}
       <div className={styles.description}>
         <div className={styles.byeolName}>{name}</div>
-        {zariData && (
+        {constellationData && (
           <div className={styles.constellationName}>
-            {zariData.constellation.name}자리
+            {constellationData.name}자리
           </div>
         )}
-        {zariData && (
+        {constellationData && zariData && (
           <div className={styles.collectedStar}>
-            {zariData.banzzacks.length} /{" "}
-            {zariData.constellation.constellationCount}
+            {zariData.banzzacks.length} / {constellationData.constellationCount}
           </div>
         )}
       </div>

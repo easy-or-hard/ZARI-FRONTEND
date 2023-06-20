@@ -15,11 +15,11 @@ import {
 import CloseButton from "@/component/ui/button/icon/close.button";
 import ConfirmButton from "@/component/ui/button/confirm/confirm.button";
 import { usePostBanzzack } from "@/services/banzzack/use.banzzack";
-import { BanzzackUniqueKey } from "@/services/byeol/api.byeol";
 import styles from "./create-banzzack-modal.module.css";
+import { BanzzackTreeUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
 
 export type CreateBanzzackModalProps = {
-  banzzackUniqueKey: BanzzackUniqueKey;
+  banzzackTreeUniqueKey: BanzzackTreeUniqueKey;
   closeBeforeCallback: Function;
 };
 
@@ -27,12 +27,12 @@ const MAX_LENGTH = 150;
 
 /**
  * @description 반짝이 생성 모달
- * @param { BanzzackUniqueKey } key
+ * @param { BanzzackTreeUniqueKey } key
  * @param { Function } closeBeforeCallback
  * @constructor
  */
 export default function CreateBanzzackModal({
-  banzzackUniqueKey,
+  banzzackTreeUniqueKey,
   closeBeforeCallback,
 }: CreateBanzzackModalProps) {
   // BaseModalContext 임포트
@@ -50,9 +50,9 @@ export default function CreateBanzzackModal({
   const { showConfirmModal } = useMemo(() => modalContext, [modalContext]);
 
   // 로직 시작
-  const byeolName = banzzackUniqueKey[0];
+  const byeolName = banzzackTreeUniqueKey[0];
 
-  const { trigger } = usePostBanzzack(banzzackUniqueKey);
+  const { trigger } = usePostBanzzack(banzzackTreeUniqueKey);
   const [textLength, setTextLength] = useState(0); // 글자 수를 저장하는 상태
   const [isClicked, setIsClicked] = useState(false); // 반짝이 생성 버튼 클릭 여부
 

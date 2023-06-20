@@ -1,6 +1,8 @@
+export type ConstellationUniqueKey = [ConstellationEntity["constellationIAU"]];
+
 export type ConstellationEntity = {
   name: string;
-  IAU: string;
+  constellationIAU: string;
   constellationCount: number;
   startMonth: number;
   startDay: number;

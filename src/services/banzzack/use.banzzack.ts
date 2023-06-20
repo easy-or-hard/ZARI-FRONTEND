@@ -3,16 +3,18 @@ import useSWRSubscription, {
   SWRSubscriptionOptions,
 } from "swr/subscription";
 import {
-  BanzzackUniqueKey,
   getBanzzackUrl,
   getEventBanzzacksUrl,
-  ZariUniqueKey,
 } from "@/services/byeol/api.byeol";
 import useSWRMutation from "swr/mutation";
 import { baseFetcher, baseFetcherOptions } from "@/services/common/fetcher";
 import { useRef, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
+import {
+  BanzzackEntity,
+  BanzzackTreeUniqueKey,
+} from "@/services/banzzack/entities/banzzack.entity";
+import { ZariTreeUniqueKey } from "@/services/zari/entities/zari.entity";
 
 type LockAndUnlockEventBanzzackDto = {
   starNumber: number;
@@ -26,17 +28,17 @@ type EventLockAndUnlockBanzzackDto = {
   locked: boolean;
 };
 
-export function useBanzzack(key: BanzzackUniqueKey) {
-  return useSWR(key, (key: BanzzackUniqueKey) => {
+export function useBanzzack(key: BanzzackTreeUniqueKey) {
+  return useSWR(key, (key: BanzzackTreeUniqueKey) => {
     const url = getBanzzackUrl(key);
     return baseFetcher<BanzzackEntity>(url);
   });
 }
 
-export function usePostBanzzack(key: BanzzackUniqueKey) {
+export function usePostBanzzack(key: BanzzackTreeUniqueKey) {
   return useSWRMutation(
     key,
-    (key: BanzzackUniqueKey, { arg }: { arg: { content: string } }) => {
+    (key: BanzzackTreeUniqueKey, { arg }: { arg: { content: string } }) => {
       const url = getBanzzackUrl(key);
 
       return baseFetcher<BanzzackEntity>(url, {
@@ -52,7 +54,7 @@ export function usePostBanzzack(key: BanzzackUniqueKey) {
   );
 }
 
-export function useEventBanzzacks([name, constellationIAU]: ZariUniqueKey) {
+export function useEventBanzzacks([name, constellationIAU]: ZariTreeUniqueKey) {
   const [locks, setLocks] = useState<number[]>([]);
   const myLock = useRef<number>(0);
   const url = getEventBanzzacksUrl(name, constellationIAU);
