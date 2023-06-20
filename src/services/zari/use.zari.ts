@@ -15,18 +15,10 @@ export function useZari(key: ZariTreeUniqueKey) {
 }
 
 export function usePostZari(key: ZariTreeUniqueKey) {
-  return useSWRMutation<ZariEntity, ZariError, [string, string]>(
-    key,
-    (key) => {
-      const url = getZariUrl(key);
-      return baseFetcher<ZariEntity>(url, {
-        method: "POST",
-      });
-    },
-    {
-      // onSuccess: (data) => {
-      //   mutate(getZariUrl(key), , false);
-      // },
-    }
-  );
+  return useSWRMutation<ZariEntity, ZariError, [string, string]>(key, (key) => {
+    const url = getZariUrl(key);
+    return baseFetcher<ZariEntity>(url, {
+      method: "POST",
+    });
+  });
 }
