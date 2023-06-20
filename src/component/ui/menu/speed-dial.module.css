@@ -27,8 +27,9 @@
     position: absolute;
     background-color: white;
     border-radius: 50% / 25%;
-    width: 50px;
-    height: 115px;
+    /*width: 50px;*/
+    /*height: 115px;*/
+    padding: 12px;
 
     right: 0;
     bottom: 110%;

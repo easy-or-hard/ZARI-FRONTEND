@@ -6,7 +6,6 @@ import { useContext, useEffect, useMemo } from "react";
 import { useMyByeol } from "@/services/byeol/use.byeol";
 import { useIsByeol } from "@/services/auth/use.auth";
 import { ModalContext } from "@/component/ui/popup/modal/modal.provider";
-import SpeedDial from "@/component/ui/menu/speed-dial";
 
 /**
  * @description 별자리를 볼 수 있는 페이지
@@ -46,14 +45,6 @@ export default function MyPage() {
         name={myByeol.name}
         constellationIAU={myByeol.zaris[0].constellationIAU}
       />
-      <SpeedDial />
-      {/* {byeol.zaris.map((zari) => (*/}
-      {/*  <Zari*/}
-      {/*    key={zari.constellationIAU}*/}
-      {/*    name={byeol.name}*/}
-      {/*    constellationIAU={zari.constellationIAU}*/}
-      {/*  />*/}
-      {/* ))}*/}
     </>
   );
 }

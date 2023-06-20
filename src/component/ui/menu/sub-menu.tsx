@@ -1,14 +1,16 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ModalContext } from "@/component/ui/popup/modal/modal.provider";
 import { ToastContext } from "@/component/ui/toast-message/toast-provider";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "@/services/auth/api.auth";
 import { useIsByeol } from "@/services/auth/use.auth";
 import HomeIcon from "@/component/ui/icon/size24/home";
 import SettingIcon from "@/component/ui/icon/size24/setting";
 import SignOutIcon from "@/component/ui/icon/size24/sign-out";
+import { useMyByeol } from "@/services/byeol/use.byeol";
+import SignInIcon from "@/component/ui/icon/size24/sign-in";
 
 export default function SubMenu() {
   const modalContext = useContext(ModalContext);
@@ -20,11 +22,28 @@ export default function SubMenu() {
   const showToast = toastContext;
 
   const router = useRouter();
+  const pathName = usePathname();
+  const [byeolName, setByeolName] = useState<string>("");
+
+  const { data: isByeol } = useIsByeol();
+  const { data: myByeol } = useMyByeol(isByeol);
+
+  useEffect(() => {
+    if (!myByeol) return;
+    setByeolName(myByeol.name);
+  }, [myByeol]);
 
   const handlerSignOut = () => {
     showConfirmModal({
       onAccept: () => {
-        signOut().then(() => showToast("로그아웃 되었어요"));
+        signOut()
+          .then(() => showToast("로그아웃 되었어요"))
+          .then(() => {
+            if (pathName === "/byeol") {
+              const url = `/byeol/${byeolName}`;
+              router.replace(`${url}`);
+            }
+          });
       },
       accept: "나갈래요",
       cancel: "머물게요",
@@ -34,22 +53,31 @@ export default function SubMenu() {
     });
   };
 
-  const { data: isByeol } = useIsByeol();
+  const handlerSignIn = () => {
+    router.push("/auth");
+  };
 
   const url = isByeol ? "/byeol/me" : "/";
+
   return (
     <>
       <button onClick={() => router.push(url)}>
         <HomeIcon color={"#161616"} />
       </button>
-      {isByeol && (
-        <button onClick={showSettingsModal}>
-          <SettingIcon color={"#161616"} />
-        </button>
-      )}
-      {isByeol && (
+      <button
+        disabled={!isByeol}
+        onClick={showSettingsModal}
+        style={{ opacity: isByeol ? 1 : 0.3 }}
+      >
+        <SettingIcon color={"#161616"} />
+      </button>
+      {isByeol ? (
         <button onClick={handlerSignOut}>
           <SignOutIcon color={"#161616"} />
+        </button>
+      ) : (
+        <button onClick={handlerSignIn}>
+          <SignInIcon color={"#161616"} />
         </button>
       )}
     </>

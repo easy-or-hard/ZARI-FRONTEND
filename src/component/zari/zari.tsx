@@ -13,6 +13,7 @@ import { useMyByeol } from "@/services/byeol/use.byeol";
 import { useEventBanzzacks } from "@/services/banzzack/use.banzzack";
 import { BanzzackTreeUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
 import { useConstellation } from "@/services/constellation/use.constellation";
+import SpeedDial from "@/component/ui/menu/speed-dial";
 
 type Props = {
   name: string;
@@ -186,6 +187,7 @@ export default function Zari({ name, constellationIAU }: Props) {
       <button type={"button"} className={styles.share} onClick={handleShare}>
         <ShareIcon />
       </button>
+      <SpeedDial />
     </div>
   );
 }

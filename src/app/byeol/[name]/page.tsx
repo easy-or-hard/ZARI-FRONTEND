@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo } from "react";
 import { ModalContext } from "@/component/ui/popup/modal/modal.provider";
 import { useByeol } from "@/services/byeol/use.byeol";
-import { ConfirmModalProps } from "@/component/ui/popup/modal/confirm.modal";
+import { useIsByeol } from "@/services/auth/use.auth";
 
 type Props = {
   params: {
@@ -21,35 +21,35 @@ export default function MyPage({ params: { name } }: Props) {
   if (!modalContext) {
     throw new Error("ModalContext is null");
   }
-  const { showConfirmModal } = useMemo(() => modalContext, [modalContext]);
+  const { showReadBanzzackModal } = useMemo(() => modalContext, [modalContext]);
 
   const router = useRouter();
-  const { data: byeol } = useByeol([name]);
+  const { data: isByeol } = useIsByeol();
+  const { data: myByeol } = useByeol([name]);
 
   useEffect(() => {
-    if (byeol?.zaris.length === 0) {
-      const options: ConfirmModalProps = {
-        title: "자리가 없습니다.",
-        description: "자리를 생성하시겠어요?",
-        onAccept: () => {
-          router.push("/zari/create");
-        },
-      };
-      showConfirmModal(options);
+    if (!isByeol || !myByeol) {
+      return;
     }
-  }, [byeol, router, showConfirmModal]);
 
-  if (!byeol) return <>로딩중</>;
+    if (myByeol.zaris.length === 0) {
+      router.push("/zari/create");
+    } else if (!myByeol.zaris[0].constellationIAU) {
+      showReadBanzzackModal({
+        banzzackTreeUniqueKey: ["0", "0", 0],
+      });
+    }
+  }, [isByeol, myByeol, router, showReadBanzzackModal]);
+
+  if (!myByeol) return;
+  else if (myByeol.zaris.length === 0) return;
 
   return (
     <>
-      {byeol.zaris.map((zari) => (
-        <Zari
-          key={zari.constellationIAU}
-          name={byeol.name}
-          constellationIAU={zari.constellationIAU}
-        />
-      ))}
+      <Zari
+        name={myByeol.name}
+        constellationIAU={myByeol.zaris[0].constellationIAU}
+      />
     </>
   );
 }
