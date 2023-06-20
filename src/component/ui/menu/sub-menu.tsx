@@ -57,7 +57,7 @@ export default function SubMenu() {
     router.push("/auth");
   };
 
-  const url = isByeol ? "/byeol/me" : "/";
+  const url = isByeol ? "/byeol" : "/";
 
   return (
     <>
