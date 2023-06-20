@@ -18,7 +18,6 @@ export default function ZariCreatePage() {
   const { data: myByeol } = useMyByeol(isByeol);
   // TODO, useSWR 은 key 가 없을 경우 자동으로 처리해주는데, useSWRMutation 은 그런기능이 없음....
   // 그래서 "" 를 넣어줌 업데이트 내역 반드시 확인하고 안전하게 데이터 처리할것
-  console.log("??myByeol", myByeol);
   const { trigger } = usePostZari([myByeol?.name ?? "", constellationIAU]);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
