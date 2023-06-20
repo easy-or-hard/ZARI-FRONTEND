@@ -47,7 +47,7 @@ export default function ReadBanzzackModal({
         <CloseButton onClick={closeModal} />
       </div>
       <div className={styles.wrapContent}>
-        <div className={styles.content}>{data.content}</div>
+        <pre className={styles.content}>{data.content}</pre>
       </div>
       {/* TODO, 여기에서 컨트롤 하는 것 보다는 인자로 컨트롤 하는게 더 좋은듯 한데, 일딴 이렇게... 지켜보고 결정하자 */}
       {lastSection === myByeol?.name && (
