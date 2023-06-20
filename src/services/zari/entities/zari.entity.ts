@@ -1,4 +1,4 @@
-import { BanzzackUniqueKey } from "@/services/banzzack/entities/banzzack.entity";
+import { BanzzackEntity } from "@/services/banzzack/entities/banzzack.entity";
 import { ConstellationUniqueKey } from "@/services/constellation/entities/constellation.entity";
 import { ByeolEntity } from "@/services/byeol/entities/byeol.entity";
 
@@ -28,6 +28,6 @@ export type ZariEntity = {
   createdAt: Date;
   updatedAt: Date;
   isPublic: boolean;
-  banzzacks: BanzzackUniqueKey[];
+  banzzacks: BanzzackEntity[];
   constellation: ConstellationUniqueKey;
 };

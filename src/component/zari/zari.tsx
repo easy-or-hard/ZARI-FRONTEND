@@ -79,7 +79,7 @@ export default function Zari({ name, constellationIAU }: Props) {
         +event.target.parentNode.getAttribute("data-name");
 
       const banzzack = zariData?.banzzacks.find(
-        (banzzack) => banzzack[1] === selectedStarNumber
+        (banzzack) => banzzack.starNumber === selectedStarNumber
       );
 
       // 반짝이가 존재할 경우
@@ -166,7 +166,7 @@ export default function Zari({ name, constellationIAU }: Props) {
           <feBlend mode="screen" in2="SourceGraphic" />
         </filter>
         <ConstellationWriting locks={locks} />
-        {zariData && <ConstellationEffect banzzacks={zariData?.banzzacks} />}
+        {zariData && <ConstellationEffect banzzacks={zariData.banzzacks} />}
         <ConstellationOrigin />
       </svg>
       {/* svg 가 위에 있는 이유는 영역이 커서 문맥상 먼저 나온 돔이 클릭이 안 돼서... */}

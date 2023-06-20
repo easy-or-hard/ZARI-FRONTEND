@@ -30,7 +30,7 @@ export default function MyPage() {
 
     if (myByeol.zaris.length === 0) {
       router.push("/zari/create");
-    } else {
+    } else if (!myByeol.zaris[0].constellationIAU) {
       showReadBanzzackModal({
         banzzackTreeUniqueKey: ["0", "0", 0],
       });
